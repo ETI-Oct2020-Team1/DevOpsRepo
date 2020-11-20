@@ -1,7 +1,7 @@
 # DevOpsRepo
 This is the dev ops assignment repo that will be used for team 1's assignment for ETI sem 3.2 2020
 
-#Software Development Methodologies
+## Software Development Methodologies
 
 After careful consideration of eight different methodologies, we realised that there were some of which would not be a great fit to the project that we are currently working on. These methodologies are the Rationalized Unified Process Methodology (RUP) and the Spiral Methodology. 
 
