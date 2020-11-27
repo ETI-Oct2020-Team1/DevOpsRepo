@@ -3,7 +3,7 @@ This is the dev ops assignment repo that will be used for team 1's assignment fo
 
 ## Software Development Methodologies
 
-After careful consideration of eight different methodologies, we realised that there were some of which would not be a great fit to the project that we are currently working on. These methodologies are the Rationalized Unified Process Methodology (RUP) and the Spiral Methodology. 
+After careful consideration of seven different methodologies, we realised that there were some of which would not be a great fit to the project that we are currently working on. These methodologies are the Rationalized Unified Process Methodology (RUP) and the Spiral Methodology. 
 
 One of the main reasons why the RUP (Rationalized Unified Process) methodology wouldn’t work for this project, is due to the fact that it uses past work/resources to reduce the development time, and another major factor that we have to consider is that this methodology relies heavily on developers being experts in their fields, and if there are some members in our team which are not well versed in development, it will hinder the project timeline and create a major setback. 
 
@@ -15,7 +15,7 @@ Following that, there were two other Software Development Methodologies that cou
 
 Both models are quite similar to each other in terms of being simple to understand and use, as well as being appropriate for smaller projects. As the scale of the project is small and it’s requirements are clearly defined at the start, both methodologies can be applied. However, the disadvantage for both models is that it is not very adaptable to new features/ requirements. This would be the main concern as the client (tutor) may make some changes to the program to handle other features. As we are not very experienced with dealing with these changes in requirements, we may end up spending more time trying to learn how to make changes to our model instead of working on the project itself. Thus, we have decided to take these two Software Development Methodologies off the list.
 
-Finally, we narrowed it down to 4 software development methodologies. Incremental, Agile, Extreme Programming (XP), Test Driven Development(TDD).
+Finally, we narrowed it down to three software development methodologies. Incremental, Agile and Extreme Programming (XP).
 
 The reasons why we considered these methodologies is because they are similar in that they are able to adapt to changes, are flexible and save the costs and time for our project. 
 
