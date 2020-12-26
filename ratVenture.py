@@ -1,3 +1,4 @@
+from RatVentureObjects import * 
 #ratVenture.py
 #test1
 
@@ -49,4 +50,16 @@ def main_menu():
         #Enter code for Exit Game
     return choice
 
-main_menu()
+def run():
+    world = World()
+    player = GameEntity(world, "The Hero",[2,4],1,20)
+    rat = GameEntity(world,"A rat",[0,0],1,20)
+    world.add_entity(player)
+    world.add_entity(rat)
+    print(player.name)
+    print(player.id)
+    print(rat.id)
+    main_menu()
+
+while True:
+    run()
