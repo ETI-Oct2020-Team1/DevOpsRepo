@@ -66,5 +66,6 @@ def run():
     print(rat.id)
     damage(player,rat)
     main_menu()
+    
 while True:
     run()
