@@ -1,4 +1,4 @@
-from RatVentureObjects import * 
+from RatVentureFunctions import * 
 #ratVenture.py
 #test1
 
@@ -65,7 +65,7 @@ def run():
     print(player.attack)
     print(player.hp)
     print(rat.id)
-
+    damage(player,rat)
     main_menu()
 
 while True:

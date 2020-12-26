@@ -1,7 +1,8 @@
 import pygame
 
+### Classes
 
-### Definiing the 'world'
+## Definiing the 'world'
 class World(object):
 
     def __init__(self):
@@ -25,7 +26,7 @@ class World(object):
             return None
 
 
-### Entity objects with id, hp, attack, defense and name values
+## Entity objects with id, hp, attack, defense and name values
 class GameEntity(object):
 
     def __init__(self,world,name,attack,defense,hp):
