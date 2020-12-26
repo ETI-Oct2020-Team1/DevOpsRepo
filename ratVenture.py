@@ -52,13 +52,20 @@ def main_menu():
 
 def run():
     world = World()
+    
+    ### Player must always be initialized first
     player = GameEntity(world, "The Hero",[2,4],1,20)
     rat = GameEntity(world,"A rat",[0,0],1,20)
+    
     world.add_entity(player)
     world.add_entity(rat)
+
     print(player.name)
     print(player.id)
+    print(player.attack)
+    print(player.hp)
     print(rat.id)
+
     main_menu()
 
 while True:

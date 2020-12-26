@@ -33,6 +33,6 @@ class GameEntity(object):
         self.world = world
         self.name = name
         self.id  = 0
-        self.attack = [0,0]
-        self.defense = 0
-        self.hp = 0
+        self.attack = attack
+        self.defense = defense
+        self.hp = hp
