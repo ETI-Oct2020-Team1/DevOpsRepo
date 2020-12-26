@@ -26,7 +26,6 @@ def town_menu():
     #To implement linking with the other features
     return townChoice
 
-
 # UI for Main Menu
 def main_menu():
     print("Welcome to Ratventure!")
