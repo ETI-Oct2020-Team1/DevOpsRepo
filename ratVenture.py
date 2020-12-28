@@ -48,7 +48,6 @@ def main_menu():
     # else:
         #Enter code for Exit Game
     return choice
-
 def run():
     world = World()
     
@@ -68,3 +67,4 @@ def run():
     main_menu()
 while True:
     run()
+main_menu()
