@@ -1,3 +1,4 @@
+from RatVentureFunctions import * 
 #ratVenture.py
 #test1
 
@@ -25,7 +26,6 @@ def town_menu():
     #To implement linking with the other features
     return townChoice
 
-
 # UI for Main Menu
 def main_menu():
     print("Welcome to Ratventure!")
@@ -48,5 +48,23 @@ def main_menu():
     # else:
         #Enter code for Exit Game
     return choice
+def run():
+    world = World()
+    
+    ### Player must always be initialized first
+    player = GameEntity(world, "The Hero",[2,4],1,20)
+    rat = GameEntity(world,"A rat",[0,0],1,20)
+    
+    world.add_entity(player)
+    world.add_entity(rat)
 
+    print(player.name)
+    print(player.id)
+    print(player.attack)
+    print(player.hp)
+    print(rat.id)
+    damage(player,rat)
+    main_menu()
+while True:
+    run()
 main_menu()
