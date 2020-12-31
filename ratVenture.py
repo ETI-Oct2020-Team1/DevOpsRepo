@@ -9,7 +9,7 @@ def run():
     ### Initialization
     world = World()
     ### Player must always be initialized first
-    player = GameEntity(world, "The Hero",[1,4],1,20)
+    player = GameEntity(world, "The Hero",[1,40],1,20)
     rat = GameEntity(world,"The rat",[0,0],1,20)
     
     world.add_entity(player)

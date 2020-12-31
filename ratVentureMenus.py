@@ -33,8 +33,11 @@ def combat_menu(player,enemy):
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
-            damage(player,enemy)
-            return combat_menu(player,enemy)
+            
+            if damage(player,enemy):
+                return main_menu()
+            else:
+                return combat_menu(player,enemy)
         elif choice == 2:
             return
         else:
@@ -96,3 +99,5 @@ def main_menu():
         print("Please enter an option from 1-3!")
         return main_menu()
 
+#def character_menu():
+    #

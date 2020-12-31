@@ -1,4 +1,5 @@
 from ratVentureObjects import *
+from ratVentureMenus import *
 import random
 
 
@@ -10,7 +11,8 @@ def damage(self,target):
     target.hp -= calcDamage;
 
     if target.hp <= 0:
-        print("Dead")
+        print("The Rat is dead! You are victorious!")
+        return True
     else:
         print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.hp, "hp left!")
     #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
