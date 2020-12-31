@@ -1,4 +1,4 @@
-from RatVentureObjects import *
+from ratVentureObjects import *
 import random
 
 def damage(self,target):
