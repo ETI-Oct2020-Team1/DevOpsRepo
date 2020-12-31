@@ -16,14 +16,20 @@ class World(object):
         self.entity_id += 1
 
     def remove_entity(self,entity):
+        del self.entities[entity.id]    
 
-        del self.entities[entity.id]
-
-    def get_id(self, entity_id):
+    def get(self, entity_id):
         if entity_id in self.entities:
             return self.entities[entity_id]
         else:
             return None
+
+    #def update_entity(self,entity_id,name,attack,defense,hp):
+     #   if self.get(self,entity_id):
+      #      entities[entity_id].name = name
+       #     entities[entity_id].attack = attack
+        #    entities[entity_id].defense = defense
+         #   entities[entity_id].hp = hp
 
 
 ## Entity objects with id, hp, attack, defense and name values
@@ -37,3 +43,15 @@ class GameEntity(object):
         self.attack = attack
         self.defense = defense
         self.hp = hp
+
+    def get_id(self):
+        return self.id
+    
+    #def update_entity(world,entity_id,name,attack,defense,hp):
+     #   if World.get(world,entity_id):
+      #      world.entities[entity_id].name = name
+       #     world.entities[entity_id].attack = attack
+        #    world.entities[entity_id].defense = defense
+         #   world.entities[entity_id].hp = hp
+
+
