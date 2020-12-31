@@ -42,7 +42,7 @@ def combat_menu(player,enemy):
             return combat_menu(player,enemy)
     except ValueError:
         print("Please enter an option from 1-2!")
-        return combat_menu(player,enemy)
+        return 
 
 # UI for Town Menu
 def town_menu():
