@@ -5,6 +5,28 @@ from ratVentureMenus import *
 import random
 
 main = Menu()
+choice = main.main_menu()
+
+def run():
+    world = World()
+    
+    ### Player must always be initialized first
+    player = GameEntity(world, "The Hero",[2,4],1,20)
+    rat = GameEntity(world,"A rat",[0,0],1,20)
+    
+    world.add_entity(player)
+    world.add_entity(rat)
+
+    print(player.name)
+    print(player.id)
+    print(player.attack)
+    print(player.hp)
+    print(rat.id)
+    damage(player,rat)
+    choice = main.main_menu()
+
+#while True:
+    #run()
 
 while choice != 0:
     if choice == 1:
@@ -66,24 +88,3 @@ while outdoorChoice != 0:
         # Enter code for exiting game
         pass
     outdoorChoice = 0
-
-def run():
-    world = World()
-    
-    ### Player must always be initialized first
-    player = GameEntity(world, "The Hero",[2,4],1,20)
-    rat = GameEntity(world,"A rat",[0,0],1,20)
-    
-    world.add_entity(player)
-    world.add_entity(rat)
-
-    print(player.name)
-    print(player.id)
-    print(player.attack)
-    print(player.hp)
-    print(rat.id)
-    damage(player,rat)
-    main_menu()
-
-while True:
-    run()
