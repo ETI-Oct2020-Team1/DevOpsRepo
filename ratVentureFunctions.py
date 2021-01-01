@@ -1,14 +1,13 @@
 from ratVentureObjects import *
-from ratVentureMenus import *
 import random
 
 
 def damage(self,target):
     rawDamage = random.randint(self.attack[0],self.attack[1])
-    calcDamage = rawDamage - target.defense;
+    calcDamage = rawDamage - target.defense
     if calcDamage < 0:
-        calcDamage = 0;
-    target.hp -= calcDamage;
+        calcDamage = 0
+    target.hp -= calcDamage
 
     if target.hp <= 0:
         print("The Rat is dead! You are victorious!")

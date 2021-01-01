@@ -49,7 +49,7 @@ def combat_menu(player,enemy):
 
 # UI for Town Menu
 def town_menu():
-    print("\nDay ",dayNum,": You are in a town.")
+    #print("\nDay ",dayNum,": You are in a town.")
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
@@ -98,6 +98,14 @@ def main_menu():
     except ValueError:
         print("Please enter an option from 1-3!")
         return main_menu()
+
+def player_stats(world,entity_id):
+    player = world.get(entity_id)
+    #player = World.get(World,entity_id)
+    print(player.name)
+    print(player.attack)
+    print(player.defense)
+    print(player.hp)
 
 #def character_menu():
     #

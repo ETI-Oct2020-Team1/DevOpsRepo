@@ -54,4 +54,3 @@ class GameEntity(object):
         #    world.entities[entity_id].defense = defense
          #   world.entities[entity_id].hp = hp
 
-
