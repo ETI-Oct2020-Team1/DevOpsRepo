@@ -9,8 +9,8 @@ def run():
     ### Initialization
     world = World()
     ### Player must always be initialized first
-    player = GameEntity(world, "The Hero",[1,40],1,20)
-    rat = GameEntity(world,"The rat",[0,0],1,20)
+    player = GameEntity(world, "The Hero",[1,5],1,20)
+    rat = GameEntity(world,"The rat",[1,10],1,20)
     
     world.add_entity(player)
     world.add_entity(rat)
@@ -25,7 +25,7 @@ def run():
         if test == 1:
             combat_menu(player,rat)
         if test == 2:
-            player_stats(world,0)
+            player_stats(world)
 
     #print(player.name)
     #print(player.id)

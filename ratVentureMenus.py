@@ -1,51 +1,4 @@
 from ratVentureFunctions import *
-    
-#UI for Outdoor Menu
-def outdoor_menu():
-  # print out either the attack or run message
-    print("1) View Character")
-    print("2) View Map")
-    print("3) Move")
-    print("4) Exit Game")
-
-    try:
-        choice = int(input("Enter an option: "))
-        if choice == 1:
-            return 
-        elif choice == 2:
-            return
-        elif choice == 3:
-            return
-        elif choice == 4:
-            return
-        else:
-            print("Please enter an option from 1-4!")
-            return outdoor_menu()
-    except ValueError:
-        print("Please enter an option from 1-4!")
-        return outdoor_menu()
-
-#UI for Combat Menu
-def combat_menu(player,enemy):
-    #print("\nDay ",dayNum,": You are out in the open.")
-    print("\n1) Attack")
-    print("2) Run")
-    try:
-        choice = int(input("Enter an option: "))
-        if choice == 1:
-            
-            if damage(player,enemy):
-                return main_menu()
-            else:
-                return combat_menu(player,enemy)
-        elif choice == 2:
-            return
-        else:
-            print("Please enter an option from 1-2!")
-            return combat_menu(player,enemy)
-    except ValueError:
-        print("Please enter an option from 1-2!")
-        return 
 
 # UI for Town Menu
 def town_menu():
@@ -99,13 +52,59 @@ def main_menu():
         print("Please enter an option from 1-3!")
         return main_menu()
 
-def player_stats(world,entity_id):
-    player = world.get(entity_id)
+def player_stats(world):
+    player = world.get(0)
     #player = World.get(World,entity_id)
-    print(player.name)
-    print(player.attack)
-    print(player.defense)
-    print(player.hp)
+    print("\nName:",player.name)
+    print("Damage:", player.attack[0],"-",player.attack[1])
+    print("Defense:",player.defense)
+    print("Current HP:",player.hp,"\n")
 
-#def character_menu():
-    #
+#UI for Outdoor Menu
+def outdoor_menu(world):
+  # print out either the attack or run message
+    print("1) View Character")
+    print("2) View Map")
+    print("3) Move")
+    print("4) Exit Game")
+
+    try:
+        choice = int(input("Enter an option: "))
+        if choice == 1:
+            return player_stats(world)
+        elif choice == 2:
+            return
+        elif choice == 3:
+            return
+        elif choice == 4:
+            return
+        else:
+            print("Please enter an option from 1-4!")
+            return outdoor_menu(world)
+    except ValueError:
+        print("Please enter an option from 1-4!")
+        return outdoor_menu(world)
+
+#UI for Combat Menu
+def combat_menu(attacker,defender):
+    #print("\nDay ",dayNum,": You are out in the open.")
+    print("\n1) Attack")
+    print("2) Run")
+    try:
+        choice = int(input("Enter an option: "))
+        if choice == 1:
+            
+            if damage(attacker,defender):
+                return main_menu()
+            elif damage(defender,attacker):
+                return main_menu()
+            else:
+                return combat_menu(attacker,defender)
+        elif choice == 2:
+            return
+        else:
+            print("Please enter an option from 1-2!")
+            return combat_menu(attacker,defender)
+    except ValueError:
+        print("Please enter an option from 1-2!")
+        return 

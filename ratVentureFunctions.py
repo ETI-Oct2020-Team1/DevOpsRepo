@@ -10,9 +10,13 @@ def damage(self,target):
     target.hp -= calcDamage
 
     if target.hp <= 0:
-        print("The Rat is dead! You are victorious!")
-        return True
+        if target.name != "The Hero":
+            print("The",target.name,"is dead! You are victorious!")
+            return True
+        else:
+            print("Oh no!",target.name,"died! Game over :(\n")
+            return True
     else:
-        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.hp, "hp left!")
+        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.hp, "hp left!\n")
     #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
     
