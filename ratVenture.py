@@ -18,14 +18,22 @@ def run():
     for i in world.entities:
         print(world.entities[i].name)
 
+    #def combatEnd():
+    #    return outdoor_menu(world)
+    #def combatStart(attacker,defender):
+    #    return combat_menu(world,attacker,defender)
+
+    #def movement(world,attacker,defender):
+        #combat_menu()
     ### Game runTime
     while True:
+        outdoor_menu(world,player,rat)
         #main_menu()
-        test = int(input("Input a test option 1-2: "))
-        if test == 1:
-            combat_menu(player,rat)
-        if test == 2:
-            player_stats(world)
+        #test = int(input("Input a test option 1-2: "))
+        #if test == 1:
+        #    combat_menu(player,rat)
+        #if test == 2:
+        #    player_stats(world)
 
     #print(player.name)
     #print(player.id)
@@ -33,6 +41,7 @@ def run():
     #print(player.hp)
     #print(rat.id)
     #main.main_menu()
+    
 
 while True:
     run()
