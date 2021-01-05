@@ -7,6 +7,15 @@ class World(object):
 
     def __init__(self):
         self.entities = {}
+        self.day = 0
+        self.map = {'T','','','','','','','',
+                    '','','','T','','','','',
+                    '','','','','','T','','',
+                    'T','','','','','','','',
+                    '','','','','','','','',
+                    '','','','','','','','',
+                    '','','','','T','','','',
+                    '','','','','','','','K',}
         self.entity_id = 0
 
     def add_entity(self,entity):
@@ -23,6 +32,12 @@ class World(object):
             return self.entities[entity_id]
         else:
             return None
+
+    def add_day(self):
+        self.day += 1
+
+    def get_day(self):
+        return self.day
 
     #def update_entity(self,entity_id,name,attack,defense,hp):
      #   if self.get(self,entity_id):
