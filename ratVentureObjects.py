@@ -51,7 +51,7 @@ class World(object):
                 counter = 0
             print("|",i, end = " ")
             counter += 1
-        print("|")
+        print("|\n")
 
     #def update_entity(self,entity_id,name,attack,defense,hp):
      #   if self.get(self,entity_id):

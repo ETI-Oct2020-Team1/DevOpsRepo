@@ -15,8 +15,16 @@ def on_release(key):
         return False
 
 def check_key(key):
-    if key in [Key.up, Key.down, Key.left, Key.right]: 
-        print('YES')
+    #checking for movement options
+    try:
+        if key in [Key.up, Key.down, Key.left, Key.right,] or key.char in ['w','a','s','d']: 
+            print('YES')
+        else:
+            print("No")
+    # If something like key.esc or key.space it will just return and loop without throwing an error
+    # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
+    except(AttributeError):
+        return
 
 def damage(self,target):
     rawDamage = random.randint(self.attack[0],self.attack[1])
@@ -38,10 +46,10 @@ def damage(self,target):
     
 def move():
     # Collect events until released
-    with Listener(
-            on_press=on_press,
-            on_release=on_release) as listener:
+    # This is the listener that uses the other functions to check the keys being pressed
+    with Listener( on_press=on_press, on_release=on_release) as listener:
         listener.join()
+    return listener.stop()
     
     
     
