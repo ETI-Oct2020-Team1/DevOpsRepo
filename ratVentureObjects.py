@@ -8,14 +8,14 @@ class World(object):
     def __init__(self):
         self.entities = {}
         self.day = 0
-        self.map = {'T','','','','','','','',
-                    '','','','T','','','','',
-                    '','','','','','T','','',
-                    'T','','','','','','','',
-                    '','','','','','','','',
-                    '','','','','','','','',
-                    '','','','','T','','','',
-                    '','','','','','','','K',}
+        self.map = ['H/T',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' T ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' T ',' - ',' - ',
+                    ' T ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' T ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' K ']
         self.entity_id = 0
 
     def add_entity(self,entity):
@@ -38,6 +38,20 @@ class World(object):
 
     def get_day(self):
         return self.day
+
+    def get_map(self):
+        counter = 0
+        #print("|",end=" ")
+        for i in self.map:
+            if i == 'end':
+                print()
+                break
+            if counter == 8:
+                print("|")
+                counter = 0
+            print("|",i, end = " ")
+            counter += 1
+        print("|")
 
     #def update_entity(self,entity_id,name,attack,defense,hp):
      #   if self.get(self,entity_id):
