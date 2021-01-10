@@ -1,5 +1,4 @@
 from ratVentureMenus import * 
-import random
 
 dayNum = 1 #global variable for the day number
 
@@ -15,16 +14,10 @@ def run():
     world.add_entity(player)
     world.add_entity(rat)
 
-    for i in world.entities:
-        print(world.entities[i].name)
+    #main_menu(world)
+    
+    main_menu(world)
 
-    #def combatEnd():
-    #    return outdoor_menu(world)
-    #def combatStart(attacker,defender):
-    #    return combat_menu(world,attacker,defender)
-
-    #def movement(world,attacker,defender):
-        #combat_menu()
     ### Game runTime
     while True:
         #outdoor_menu(world,player,rat)
@@ -40,9 +33,10 @@ def run():
     #print(player.attack)
     #print(player.hp)
     #print(rat.id)
-    #main.main_menu()
+    
     
 
 while True:
     run()
+    
 
