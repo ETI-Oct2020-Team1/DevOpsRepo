@@ -24,12 +24,12 @@ class World(object):
         else:
             return None
 
-    #def update_entity(self,entity_id,name,attack,defense,hp):
-     #   if self.get(self,entity_id):
-      #      entities[entity_id].name = name
-       #     entities[entity_id].attack = attack
-        #    entities[entity_id].defense = defense
-         #   entities[entity_id].hp = hp
+    def update_entity(self,entity_id,name,attack,defense,hp):
+       if self.get(entity_id):
+           self.entities[entity_id].name = name
+           self.entities[entity_id].attack = attack
+           self.entities[entity_id].defense = defense
+           self.entities[entity_id].hp = hp
 
 
 ## Entity objects with id, hp, attack, defense and name values
