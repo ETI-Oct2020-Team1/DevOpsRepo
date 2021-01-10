@@ -1,4 +1,5 @@
 from ratVentureFunctions import *
+import pickle
 
 # UI for Town Menu
 def town_menu(world):
@@ -14,13 +15,15 @@ def town_menu(world):
         if choice == 1:
             return player_stats(world)
         elif choice == 2:
-            return
+            player = world.get(0)
+            player.hp = player.hp-1
+            return player_stats(world)
         elif choice == 3:
-            return
+            return 
         elif choice == 4:
             return
         elif choice == 5:
-            return
+            saveGame(world)
         elif choice == 6:
             return
         else:
@@ -42,6 +45,7 @@ def main_menu(world):
         if choice == 1:
             return town_menu(world)
         elif choice == 2:
+            loadGame(world)
             return
         elif choice == 3:
             return
@@ -110,3 +114,14 @@ def combat_menu(world,attacker,defender):
     except ValueError:
         print("Please enter an option from 1-2!")
         return 
+
+def saveGame(world):
+    player = world.get(0)
+    pickle_out = open("save.pickle", "wb")
+    pickle.dump(player, pickle_out)
+    pickle_out.close()
+
+def loadGame(world):
+    pickle_in = open("save.pickle", "rb")
+    player = pickle.load(pickle_in)
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.hp)
