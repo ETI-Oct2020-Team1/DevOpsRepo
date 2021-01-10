@@ -4,9 +4,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ weilin ]
+    branches: [ main ]
   pull_request:
-    branches: [ weilin ]
+    branches: [ main ]
   
   
   #schedule: #Set workflow to run every day of the week from Monday to Saturday at 7:00 UTC
@@ -40,7 +40,7 @@ jobs:
       - name: Test with pytest
         id: TestWithPytest
         run: |
-             pytest -v --junitxml=testreport.xml
+             pytest -v --junitxml=report.xml
       - if: ${{failure()}}       
         name: Create Issues
       #raise notification in GitHub Issues
@@ -57,5 +57,5 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: testreport.xml
+          files: report.xml
           
