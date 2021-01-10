@@ -1,3 +1,5 @@
+dayNum = 1
+
 class Menu:
     #UI for Outdoor Menu
     def outdoor_menu(self):
@@ -125,3 +127,4 @@ def outdoor_menu_choices(outdoorChoice):
         pass
 
 main = Menu()
+main.main_menu()

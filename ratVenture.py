@@ -9,7 +9,7 @@ def run():
     world = World()
     ### Player must always be initialized first
     player = GameEntity(world, "The Hero",[1,5],1,20)
-    rat = GameEntity(world,"The rat",[1,10],1,20)
+    rat = GameEntity(world,"The rat",[1,3],1,20)
     
     world.add_entity(player)
     world.add_entity(rat)
@@ -19,11 +19,9 @@ def run():
     main_menu(world)
 
     ### Game runTime
-    #while True:
+    while True:
         #outdoor_menu(world,player,rat)
-        #main_menu()
-
-        
+        main_menu(world)
         #test = int(input("Input a test option 1-2: "))
         #if test == 1:
         #    combat_menu(player,rat)
