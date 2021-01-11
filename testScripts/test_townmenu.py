@@ -1,12 +1,12 @@
 import pytest
-from townmenu import test_townmenu
+from ratVentureMenus import town_menu
 from tud_test_base import set_keyboard_input, get_display_output
 
 def test_viewcharacter ():
 
     set_keyboard_input({1})
 
-    test_townmenu()
+    town_menu()
 
     output = get_display_output()
 
@@ -19,7 +19,7 @@ def test_viewmap ():
 
     set_keyboard_input({2})
 
-    test_townmenu()
+    town_menu()
 
     output = get_display_output()
 
@@ -29,7 +29,7 @@ def test_move ():
 
     set_keyboard_input({3})
 
-    test_townmenu()
+    town_menu()
 
     output = get_display_output()
 
@@ -39,7 +39,7 @@ def test_rest ():
 
     set_keyboard_input({4})
 
-    test_townmenu()
+    town_menu()
 
     output = get_display_output()
 
@@ -49,7 +49,7 @@ def test_savegame ():
 
     set_keyboard_input({5})
 
-    test_townmenu()
+    town_menu()
 
     output = get_display_output()
 
@@ -59,7 +59,7 @@ def test_exitgame ():
 
     set_keyboard_input({6})
 
-    test_townmenu()
+    town_menu()
 
     output = get_display_output()
 
