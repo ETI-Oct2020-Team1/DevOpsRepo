@@ -7,6 +7,15 @@ class World(object):
 
     def __init__(self):
         self.entities = {}
+        self.day = 0
+        self.map = ['H/T',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' T ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' T ',' - ',' - ',
+                    ' T ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' T ',' - ',' - ',' - ',
+                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' K ']
         self.entity_id = 0
 
     def add_entity(self,entity):
@@ -24,13 +33,32 @@ class World(object):
         else:
             return None
 
+    def add_day(self):
+        self.day += 1
+
+    def get_day(self):
+        return self.day
+
+    def get_map(self):
+        counter = 0
+        #print("|",end=" ")
+        for i in self.map:
+            if i == 'end':
+                print()
+                break
+            if counter == 8:
+                print("|")
+                counter = 0
+            print("|",i, end = " ")
+            counter += 1
+        print("|\n")
+
     def update_entity(self,entity_id,name,attack,defense,hp):
        if self.get(entity_id):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].hp = hp
-
 
 ## Entity objects with id, hp, attack, defense and name values
 class GameEntity(object):

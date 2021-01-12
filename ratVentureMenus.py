@@ -68,6 +68,7 @@ def player_stats(world):
     print("Damage:", player.attack[0],"-",player.attack[1])
     print("Defense:",player.defense)
     print("Current HP:",player.hp,"\n")
+    return town_menu(world)
 
 
 #UI for Outdoor Menu
@@ -121,7 +122,6 @@ def combat_menu(world,attacker,defender):
     except ValueError:
         print("Please enter an option from 1-2!\n")
         return combat_menu(world,attacker,defender)
-
 
 # Function to save game data
 def saveGame(world):

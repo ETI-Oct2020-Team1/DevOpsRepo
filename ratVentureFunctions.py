@@ -1,6 +1,30 @@
 from ratVentureObjects import *
+from pynput.keyboard import Key, Listener
 import random
 
+def on_press(key):
+    #print('{0} pressed'.format(
+        #key))
+    check_key(key)
+
+def on_release(key):
+    #print('{0} release'.format(
+       # key))
+    if key == Key.esc:
+        # Stop listener
+        return False
+
+def check_key(key):
+    #checking for movement options
+    try:
+        if key in [Key.up, Key.down, Key.left, Key.right,] or key.char in ['w','a','s','d']: 
+            print('YES')
+        else:
+            print("No")
+    # If something like key.esc or key.space it will just return and loop without throwing an error
+    # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
+    except(AttributeError):
+        return
 
 def damage(self,target):
     rawDamage = random.randint(self.attack[0],self.attack[1])
@@ -19,4 +43,14 @@ def damage(self,target):
     else:
         print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.hp, "hp left!\n")
     #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
+    
+def move():
+    # Collect events until released
+    # This is the listener that uses the other functions to check the keys being pressed
+    with Listener( on_press=on_press, on_release=on_release) as listener:
+        listener.join()
+    return listener.stop()
+    
+    
+    
     
