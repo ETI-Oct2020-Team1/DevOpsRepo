@@ -26,6 +26,7 @@ def town_menu(world):
             return
         elif choice == 5:
             saveGame(world)
+            return town_menu(world)
         elif choice == 6:
             return quit()
         else:
@@ -34,6 +35,7 @@ def town_menu(world):
     except ValueError:
         print("Please enter an option from 1-6!\n")
         return town_menu(world)
+
 
 # UI for Main Menu
 def main_menu(world):
@@ -48,7 +50,7 @@ def main_menu(world):
             return town_menu(world)
         elif choice == 2:
             loadGame(world)
-            return
+            return town_menu(world)
         elif choice == 3:
             return quit()
         else:
@@ -57,6 +59,7 @@ def main_menu(world):
     except ValueError:
         print("Please enter an option from 1-3!\n")
         return main_menu(world)
+
 
 def player_stats(world):
     player = world.get(0)
@@ -67,6 +70,7 @@ def player_stats(world):
     print("Current HP:",player.hp,"\n")
     return town_menu(world)
 
+
 #UI for Outdoor Menu
 def outdoor_menu(world,attacker,defender):
   # print out either the attack or run message
@@ -74,11 +78,11 @@ def outdoor_menu(world,attacker,defender):
     print("2) View Map")
     print("3) Move")
     print("4) Exit Game\n")
-
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
-            return player_stats(world)
+            player_stats(world)
+            return outdoor_menu(world,attacker,defender)
         elif choice == 2:
             move()
             return outdoor_menu(world,attacker,defender)
@@ -86,14 +90,15 @@ def outdoor_menu(world,attacker,defender):
             return
         elif choice == 4:
             return quit()
-        elif choice == 5:
-            return combat_menu(world,attacker,defender)
+        # elif choice == 5:
+        #     return combat_menu(world,attacker,defender)
         else:
             print("Please enter an option from 1-4!\n")
             return outdoor_menu(world,attacker,defender)
     except ValueError:
         print("Please enter an option from 1-4!\n")
         return outdoor_menu(world,attacker,defender)
+
 
 #UI for Combat Menu
 def combat_menu(world,attacker,defender):
@@ -103,7 +108,6 @@ def combat_menu(world,attacker,defender):
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
-            
             if damage(attacker,defender):
                 return main_menu(world)
             elif damage(defender,attacker):
@@ -117,17 +121,16 @@ def combat_menu(world,attacker,defender):
             return combat_menu(world,attacker,defender)
     except ValueError:
         print("Please enter an option from 1-2!\n")
-        return 
+        return combat_menu(world,attacker,defender)
 
-        print("Please enter an option from 1-2!")
-        return 
-
+# Function to save game data
 def saveGame(world):
     player = world.get(0)
     pickle_out = open("save.pickle", "wb")
     pickle.dump(player, pickle_out)
     pickle_out.close()
 
+# Function to load game data
 def loadGame(world):
     pickle_in = open("save.pickle", "rb")
     player = pickle.load(pickle_in)
