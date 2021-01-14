@@ -1,13 +1,15 @@
 name: Python CI
 
 # Controls when the action will run. 
+
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
-
+    branches: 
+      -  main
 
   #schedule: #Set workflow to run every day of the week from Monday to Saturday at 7:00 UTC
   #- cron: "0 7 * * 1-7"
