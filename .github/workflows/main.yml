@@ -1,4 +1,4 @@
-name: CI/CD
+name: Python CI
 
 # Controls when the action will run. 
 on:
