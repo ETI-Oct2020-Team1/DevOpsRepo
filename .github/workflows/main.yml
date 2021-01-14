@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 mock pynput pygame pytest pytest-cov
+          pip install flake8 mock pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           
       - name: Test with pytest
