@@ -68,7 +68,6 @@ def player_stats(world):
     print("Damage:", player.attack[0],"-",player.attack[1])
     print("Defense:",player.defense)
     print("Current HP:",player.hp,"\n")
-    return town_menu(world)
 
 
 #UI for Outdoor Menu
