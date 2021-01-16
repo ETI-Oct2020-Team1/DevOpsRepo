@@ -7,16 +7,13 @@ class World(object):
 
     def __init__(self):
         self.entities = {}
-        self.day = 0
-        self.map = ['H/T',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' T ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' T ',' - ',' - ',
-                    ' T ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' T ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' K ']
+        self.day = 1
         self.entity_id = 0
+        self.rows = 0
+        self.layout = 0
+        self.tiles = 0
+        self.map = []
+        self.initMap(self.tiles,self.layout)
 
     def add_entity(self,entity):
 
@@ -39,14 +36,22 @@ class World(object):
     def get_day(self):
         return self.day
 
+    def initMap(self,rows,layout):
+        self.rows = rows
+        self.layout = layout
+        self.tiles = rows*layout
+        for i in range(self.tiles):
+            self.map.append(' - ')
+        return self.map
+        
     def get_map(self):
-        counter = 0
-        #print("|",end=" ")
+        #print(self.tiles)
+        counter=0
         for i in self.map:
-            if i == 'end':
+            if i==self.tiles:
                 print()
                 break
-            if counter == 8:
+            if counter == self.layout:
                 print("|")
                 counter = 0
             print("|",i, end = " ")
