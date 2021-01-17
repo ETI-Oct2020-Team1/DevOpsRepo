@@ -28,11 +28,10 @@ jobs:
 
       # To set up Python 3.8 Environment
       - name: Set up Python 3.8 Environment
-        uses: actions/setup-python@v1 
+        uses: actions/setup-python@v2
         with:   
           python-version: 3.8
 
-      # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
