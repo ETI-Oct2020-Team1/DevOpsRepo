@@ -30,7 +30,7 @@ jobs:
       - name: Set up Python 3.8 Environment
         uses: actions/setup-python@v1 
         with:   
-          python-version: "3.8"
+          python-version: 3.8
 
       # Install dependencies
       - name: Install dependencies
