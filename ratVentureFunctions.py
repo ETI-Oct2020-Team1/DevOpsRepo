@@ -17,10 +17,16 @@ def on_release(key):
 def check_key(key):
     #checking for movement options
     try:
-        if key in [Key.up, Key.down, Key.left, Key.right,] or key.char in ['w','a','s','d']: 
-            print('YES')
+        if key in [Key.up] or key.char in ['w']: 
+            print('Up +8')
+        if key in [Key.left] or key.char in ['a']: 
+            print('left -1')    
+        if key in [Key.down] or key.char in ['s']: 
+            print('down -8')
+        if key in [Key.right,] or key.char in ['d']: 
+            print('right +1')  
         else:
-            print("No")
+            print("Not a movement command")
     # If something like key.esc or key.space it will just return and loop without throwing an error
     # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
     except(AttributeError):
@@ -47,6 +53,7 @@ def damage(self,target):
 def move():
     # Collect events until released
     # This is the listener that uses the other functions to check the keys being pressed
+    # move() is what calls the listener 
     with Listener( on_press=on_press, on_release=on_release) as listener:
         listener.join()
     return listener.stop()
