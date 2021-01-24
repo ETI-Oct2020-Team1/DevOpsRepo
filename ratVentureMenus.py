@@ -83,10 +83,12 @@ def outdoor_menu(world,attacker,defender):
             player_stats(world)
             return outdoor_menu(world,attacker,defender)
         elif choice == 2:
-            move()
+            world.get_map()
             return outdoor_menu(world,attacker,defender)
         elif choice == 3:
-            return
+            world.get_map()
+            move()
+            return outdoor_menu(world,attacker,defender)
         elif choice == 4:
             return quit()
         else:
@@ -99,7 +101,7 @@ def outdoor_menu(world,attacker,defender):
 
 #UI for Combat Menu
 def combat_menu(world,attacker,defender):
-    #print("\nDay ",dayNum,": You are out in the open.")
+    print("\nDay ", world.get_day() ,": You are out in the open.")
     print("1) Attack")
     print("2) Run")
     try:
@@ -112,7 +114,7 @@ def combat_menu(world,attacker,defender):
             else:
                 return combat_menu(world,attacker,defender)
         elif choice == 2:
-            return outdoor_menu(world,attacker,defender)
+            return run_menu(world,attacker,defender)
         else:
             print("Please enter an option from 1-2!\n")
             return combat_menu(world,attacker,defender)
@@ -123,7 +125,7 @@ def combat_menu(world,attacker,defender):
 
 #UI for Outdoor Menu
 def run_menu(world,attacker,defender):
-    print("You run and hide.")
+    print("\nYou run and hide.")
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
@@ -134,20 +136,24 @@ def run_menu(world,attacker,defender):
             rat = world.get(1)
             rat.hp = 10
             player_stats(world)
-            return outdoor_menu(world,attacker,defender)
+            return combat_menu(world,attacker,defender)
         elif choice == 2:
+            rat = world.get(1)
+            rat.hp = 10
+            world.get_map()
+            return combat_menu(world,attacker,defender)
+        elif choice == 3:
+            world.get_map()
             move()
             return outdoor_menu(world,attacker,defender)
-        elif choice == 3:
-            return
         elif choice == 4:
             return quit()
         else:
             print("Please enter an option from 1-4!\n")
-            return outdoor_menu(world,attacker,defender)
+            return run_menu(world,attacker,defender)
     except ValueError:
         print("Please enter an option from 1-4!\n")
-        return outdoor_menu(world,attacker,defender)
+        return run_menu(world,attacker,defender)
 
 
 # Function to save game data
