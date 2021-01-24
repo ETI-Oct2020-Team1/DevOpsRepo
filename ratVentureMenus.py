@@ -26,9 +26,19 @@ def town_menu(world):
             return
         elif choice == 5:
             saveGame(world)
+            print("\nGame saved.")
             return town_menu(world)
         elif choice == 6:
-            return quit()
+            clarify = input("\nWould you like to save the game before exiting? Y/N: ")
+            if clarify == "Y" or clarify == "y":
+                saveGame(world)
+                print("\nGame saved.")
+                return quit()
+            elif clarify == "N" or clarify == "n":
+                return quit()
+            else:
+                print("\nInvalid option entered.")
+                return town_menu(world)
         else:
             print("Please enter an option from 1-6!\n")
             return town_menu(world)

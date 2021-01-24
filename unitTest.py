@@ -64,21 +64,18 @@ class TestMenu(unittest.TestCase):
 
         test_cases = [
             "2",
-            "6",
             "d",
             "8"
         ]
 
         mock_funcs = [
             "ratVentureMenus.town_menu",
-            "builtins.quit",
             "ratVentureMenus.town_menu",
             "ratVentureMenus.town_menu"
         ]
 
         expect_call_withs = [
             [world],
-            [],
             [world],
             [world]
         ]
