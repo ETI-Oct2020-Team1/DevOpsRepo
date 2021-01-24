@@ -29,21 +29,26 @@ def town_menu(world):
             print("\nGame saved.")
             return town_menu(world)
         elif choice == 6:
-            clarify = input("\nWould you like to save the game before exiting? Y/N: ")
-            if clarify == "Y" or clarify == "y":
-                saveGame(world)
-                print("\nGame saved.")
-                return quit()
-            elif clarify == "N" or clarify == "n":
-                return quit()
-            else:
-                print("\nInvalid option entered.")
-                return town_menu(world)
+            return check_exit(world)
         else:
             print("Please enter an option from 1-6!\n")
             return town_menu(world)
     except ValueError:
         print("Please enter an option from 1-6!\n")
+        return town_menu(world)
+
+
+# Function to check if user wants to save before exiting game
+def check_exit(world):
+    clarify = input("\nWould you like to save the game before exiting? Y/N: ")
+    if clarify == "Y" or clarify == "y":
+        saveGame(world)
+        print("\nGame saved.")
+        return quit()
+    elif clarify == "N" or clarify == "n":
+        return quit()
+    else:
+        print("\nInvalid option entered.")
         return town_menu(world)
 
 
@@ -71,6 +76,7 @@ def main_menu(world):
         return main_menu(world)
 
 
+# Function for player statistics
 def player_stats(world):
     player = world.get(0)
     #player = World.get(World,entity_id)
@@ -80,7 +86,7 @@ def player_stats(world):
     print("Current HP:",player.hp,"\n")
 
 
-#UI for Outdoor Menu
+# UI for Outdoor Menu
 def outdoor_menu(world,attacker,defender):
   # print out either the attack or run message
     print("1) View Character")
@@ -109,7 +115,7 @@ def outdoor_menu(world,attacker,defender):
         return outdoor_menu(world,attacker,defender)
 
 
-#UI for Combat Menu
+# UI for Combat Menu
 def combat_menu(world,attacker,defender):
     print("\nDay ", world.get_day() ,": You are out in the open.")
     print("1) Attack")
@@ -133,7 +139,7 @@ def combat_menu(world,attacker,defender):
         return combat_menu(world,attacker,defender)
 
 
-#UI for Outdoor Menu
+# UI for Outdoor Menu
 def run_menu(world,attacker,defender):
     print("\nYou run and hide.")
     print("1) View Character")
