@@ -40,6 +40,9 @@ class World(object):
         return self.day
 
     def get_map(self):
+        return self.map
+
+    def print_map(self):
         counter = 0
         #print("|",end=" ")
         for i in self.map:
@@ -63,7 +66,7 @@ class World(object):
     def update_day(self,day):
         self.day = day
 
-    def update_map(self, map):
+    def update_map(self,map):
         self.map = map
 
 ## Entity objects with id, hp, attack, defense and name values

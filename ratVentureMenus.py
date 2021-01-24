@@ -16,10 +16,10 @@ def town_menu(world):
             player_stats(world)
             return town_menu(world)
         elif choice == 2:
-            world.get_map()
+            world.print_map()
             return town_menu(world)
         elif choice == 3:
-            world.get_map()
+            world.print_map()
             move()
             return town_menu(world)
         elif choice == 4:
@@ -83,10 +83,10 @@ def outdoor_menu(world,attacker,defender):
             player_stats(world)
             return outdoor_menu(world,attacker,defender)
         elif choice == 2:
-            world.get_map()
+            world.print_map()
             return outdoor_menu(world,attacker,defender)
         elif choice == 3:
-            world.get_map()
+            world.print_map()
             move()
             return outdoor_menu(world,attacker,defender)
         elif choice == 4:
@@ -140,10 +140,10 @@ def run_menu(world,attacker,defender):
         elif choice == 2:
             rat = world.get(1)
             rat.hp = 10
-            world.get_map()
+            world.print_map()
             return combat_menu(world,attacker,defender)
         elif choice == 3:
-            world.get_map()
+            world.print_map()
             move()
             return outdoor_menu(world,attacker,defender)
         elif choice == 4:
@@ -159,12 +159,12 @@ def run_menu(world,attacker,defender):
 # Function to save game data
 def saveGame(world):
     player = world.get(0)
-    day = world.get_day()
-    Map = world.get_map()
+    load_day = world.get_day()
+    map = world.get_map()
     pickle_out = open("save.pickle", "wb")
     pickle.dump(player, pickle_out)
-    pickle.dump(day, pickle_out)
-    pickle.dump(Map, pickle_out)
+    pickle.dump(load_day, pickle_out)
+    pickle.dump(map, pickle_out)
     pickle_out.close()
 
 # Function to load game data
@@ -172,7 +172,7 @@ def loadGame(world):
     pickle_in = open("save.pickle", "rb")
     player = pickle.load(pickle_in)
     player = world.update_entity(player.id,player.name,player.attack,player.defense,player.hp)
-    day = pickle.load(pickle_in)
-    day = world.update_day(day)
-    # -------To implement updating of map--------
-    # Map = pickle.load(pickle_in)
+    load_day = pickle.load(pickle_in)
+    load_day = world.update_day(load_day)
+    map = pickle.load(pickle_in)
+    map = world.update_map(map)
