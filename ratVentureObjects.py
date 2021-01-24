@@ -75,7 +75,8 @@ class GameEntity(object):
         self.id  = 0
         self.attack = attack
         self.defense = defense
-        self.hp = hp
+        self.max_hp = hp
+        self.current_hp = hp
 
     def get_id(self):
         return self.id

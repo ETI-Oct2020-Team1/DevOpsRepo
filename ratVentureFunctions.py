@@ -17,27 +17,38 @@ def on_release(key):
 def check_key(key):
     #checking for movement options
     try:
-        if key in [Key.up] or key.char in ['w']: 
+        print(key)
+        #WASD movement works but arrow keys stop at the first if statement
+        if key == "Key.up" or key.char in ['w','W']: 
             print('Up +8')
-        if key in [Key.left] or key.char in ['a']: 
+        elif key.char in ['a','A'] or key == "Key.right": 
             print('left -1')    
-        if key in [Key.down] or key.char in ['s']: 
+        elif key.char in ['s','S']: 
             print('down -8')
-        if key in [Key.right,] or key.char in ['d']: 
+        elif key.char in ['d','D']: 
             print('right +1')  
         else:
             print("Not a movement command")
     # If something like key.esc or key.space it will just return and loop without throwing an error
     # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
+    # This is a VERY BAD practice never do this.
     except(AttributeError):
         return
+
+def move():
+    # Collect events until released
+    # This is the listener that uses the other functions to check the keys being pressed
+    # move() is what calls the listener 
+    with Listener( on_press=on_press, on_release=on_release) as listener:
+        listener.join()
+    return listener.stop()
 
 def damage(self,target):
     rawDamage = random.randint(self.attack[0],self.attack[1])
     calcDamage = rawDamage - target.defense
     if calcDamage < 0:
         calcDamage = 0
-    target.hp -= calcDamage
+    target.current_hp -= calcDamage
 
     if target.hp <= 0:
         if target.name != "The Hero":
@@ -49,15 +60,8 @@ def damage(self,target):
     else:
         print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.hp, "hp left!\n")
     #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
-    
-def move():
-    # Collect events until released
-    # This is the listener that uses the other functions to check the keys being pressed
-    # move() is what calls the listener 
-    with Listener( on_press=on_press, on_release=on_release) as listener:
-        listener.join()
-    return listener.stop()
-    
-    
-    
+
+def rest(self):
+    self.current_hp = self.max_hp
+    self.world.day += 1
     
