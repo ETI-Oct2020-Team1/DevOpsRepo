@@ -19,13 +19,14 @@ def check_key(key):
     try:
         print(key)
         #WASD movement works but arrow keys stop at the first if statement
-        if key == "Key.up" or key.char in ['w','W']: 
+        if key == Key.up or key.char in ['w','W']: 
             print('Up +8')
-        elif key.char in ['a','A'] or key == "Key.right": 
+            #Keyboard.press(Key.esc)
+        elif key == Key.left or key.char in ['a','A']: 
             print('left -1')    
-        elif key.char in ['s','S']: 
+        elif key == Key.down or key.char in ['s','S']: 
             print('down -8')
-        elif key.char in ['d','D']: 
+        elif key == Key.right or key.char in ['d','D']: 
             print('right +1')  
         else:
             print("Not a movement command")
@@ -43,25 +44,28 @@ def move():
         listener.join()
     return listener.stop()
 
-def damage(self,target):
-    rawDamage = random.randint(self.attack[0],self.attack[1])
+def damage(attacker,target):
+    rawDamage = random.randint(attacker.attack[0],attacker.attack[1])
     calcDamage = rawDamage - target.defense
     if calcDamage < 0:
         calcDamage = 0
     target.current_hp -= calcDamage
 
-    if target.hp <= 0:
+    if target.current_hp <= 0:
         if target.name != "The Hero":
             print("The",target.name,"is dead! You are victorious!")
+            attacker.world.add_day()
             return True
         else:
             print("Oh no!",target.name,"died! Game over :(\n")
             return True
     else:
-        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.hp, "hp left!\n")
+        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
     #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
 
-def rest(self):
-    self.current_hp = self.max_hp
-    self.world.day += 1
+def rest(world):
+    for i in world.entities:
+        if world.entities[i].name == "The Hero":
+            world.entities[i].current_hp = world.entities[i].max_hp
+    world.add_day()
     
