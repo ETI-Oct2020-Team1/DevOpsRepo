@@ -13,6 +13,8 @@ def run():
     
     world.add_entity(player)
     world.add_entity(rat)
+
+    world.initMap(8,8)
     
     main_menu(world)
 
