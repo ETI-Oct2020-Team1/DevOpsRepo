@@ -35,15 +35,19 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 mock pynput pygame
+          pip install flake8 mock pytest pynput pygame pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          
-      - name: Test with unittest
+         
+      - name: Run unit test
         id: TestWithUnittest
         env: 
           PYNPUT_BACKEND: "dummy"
         run: |
              python unitTests.py
+      - name: Run system test
+        id: TestWithPytest
+        run: |
+             pytest -v --junitxml=report.xml
       - if: ${{failure()}}       
         name: Create Issues
       #raise notification in GitHub Issues
