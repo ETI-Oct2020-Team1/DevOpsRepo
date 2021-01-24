@@ -46,6 +46,8 @@ jobs:
              python unitTests.py
       - name: Run system test
         id: TestWithPytest
+        env: 
+          PYNPUT_BACKEND: "dummy"
         run: |
              pytest -v --junitxml=report.xml
       - if: ${{failure()}}       
