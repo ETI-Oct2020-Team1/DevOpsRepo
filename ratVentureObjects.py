@@ -7,7 +7,7 @@ class World(object):
 
     def __init__(self):
         self.entities = {}
-        self.day = 0
+        self.day = 1
         self.map = ['H/T',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
                     ' - ',' - ',' - ',' T ',' - ',' - ',' - ',' - ',
                     ' - ',' - ',' - ',' - ',' - ',' T ',' - ',' - ',
@@ -59,6 +59,12 @@ class World(object):
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].hp = hp
+
+    def update_day(self,day):
+        self.day = day
+
+    def update_map(self, map):
+        self.map = map
 
 ## Entity objects with id, hp, attack, defense and name values
 class GameEntity(object):

@@ -3,7 +3,7 @@ import pickle
 
 # UI for Town Menu
 def town_menu(world):
-    #print("\nDay ",dayNum,": You are in a town.")
+    print("\nDay ", world.get_day(),": You are in a town.")
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
@@ -89,8 +89,6 @@ def outdoor_menu(world,attacker,defender):
             return
         elif choice == 4:
             return quit()
-        # elif choice == 5:
-        #     return combat_menu(world,attacker,defender)
         else:
             print("Please enter an option from 1-4!\n")
             return outdoor_menu(world,attacker,defender)
@@ -122,11 +120,45 @@ def combat_menu(world,attacker,defender):
         print("Please enter an option from 1-2!\n")
         return combat_menu(world,attacker,defender)
 
+
+#UI for Outdoor Menu
+def run_menu(world,attacker,defender):
+    print("You run and hide.")
+    print("1) View Character")
+    print("2) View Map")
+    print("3) Move")
+    print("4) Exit Game\n")
+    try:
+        choice = int(input("Enter an option: "))
+        if choice == 1:
+            rat = world.get(1)
+            rat.hp = 10
+            player_stats(world)
+            return outdoor_menu(world,attacker,defender)
+        elif choice == 2:
+            move()
+            return outdoor_menu(world,attacker,defender)
+        elif choice == 3:
+            return
+        elif choice == 4:
+            return quit()
+        else:
+            print("Please enter an option from 1-4!\n")
+            return outdoor_menu(world,attacker,defender)
+    except ValueError:
+        print("Please enter an option from 1-4!\n")
+        return outdoor_menu(world,attacker,defender)
+
+
 # Function to save game data
 def saveGame(world):
     player = world.get(0)
+    day = world.get_day()
+    Map = world.get_map()
     pickle_out = open("save.pickle", "wb")
     pickle.dump(player, pickle_out)
+    pickle.dump(day, pickle_out)
+    pickle.dump(Map, pickle_out)
     pickle_out.close()
 
 # Function to load game data
@@ -134,3 +166,7 @@ def loadGame(world):
     pickle_in = open("save.pickle", "rb")
     player = pickle.load(pickle_in)
     player = world.update_entity(player.id,player.name,player.attack,player.defense,player.hp)
+    day = pickle.load(pickle_in)
+    day = world.update_day(day)
+    # -------To implement updating of map--------
+    # Map = pickle.load(pickle_in)
