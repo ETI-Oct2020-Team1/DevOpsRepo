@@ -7,9 +7,11 @@ on:
   push:
     branches:
       - main
+      - zihui
   pull_request:
     branches: 
       -  main
+      -  zihui
 
   #schedule: #Set workflow to run every day of the week from Monday to Saturday at 7:00 UTC
   #- cron: "0 7 * * 1-7"
