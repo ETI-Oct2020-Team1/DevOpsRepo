@@ -94,15 +94,20 @@ class GameEntity(object):
         self.id  = 0
         self.attack = attack
         self.defense = defense
-        self.hp = hp
+        self.max_hp = hp
+        self.current_hp = hp
 
     def get_id(self):
         return self.id
-    
     #def update_entity(world,entity_id,name,attack,defense,hp):
      #   if World.get(world,entity_id):
       #      world.entities[entity_id].name = name
        #     world.entities[entity_id].attack = attack
         #    world.entities[entity_id].defense = defense
          #   world.entities[entity_id].hp = hp
+
+class Player(GameEntity):
+    def __init__(self,world,name,attack,defense,hp):
+        super().__init__(world,name,attack,defense,hp)
+        self.map_location_id = 0
 

@@ -24,7 +24,7 @@ def run():
         main_menu(world)
         #test = int(input("Input a test option 1-2: "))
         #if test == 1:
-        #    combat_menu(player,rat)
+        #    combat_menu(world,player,rat)
         #if test == 2:
         #    player_stats(world)
 
