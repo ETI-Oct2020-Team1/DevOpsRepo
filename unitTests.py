@@ -141,14 +141,14 @@ class TestMenu(unittest.TestCase):
 
         mock_funcs = [
             "ratVentureMenus.outdoor_menu",
-            "builtins.quit",
+            "ratVentureMenus.check_exit",
             "ratVentureMenus.outdoor_menu",
             "ratVentureMenus.outdoor_menu"
         ]
 
         expect_call_withs = [
             [world,player,rat],
-            [],
+            [world],
             [world,player,rat],
             [world,player,rat]
         ]
@@ -175,14 +175,14 @@ class TestMenu(unittest.TestCase):
 
         mock_funcs = [
             "ratVentureMenus.combat_menu",
-            "builtins.quit",
+            "ratVentureMenus.check_exit",
             "ratVentureMenus.run_menu",
             "ratVentureMenus.run_menu"
         ]
 
         expect_call_withs = [
             [world,player,rat],
-            [],
+            [world],
             [world,player,rat],
             [world,player,rat]
         ]

@@ -106,7 +106,7 @@ def outdoor_menu(world,attacker,defender):
             move()
             return outdoor_menu(world,attacker,defender)
         elif choice == 4:
-            return quit()
+            return check_exit(world)
         else:
             print("Please enter an option from 1-4!\n")
             return outdoor_menu(world,attacker,defender)
@@ -163,7 +163,7 @@ def run_menu(world,attacker,defender):
             move()
             return outdoor_menu(world,attacker,defender)
         elif choice == 4:
-            return quit()
+            return check_exit(world)
         else:
             print("Please enter an option from 1-4!\n")
             return run_menu(world,attacker,defender)
