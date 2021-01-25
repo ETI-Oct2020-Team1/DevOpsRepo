@@ -3,7 +3,13 @@ import pickle
 
 # UI for Town Menu
 def town_menu(world):
+<<<<<<< HEAD
     print("\nDay ",world.get_day(),": You are in a town.")
+=======
+
+    print("\nDay ", world.get_day(),": You are in a town.")
+
+>>>>>>> 44f45e7ee792f3ce77a7112c07623bdffa9711a6
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
@@ -19,11 +25,16 @@ def town_menu(world):
             world.print_map()
             return town_menu(world)
         elif choice == 3:
+            #world.get_map()
+            print("Use 'wasd' or arrow keys to choose a direction to move")
+
             world.print_map()
+
             move()
             return town_menu(world)
         elif choice == 4:
-            return
+            rest(world)
+            return town_menu(world)
         elif choice == 5:
             saveGame(world)
             print("\nGame saved.")
@@ -83,7 +94,8 @@ def player_stats(world):
     print("Name:",player.name)
     print("Damage:", player.attack[0],"-",player.attack[1])
     print("Defense:",player.defense)
-    print("Current HP:",player.hp,"\n")
+    print("Current HP:",player.current_hp)
+    print("Max HP:",player.max_hp,"\n")
 
 
 # UI for Outdoor Menu
