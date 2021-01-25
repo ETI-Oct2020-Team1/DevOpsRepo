@@ -65,20 +65,20 @@ class TestMenu(unittest.TestCase):
         test_cases = [
             "2",
             "6",
-            "c",
-            "10"
+            "d",
+            "8"
         ]
 
         mock_funcs = [
             "ratVentureMenus.town_menu",
-            "builtins.quit",
+            "ratVentureMenus.check_exit",
             "ratVentureMenus.town_menu",
             "ratVentureMenus.town_menu"
         ]
 
         expect_call_withs = [
             [world],
-            [],
+            [world],
             [world],
             [world]
         ]
@@ -106,7 +106,7 @@ class TestMenu(unittest.TestCase):
 
         mock_funcs = [
             "ratVentureMenus.combat_menu",
-            "ratVentureMenus.outdoor_menu",
+            "ratVentureMenus.run_menu",
             "ratVentureMenus.combat_menu",
             "ratVentureMenus.combat_menu"
         ]
@@ -156,6 +156,40 @@ class TestMenu(unittest.TestCase):
         for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
             with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
                 outdoor_menu(world,player,rat)
+                mock.assert_called_once_with(*expect_call_with)
+
+    
+    def test_runMenu(self):
+        world = World()
+        player = GameEntity(world, "The Hero",[1,5],1,20)
+        rat = GameEntity(world,"The rat",[1,3],1,20)
+        world.add_entity(player)
+        world.add_entity(rat)
+
+        test_cases = [
+            "1",
+            "4",
+            "h",
+            "7"
+        ]
+
+        mock_funcs = [
+            "ratVentureMenus.combat_menu",
+            "builtins.quit",
+            "ratVentureMenus.run_menu",
+            "ratVentureMenus.run_menu"
+        ]
+
+        expect_call_withs = [
+            [world,player,rat],
+            [],
+            [world,player,rat],
+            [world,player,rat]
+        ]
+
+        for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
+            with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
+                run_menu(world,player,rat)
                 mock.assert_called_once_with(*expect_call_with)
 
 

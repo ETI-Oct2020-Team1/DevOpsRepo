@@ -8,14 +8,13 @@ def run():
     ### Initialization
     world = World()
     ### Player must always be initialized first
-    player = GameEntity(world, "The Hero",[1,5],1,20)
-    rat = GameEntity(world,"The rat",[1,3],1,20)
+    player = GameEntity(world, "The Hero",[2,4],1,20)
+    rat = GameEntity(world,"The rat",[1,3],1,10)
     
     world.add_entity(player)
     world.add_entity(rat)
-    world.initMap(8,8)
 
-    #main_menu(world)
+    world.initMap(8,8)
     
     main_menu(world)
 
