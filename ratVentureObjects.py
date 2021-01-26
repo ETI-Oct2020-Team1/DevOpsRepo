@@ -5,16 +5,17 @@ import pygame
 ## Definiing the 'world'
 class World(object):
 
-    def __init__(self):
+    def __init__(self,rows,layout):
         self.entities = {}
         self.day = 1
         self.map_dict = {0:' - ', 1:  ' T ',2:' H ',3: 'H/T', 4: ' O ', 5:' K '}
         self.entity_id = 0
-        self.rows = 0
-        self.layout = 0
-        self.tiles = 0
+        self.rows = rows
+        self.layout = layout
+        self.tiles = rows * layout
         self.map = []
-        self.initMap(self.tiles,self.layout)
+        for i in range(self.tiles):
+            self.map.append(0) 
 
     def add_entity(self,entity):
 
@@ -37,13 +38,9 @@ class World(object):
     def get_day(self):
         return self.day
 
-    def initMap(self,rows,layout):
-        self.rows = rows
-        self.layout = layout
-        self.tiles = rows*layout
-        for i in range(self.tiles):
-            self.map.append(self.map_dict.get(0))
-        return self.map
+    #def initMap(self,rows,layout):
+    #    
+    #    return self.map
         
     def get_map(self):
         return self.map
@@ -57,7 +54,7 @@ class World(object):
             if counter == self.layout:
                 print("|")
                 counter = 0
-            print("|",i, end = " ")
+            print("|",self.map_dict.get(i), end = " ")
             counter += 1
         print("|\n")
 
@@ -100,4 +97,6 @@ class Player(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
         super().__init__(world,name,attack,defense,hp)
         self.map_location_id = 0
+        self.world.map[self.map_location_id] = 3
+        self.orb = False
 
