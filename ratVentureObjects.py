@@ -8,14 +8,7 @@ class World(object):
     def __init__(self):
         self.entities = {}
         self.day = 1
-        self.map = ['H/T',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' T ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' T ',' - ',' - ',
-                    ' T ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' T ',' - ',' - ',' - ',
-                    ' - ',' - ',' - ',' - ',' - ',' - ',' - ',' K ']
+        self.map_dict = {0:' - ', 1:  ' T ',2:' H ',3: 'H/T', 4: ' O ', 5:' K '}
         self.entity_id = 0
         self.rows = 0
         self.layout = 0
@@ -49,16 +42,13 @@ class World(object):
         self.layout = layout
         self.tiles = rows*layout
         for i in range(self.tiles):
-            self.map.append(' - ')
+            self.map.append(self.map_dict.get(0))
         return self.map
         
     def get_map(self):
         return self.map
 
     def print_map(self):
-        counter = 0
-        #print("|",end=" ")
-        #print(self.tiles)
         counter=0
         for i in self.map:
             if i==self.tiles:

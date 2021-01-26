@@ -20,13 +20,9 @@ def run():
 
     ### Game runTime
     while True:
-        #outdoor_menu(world,player,rat)
+        print("check")
         main_menu(world)
-        #test = int(input("Input a test option 1-2: "))
-        #if test == 1:
-        #    combat_menu(world,player,rat)
-        #if test == 2:
-        #    player_stats(world)
+
 
     #print(player.name)
     #print(player.id)
