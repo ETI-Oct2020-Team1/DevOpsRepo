@@ -3,13 +3,7 @@ import pickle
 
 # UI for Town Menu
 def town_menu(world):
-<<<<<<< HEAD
     print("\nDay ",world.get_day(),": You are in a town.")
-=======
-
-    print("\nDay ", world.get_day(),": You are in a town.")
-
->>>>>>> 44f45e7ee792f3ce77a7112c07623bdffa9711a6
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
