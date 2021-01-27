@@ -99,4 +99,7 @@ class Player(GameEntity):
         self.map_location_id = 0
         self.world.map[self.map_location_id] = 3
         self.orb = False
+    def rest(self):
+        self.current_hp = self.max_hp
+        self.world.add_day()
 

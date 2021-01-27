@@ -26,7 +26,7 @@ def town_menu(world):
 
             world.print_map()
 
-            move()
+            move(world)
             return town_menu(world)
         elif choice == 4:
             rest(world)

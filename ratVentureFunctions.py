@@ -3,13 +3,9 @@ from pynput.keyboard import Key, Listener
 import random
 
 def on_press(key):
-    #print('{0} pressed'.format(
-        #key))
     check_key(key)
 
 def on_release(key):
-    #print('{0} release'.format(
-       # key))
     if key == Key.esc:
         # Stop listener
         return False
@@ -17,26 +13,36 @@ def on_release(key):
 def check_key(key):
     #checking for movement options
     try:
-        print(key)
+        #print("Check: ",key)
         #WASD movement works but arrow keys stop at the first if statement
-        if key == Key.up or key.char in ['w','W']: 
+        if key == Key.up:
             print('Up +8')
-            #Keyboard.press(Key.esc)
-        elif key == Key.left or key.char in ['a','A']: 
+        elif key == Key.left: 
             print('left -1')    
-        elif key == Key.down or key.char in ['s','S']: 
+        elif key == Key.down:
             print('down -8')
-        elif key == Key.right or key.char in ['d','D']: 
+        elif key == Key.right: 
             print('right +1')  
+        # I need to split these up for some reason cause if I use 'or' statements the arrow keys after the 
+        # first statement get ignored and dont even go into the else statement
         else:
-            print("Not a movement command")
+            if key.char in ['w','W']: 
+                print('Up +8')
+            elif key.char in ['a','A']:
+                print('left -1') 
+            elif key.char in ['s','S']:
+                 print('down -8')
+            elif key.char in ['d','D']:
+                print('right +1') 
+            else:
+                print("Not a movement command")
     # If something like key.esc or key.space it will just return and loop without throwing an error
     # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
     # This is a VERY BAD practice never do this.
     except(AttributeError):
         return
-
-def move():
+    
+def move(world):
     # Collect events until released
     # This is the listener that uses the other functions to check the keys being pressed
     # move() is what calls the listener 
@@ -63,9 +69,4 @@ def damage(attacker,target):
         print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
     #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
 
-def rest(world):
-    for i in world.entities:
-        if world.entities[i].name == "The Hero":
-            world.entities[i].current_hp = world.entities[i].max_hp
-    world.add_day()
     
