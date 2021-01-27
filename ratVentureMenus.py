@@ -1,4 +1,4 @@
-from ratVentureFunctions import *
+from ratVentureObjects import *
 import pickle
 
 # UI for Town Menu
@@ -23,10 +23,8 @@ def town_menu(world):
         elif choice == 3:
             #world.get_map()
             print("Use 'wasd' or arrow keys to choose a direction to move")
+            world.get_player().move()
 
-            world.print_map()
-
-            move(world)
             return town_menu(world)
         elif choice == 4:
             world.get_player().rest()
@@ -111,7 +109,7 @@ def outdoor_menu(world,attacker,defender):
             return outdoor_menu(world,attacker,defender)
         elif choice == 3:
             world.print_map()
-            move()
+            world.get_player().move()
             return outdoor_menu(world,attacker,defender)
         elif choice == 4:
             return quit()
@@ -131,9 +129,9 @@ def combat_menu(world,attacker,defender):
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
-            if damage(attacker,defender):
+            if world.get_player().damage(defender):
                 return main_menu(world)
-            elif damage(defender,attacker):
+            elif world.get_player().damage(attacker):
                 return main_menu(world)
             else:
                 return combat_menu(world,attacker,defender)
@@ -168,7 +166,7 @@ def run_menu(world,attacker,defender):
             return combat_menu(world,attacker,defender)
         elif choice == 3:
             world.print_map()
-            move()
+            world.get_player().move()
             return outdoor_menu(world,attacker,defender)
         elif choice == 4:
             return quit()

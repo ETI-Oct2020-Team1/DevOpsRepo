@@ -1,14 +1,15 @@
 import pygame
+from pynput.keyboard import Key, Listener
+import random
 
 ### Classes
-
 ## Definiing the 'world'
 class World(object):
 
     def __init__(self,rows,layout):
         self.entities = {}
         self.day = 1
-        self.map_dict = {0:' - ', 1:  ' T ',2:' H ',3: 'H/T', 4: ' O ', 5:' K '}
+        self.map_dict = {0:' - ', 1:  ' H ',2:' T ',3: 'T', 4: ' H/T ', 5:' O ', 6:' K '}
         self.entity_id = 0
         self.rows = rows
         self.layout = layout
@@ -97,14 +98,79 @@ class GameEntity(object):
        #     world.entities[entity_id].attack = attack
         #    world.entities[entity_id].defense = defense
          #   world.entities[entity_id].hp = hp
+    def damage(self,target):
+        rawDamage = random.randint(self.attack[0],self.attack[1])
+        calcDamage = rawDamage - target.defense
+        if calcDamage < 0:
+            calcDamage = 0
+        target.current_hp -= calcDamage
+        if target.current_hp <= 0:
+            if target.name != "The Hero":
+                print("The",target.name,"is dead! You are victorious!")
+                self.world.add_day()
+                return True
+            else:
+                print("Oh no!",target.name,"died! Game over :(\n")
+                return True
+        else:
+            print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
+    #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
+
 
 class Player(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
         super().__init__(world,name,attack,defense,hp)
-        self.map_location_id = 0
-        self.world.map[self.map_location_id] = 3
+        #setting it to spawn in tile 3
+        self.map_location_id = 3
+        self.world.map[self.map_location_id] += 1
         self.orb = False
     def rest(self):
         self.current_hp = self.max_hp
         self.world.add_day()
 
+    #Keyboard detection
+    def __on_press(self,key):
+        self.__check_key(key)
+    def __on_release(self,key):
+        if key == Key.esc:
+            # Stop listener
+            return False
+    def __check_key(self,key):
+        try:
+            if key == Key.up:
+                print('Up +8')
+            elif key == Key.left: 
+                print('left -1')    
+            elif key == Key.down:
+                print('down -8')
+            elif key == Key.right:
+                self.world.map[self.map_location_id] -= 1
+                self.map_location_id += 1 
+                self.world.map[self.map_location_id] += 1
+                self.world.print_map()
+            # I need to split these up for some reason cause if I use 'or' statements the arrow keys after the 
+            # first statement get ignored and dont even go into the else statement
+            else:
+                if key.char in ['w','W']: 
+                    print('Up +8')
+                elif key.char in ['a','A']:
+                    print('left -1') 
+                elif key.char in ['s','S']:
+                     print('down -8')
+                elif key.char in ['d','D']:
+                    print('right +1') 
+                else:
+                    print("Not a movement command")
+        # If something like key.esc or key.space it will just return and loop without throwing an error
+        # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
+        # This is a VERY BAD practice never do this.
+        except(AttributeError):
+            return
+    def move(self):
+        # Collect events until released
+        # This is the listener that uses the other functions to check the keys being pressed
+        # move() is what calls the listener 
+        with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
+            listener.join()
+        return listener.stop()
+    

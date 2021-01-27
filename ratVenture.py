@@ -1,9 +1,5 @@
 from ratVentureMenus import * 
 
-dayNum = 1 #global variable for the day number
-
-
-
 def run():
     ### Initialization
     world = World(8,8)
@@ -18,7 +14,7 @@ def run():
     ### Game runTime
     while True:
         #print(world.map)
-        combat_menu(world,player,rat)
+        #combat_menu(world,player,rat)
         main_menu(world)
 
 
