@@ -29,7 +29,7 @@ def town_menu(world):
             move(world)
             return town_menu(world)
         elif choice == 4:
-            rest(world)
+            world.get_player().rest()
             return town_menu(world)
         elif choice == 5:
             saveGame(world)

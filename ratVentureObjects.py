@@ -71,6 +71,11 @@ class World(object):
     def update_map(self,map):
         self.map = map
 
+    def get_player(self):
+        for i in self.entities:
+            if self.entities[i].name == "The Hero":
+                return self.entities[i]
+
 ## Entity objects with id, hp, attack, defense and name values
 class GameEntity(object):
 
