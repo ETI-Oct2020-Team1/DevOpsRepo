@@ -151,14 +151,14 @@ class TestMenu(unittest.TestCase):
 
         mock_funcs = [
             "ratVentureMenus.outdoor_menu",
-            "builtins.quit",
+            "ratVentureMenus.check_exit",
             "ratVentureMenus.outdoor_menu",
             "ratVentureMenus.outdoor_menu"
         ]
 
         expect_call_withs = [
             [world,player,rat],
-            [],
+            [world],
             [world,player,rat],
             [world,player,rat]
         ]
@@ -185,14 +185,14 @@ class TestMenu(unittest.TestCase):
 
         mock_funcs = [
             "ratVentureMenus.combat_menu",
-            "builtins.quit",
+            "ratVentureMenus.check_exit",
             "ratVentureMenus.run_menu",
             "ratVentureMenus.run_menu"
         ]
 
         expect_call_withs = [
             [world,player,rat],
-            [],
+            [world],
             [world,player,rat],
             [world,player,rat]
         ]
@@ -202,6 +202,35 @@ class TestMenu(unittest.TestCase):
                 run_menu(world,player,rat)
                 mock.assert_called_once_with(*expect_call_with)
 
+
+    def test_checkSavingBeforeExit(self):
+        world = World()
+
+        test_cases = [
+            "Y",
+            "n",
+            "q",
+            "1"
+        ]
+
+        mock_funcs = [
+            "builtins.quit",
+            "builtins.quit",
+            "ratVentureMenus.town_menu",
+            "ratVentureMenus.town_menu"
+        ]
+
+        expect_call_withs = [
+            [],
+            [],
+            [world],
+            [world]
+        ]
+
+        for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
+            with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
+                check_exit(world)
+                mock.assert_called_once_with(*expect_call_with)
 
 if __name__ == "__main__":
     unittest.main()
