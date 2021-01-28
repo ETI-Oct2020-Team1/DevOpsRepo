@@ -13,18 +13,7 @@ def run():
     
     ### Game runTime
     while True:
-        #print(world.map)
-        #combat_menu(world,player,rat)
         main_menu(world)
-
-
-    #print(player.name)
-    #print(player.id)
-    #print(player.attack)
-    #print(player.hp)
-    #print(rat.id)
-    
-    
 
 while True:
     run()

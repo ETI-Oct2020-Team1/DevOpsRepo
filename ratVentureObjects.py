@@ -39,10 +39,6 @@ class World(object):
     def get_day(self):
         return self.day
 
-    #def initMap(self,rows,layout):
-    #    
-    #    return self.map
-        
     def get_map(self):
         return self.map
 
@@ -138,12 +134,26 @@ class Player(GameEntity):
     def __check_key(self,key):
         try:
             if key == Key.up:
-                print('Up +8')
+                print('Up -8')
+                self.world.map[self.map_location_id] -= 1
+                self.map_location_id -= 8 
+                self.world.map[self.map_location_id] += 1
+                self.world.print_map()
             elif key == Key.left: 
-                print('left -1')    
+                print('left -1')   
+                self.world.map[self.map_location_id] -= 1
+                self.map_location_id -= 1 
+                self.world.map[self.map_location_id] += 1
+                self.world.print_map() 
             elif key == Key.down:
-                print('down -8')
+                print('down +8')    
+                self.world.map[self.map_location_id] -= 1
+                self.map_location_id += 8 
+                self.world.map[self.map_location_id] += 1
+                self.world.print_map()
+            # I need to split these up f
             elif key == Key.right:
+                print('right +1')
                 self.world.map[self.map_location_id] -= 1
                 self.map_location_id += 1 
                 self.world.map[self.map_location_id] += 1
@@ -152,13 +162,20 @@ class Player(GameEntity):
             # first statement get ignored and dont even go into the else statement
             else:
                 if key.char in ['w','W']: 
-                    print('Up +8')
+                    print('W: Up -8')
                 elif key.char in ['a','A']:
-                    print('left -1') 
+                    print('A: left -1') 
                 elif key.char in ['s','S']:
-                     print('down -8')
+                     print('S: down +8')
                 elif key.char in ['d','D']:
-                    print('right +1') 
+                    print('D: right +1')
+                    if (self.player.map_location_id) >= self.layout:
+                        print("you cant go that way")
+                    else:
+                        self.world.map[self.map_location_id] -= 1
+                        self.map_location_id += 1 
+                        self.world.map[self.map_location_id] += 1
+                        self.world.print_map() 
                 else:
                     print("Not a movement command")
         # If something like key.esc or key.space it will just return and loop without throwing an error
@@ -167,6 +184,7 @@ class Player(GameEntity):
         except(AttributeError):
             return
     def move(self):
+        self.world.print_map()
         # Collect events until released
         # This is the listener that uses the other functions to check the keys being pressed
         # move() is what calls the listener 
