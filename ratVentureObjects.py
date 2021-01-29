@@ -9,7 +9,7 @@ class World(object):
     def __init__(self,rows,layout):
         self.entities = {}
         self.day = 1
-        self.map_dict = {0:' - ', 1:  ' H ',2:' T ',3: 'T', 4: ' H/T ', 5:' O ', 6:' K '}
+        self.map_dict = {0:' - ', 1:  ' H ',2:' T ',3: 'T', 4: ' H/T ', 5:' O ', 6:' K ', 7: ' H/K '}
         self.entity_id = 0
         self.rows = rows
         self.layout = layout
@@ -120,12 +120,15 @@ class Player(GameEntity):
         self.map_location_id = 3
         self.world.map[self.map_location_id] += 1
         self.orb = False
+
     def rest(self):
         self.current_hp = self.max_hp
         self.world.add_day()
 
     def __on_press(self,key):
         self.__check_key(key)
+        self.world.add_day()
+        return False
     def __on_release(self,key):
         if key == Key.esc:
             # Stop listener
@@ -134,6 +137,7 @@ class Player(GameEntity):
         try:
             if key == Key.up:
                 self.move_up()
+                return False        #comment out this line if you need to test conscutive movement
             elif key == Key.left:  
                 self.move_left() 
             elif key == Key.down:
@@ -153,6 +157,7 @@ class Player(GameEntity):
                     self.move_up() 
                 else:
                     print("Not a movement command")
+            
         # If something like key.esc or key.space it will just return and loop without throwing an error
         # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
         # This is a VERY BAD practice never do this.
@@ -169,7 +174,6 @@ class Player(GameEntity):
             listener.join()
         return listener.stop()
     
-    
     def move_right(self):
         # + 1 cause the firs row is 0
         if (self.map_location_id + 1) % self.world.layout == 0:
@@ -180,6 +184,7 @@ class Player(GameEntity):
 
             self.world.map[self.map_location_id] += 1
             self.world.print_map()
+
     def move_left(self):
         # + 1 cause the firs row is 0
         #if (self.map_location_id + 1)  0:
@@ -193,8 +198,6 @@ class Player(GameEntity):
 
             self.world.map[self.map_location_id] += 1
             self.world.print_map()
-
-
     def move_down(self):
         if self.map_location_id + self.world.layout > self.world.tiles - 1:
             print("Woah pal you cant go that way")
@@ -215,4 +218,16 @@ class Player(GameEntity):
             self.world.map[self.map_location_id] += 1
             self.world.print_map()
     
-   
+class powerOrb(GameEntity):
+    def __init__(self,world):
+        self.world = world
+        self.map_location_id = self.world.tiles-1
+        self.world.map[self.map_location_id] += 5
+
+    def power(self,player):
+        if player.name == "The Hero":
+            player.attack += 5
+            player.defense += 5
+            player.orb = True
+
+        
