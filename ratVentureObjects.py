@@ -133,17 +133,13 @@ class Player(GameEntity):
     def __check_key(self,key):
         try:
             if key == Key.up:
-                print('Up +8')
-            elif key == Key.left: 
-                print('left -1')    
+                self.move_up()
+            elif key == Key.left:  
+                self.move_left() 
             elif key == Key.down:
-                print('down -8')
+                self.move_down()
             elif key == Key.right:
-                print('right +1')
-                self.world.map[self.map_location_id] -= 1
-                self.map_location_id += 1 
-                self.world.map[self.map_location_id] += 1
-                self.world.print_map()
+                self.move_right()
             # I need to split these up for some reason cause if I use 'or' statements the arrow keys after the 
             # first statement get ignored and dont even go into the else statement
             else:
@@ -162,10 +158,61 @@ class Player(GameEntity):
         # This is a VERY BAD practice never do this.
         except(AttributeError):
             return
+    
+    #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
+    #   the actual movement functions are called 
     def move(self):
-        # Collect events until released
-        # This is the listener that uses the other functions to check the keys being pressed
-        # move() is what calls the listener 
+        # Pynput: Collect events until released
+        # Pynput: This is the listener that uses the other functions to check the keys being pressed 
+        self.world.print_map()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
             listener.join()
         return listener.stop()
+    
+    
+    def move_right(self):
+        # + 1 cause the firs row is 0
+        if (self.map_location_id + 1) % self.world.layout == 0:
+            print("Woah there pal you cant go that way!")
+        else:
+            self.world.map[self.map_location_id] -= 1
+            self.map_location_id += 1 
+
+            self.world.map[self.map_location_id] += 1
+            self.world.print_map()
+    def move_left(self):
+        # + 1 cause the firs row is 0
+        #if (self.map_location_id + 1)  0:
+        #    print("Woah there pal you cant go that way!")
+        #else:
+        if (self.map_location_id - 1)  < 0 or  (self.map_location_id) % self.world.layout == 0:
+            print("Woah there pal you cant go that way!")
+        else:
+            self.world.map[self.map_location_id] -= 1
+            self.map_location_id -= 1 
+
+            self.world.map[self.map_location_id] += 1
+            self.world.print_map()
+
+
+    def move_down(self):
+        if self.map_location_id + self.world.layout > self.world.tiles - 1:
+            print("Woah pal you cant go that way")
+        else:
+            
+            self.world.map[self.map_location_id] -= 1
+            self.map_location_id += self.world.layout
+            print(self.map_location_id)
+            self.world.map[self.map_location_id] += 1
+            self.world.print_map()
+    def move_up(self):
+        if self.map_location_id - self.world.layout < 0:
+            print("Woah pal you cant go that way")
+        else:
+            self.world.map[self.map_location_id] -= 1
+            self.map_location_id -= self.world.layout
+
+            self.world.map[self.map_location_id] += 1
+            self.world.print_map()
+    
+   
