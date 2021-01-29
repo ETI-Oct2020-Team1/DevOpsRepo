@@ -39,7 +39,7 @@ class TestMenu(unittest.TestCase):
     #         mainMenuMock.assert_called_once_with(world)  
     
     def test_mainMenu(self):
-        world = World()
+        world = World(8,8)
 
         test_cases = [
             "1",
@@ -70,7 +70,7 @@ class TestMenu(unittest.TestCase):
 
 
     def test_townMenu(self):
-        world = World()
+        world = World(8,8)
 
         test_cases = [
             "2",
@@ -101,42 +101,43 @@ class TestMenu(unittest.TestCase):
 
 
     def test_combatMenu(self):
-        world = World()
+        world = World(8,8)
         player = GameEntity(world, "The Hero",[1,5],1,20)
         rat = GameEntity(world,"The rat",[1,3],1,20)
         world.add_entity(player)
         world.add_entity(rat)
+        target = rat
 
         test_cases = [
             "1",
-            "2",
+            # "2",
             "c",
             "10"
         ]
 
         mock_funcs = [
             "ratVentureMenus.combat_menu",
-            "ratVentureMenus.run_menu",
+            # "ratVentureMenus.run_menu",
             "ratVentureMenus.combat_menu",
             "ratVentureMenus.combat_menu"
         ]
 
         expect_call_withs = [
-            [world,player,rat],
-            [world,player,rat],
-            [world,player,rat],
-            [world,player,rat]
+            [world,target],
+            # [world],
+            [world,target],
+            [world,target]
         ]
 
         for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
             with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
-                combat_menu(world,player,rat)
+                combat_menu(world,target)
                 mock.assert_called_once_with(*expect_call_with)
 
 
 
     def test_outdoorMenu(self):
-        world = World()
+        world = World(8,8)
         player = GameEntity(world, "The Hero",[1,5],1,20)
         rat = GameEntity(world,"The rat",[1,3],1,20)
         world.add_entity(player)
@@ -157,24 +158,25 @@ class TestMenu(unittest.TestCase):
         ]
 
         expect_call_withs = [
-            [world,player,rat],
             [world],
-            [world,player,rat],
-            [world,player,rat]
+            [world],
+            [world],
+            [world]
         ]
 
         for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
             with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
-                outdoor_menu(world,player,rat)
+                outdoor_menu(world)
                 mock.assert_called_once_with(*expect_call_with)
 
     
     def test_runMenu(self):
-        world = World()
+        world = World(8,8)
         player = GameEntity(world, "The Hero",[1,5],1,20)
         rat = GameEntity(world,"The rat",[1,3],1,20)
         world.add_entity(player)
         world.add_entity(rat)
+        target = None
 
         test_cases = [
             "1",
@@ -191,20 +193,20 @@ class TestMenu(unittest.TestCase):
         ]
 
         expect_call_withs = [
-            [world,player,rat],
+            [world,target],
             [world],
-            [world,player,rat],
-            [world,player,rat]
+            [world],
+            [world]
         ]
 
         for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
             with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
-                run_menu(world,player,rat)
+                run_menu(world)
                 mock.assert_called_once_with(*expect_call_with)
 
 
     def test_checkSavingBeforeExit(self):
-        world = World()
+        world = World(8,8)
 
         test_cases = [
             "Y",
