@@ -124,7 +124,7 @@ def outdoor_menu(world):
 def combat_menu(world,target):
     if target is None:
         for i in world.entities:
-            if world.entities[i].name == "The rat":
+            if world.entities[i].name == "The Rat":
                 target = world.entities[i]
     while True:
         print("\nDay ", world.get_day() ,": You are out in the open.")
