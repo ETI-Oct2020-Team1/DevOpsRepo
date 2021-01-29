@@ -144,13 +144,13 @@ class Player(GameEntity):
             # first statement get ignored and dont even go into the else statement
             else:
                 if key.char in ['w','W']: 
-                    print('Up +8')
+                    self.move_up()
                 elif key.char in ['a','A']:
-                    print('left -1') 
+                    self.move_left() 
                 elif key.char in ['s','S']:
-                     print('down -8')
+                    self.move_down()
                 elif key.char in ['d','D']:
-                    print('right +1') 
+                    self.move_up() 
                 else:
                     print("Not a movement command")
         # If something like key.esc or key.space it will just return and loop without throwing an error
