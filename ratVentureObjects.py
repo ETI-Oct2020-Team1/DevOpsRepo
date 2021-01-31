@@ -9,7 +9,7 @@ class World(object):
     def __init__(self,rows,layout):
         self.entities = {}
         self.day = 1
-        self.map_dict = {0:' - ', 1:  ' H ',2:' T ',3: 'H/T', 4:' O ', 5:' K ', 6: ' H/K '}
+        self.map_dict = {0:' - ', 1: ' H ',2:' T ',3: 'H/T', 4:'O/T', 5:' K ', 6: 'H/K'}
         self.entity_id = 0
         self.rows = rows
         self.layout = layout
@@ -20,10 +20,9 @@ class World(object):
         for town in range(int(self.noTown)):
             self.townLocations.append(random.randint(0,self.tiles-1))
         for i in range(self.tiles):
+            self.map.append(0) 
             if i in self.townLocations:
-                self.map.append(2) #Key2:' T '
-            else:
-                self.map.append(0) 
+                self.map[i] = 2#Key2:' T '               
 
     def add_entity(self,entity):
 
@@ -135,7 +134,8 @@ class Player(GameEntity):
     def __on_press(self,key):
         self.__check_key(key)
         self.world.add_day()
-        return False
+        #Comment out this line if you want to do consecutive movement testing
+        #return False
     def __on_release(self,key):
         if key == Key.esc:
             # Stop listener
@@ -144,7 +144,6 @@ class Player(GameEntity):
         try:
             if key == Key.up:
                 self.move_up()
-                return False        #comment out this line if you need to test conscutive movement
             elif key == Key.left:  
                 self.move_left() 
             elif key == Key.down:
@@ -170,7 +169,7 @@ class Player(GameEntity):
         # This is a VERY BAD practice never do this.
         except(AttributeError):
             return
-    
+        self.checkTile()
     #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
     #   the actual movement functions are called 
     def move(self):
@@ -186,35 +185,27 @@ class Player(GameEntity):
         if (self.map_location_id + 1) % self.world.layout == 0:
             print("Woah there pal you cant go that way!")
         else:
+            # -1 from the item so when printMap() is called it is update to be (for example) 0 if the tile is empty
             self.world.map[self.map_location_id] -= 1
             self.map_location_id += 1 
-
-            self.world.map[self.map_location_id] += 1
-            self.world.print_map()
-
     def move_left(self):
-        # + 1 cause the firs row is 0
-        #if (self.map_location_id + 1)  0:
-        #    print("Woah there pal you cant go that way!")
-        #else:
         if (self.map_location_id - 1)  < 0 or  (self.map_location_id) % self.world.layout == 0:
             print("Woah there pal you cant go that way!")
         else:
             self.world.map[self.map_location_id] -= 1
             self.map_location_id -= 1 
-
-            self.world.map[self.map_location_id] += 1
-            self.world.print_map()
+    
+    # For moving up and down you will notice I used
+    # self.map_location_id += self.world.layout
+    # This makes it so that it will just add the layout number to the 
+    # position to make it move directly 'up' or 'down'
     def move_down(self):
         if self.map_location_id + self.world.layout > self.world.tiles - 1:
             print("Woah pal you cant go that way")
-        else:
-            
+        else:     
             self.world.map[self.map_location_id] -= 1
             self.map_location_id += self.world.layout
-            print(self.map_location_id)
-            self.world.map[self.map_location_id] += 1
-            self.world.print_map()
+            
     def move_up(self):
         if self.map_location_id - self.world.layout < 0:
             print("Woah pal you cant go that way")
@@ -222,19 +213,29 @@ class Player(GameEntity):
             self.world.map[self.map_location_id] -= 1
             self.map_location_id -= self.world.layout
 
-            self.world.map[self.map_location_id] += 1
+
+    def checkTile(self):
+            # If tile is an 'O/T' tile...
+            if self.world.map[self.map_location_id] == 4:
+                self.world.map[self.map_location_id] = 3
+                powerOrb.power(self,self)
+            #Else it just carries on as normal and adds one to the list item
+            else:
+                self.world.map[self.map_location_id] += 1
             self.world.print_map()
+
     
 class powerOrb(GameEntity):
     def __init__(self,world):
         self.name = "Orb of Power"
         self.world = world
-        self.map_location_id = self.world.tiles-1
-        self.world.map[self.map_location_id] += 4 #Key4: '  O  '
+        # Picking a random town from the townLocations list[0-max]
+        self.map_location_id = self.world.townLocations[random.randint(0,len(self.world.townLocations)-1)]
+        self.world.map[self.map_location_id] = 4 #Key4: 'O/T'
 
     def power(self,player):
-        if player.name == "The Hero":
-            player.attack += 5
+        if player.name == "The Hero" and player.orb == False:
+            player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
 
