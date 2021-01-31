@@ -16,9 +16,12 @@ class World(object):
         self.tiles = rows * layout
         self.map = []
         self.noTown = layout/2
-        self.townLocations = []
-        for town in range(int(self.noTown)):
-            self.townLocations.append(random.randint(0,self.tiles-1))
+        self.townLocations = [0]    #Starting town
+        for town in range(int(self.noTown)-1): #-1 cause starting town is always 0
+            town = random.randint(1,self.tiles-1)
+            if town in self.townLocations:
+                town = random.randint(1,self.tiles-1)   #If duplicate number
+            self.townLocations.append(town)
         for i in range(self.tiles):
             self.map.append(0) 
             if i in self.townLocations:
@@ -229,8 +232,9 @@ class powerOrb(GameEntity):
     def __init__(self,world):
         self.name = "Orb of Power"
         self.world = world
-        # Picking a random town from the townLocations list[0-max]
-        self.map_location_id = self.world.townLocations[random.randint(0,len(self.world.townLocations)-1)]
+        # Picking a random town from the townLocations list[1-max]
+        # It will never spawn in the first town
+        self.map_location_id = self.world.townLocations[random.randint(1,len(self.world.townLocations)-1)]
         self.world.map[self.map_location_id] = 4 #Key4: 'O/T'
 
     def power(self,player):
