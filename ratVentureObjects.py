@@ -9,14 +9,21 @@ class World(object):
     def __init__(self,rows,layout):
         self.entities = {}
         self.day = 1
-        self.map_dict = {0:' - ', 1:  ' H ',2:' T ',3: 'T', 4: ' H/T ', 5:' O ', 6:' K ', 7: ' H/K '}
+        self.map_dict = {0:' - ', 1:  ' H ',2:' T ',3: 'H/T', 4:' O ', 5:' K ', 6: ' H/K '}
         self.entity_id = 0
         self.rows = rows
         self.layout = layout
         self.tiles = rows * layout
         self.map = []
+        self.noTown = layout/2
+        self.townLocations = []
+        for town in range(int(self.noTown)):
+            self.townLocations.append(random.randint(0,self.tiles-1))
         for i in range(self.tiles):
-            self.map.append(0) 
+            if i in self.townLocations:
+                self.map.append(2) #Key2:' T '
+            else:
+                self.map.append(0) 
 
     def add_entity(self,entity):
 
@@ -116,8 +123,8 @@ class GameEntity(object):
 class Player(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
         super().__init__(world,name,attack,defense,hp)
-        #setting it to spawn in tile 3
-        self.map_location_id = 3
+        #setting it to spawn in tile 0, the top left of the map
+        self.map_location_id = 0
         self.world.map[self.map_location_id] += 1
         self.orb = False
 
@@ -220,9 +227,10 @@ class Player(GameEntity):
     
 class powerOrb(GameEntity):
     def __init__(self,world):
+        self.name = "Orb of Power"
         self.world = world
         self.map_location_id = self.world.tiles-1
-        self.world.map[self.map_location_id] += 5
+        self.world.map[self.map_location_id] += 4 #Key4: '  O  '
 
     def power(self,player):
         if player.name == "The Hero":
