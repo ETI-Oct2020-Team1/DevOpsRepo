@@ -69,7 +69,7 @@ class World(object):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
-           self.entities[entity_id].hp = hp
+           self.entities[entity_id].current_hp = hp
 
     def update_day(self,day):
         self.day = day
