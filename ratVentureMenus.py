@@ -3,9 +3,7 @@ import pickle
 
 # UI for Town Menu
 def town_menu(world):
-
-    print("\nDay ", world.get_day(),": You are in a town.")
-
+    print("\nDay ",world.get_day(),": You are in a town.")
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
@@ -113,7 +111,7 @@ def outdoor_menu(world):
             target = None
             return combat_menu(world,target)
         elif choice == 4:
-            return quit()
+            return check_exit(world)
         else:
             print("Please enter an option from 1-4!\n")
             return outdoor_menu(world)
@@ -126,7 +124,7 @@ def outdoor_menu(world):
 def combat_menu(world,target):
     if target is None:
         for i in world.entities:
-            if world.entities[i].name == "The rat":
+            if world.entities[i].name == "The Rat":
                 target = world.entities[i]
     while True:
         print("\nDay ", world.get_day() ,": You are out in the open.")
@@ -142,7 +140,7 @@ def combat_menu(world,target):
                 else:
                     return combat_menu(world,target)
             elif choice == 2:
-                return #run_menu(world,attacker,target)
+                return #run_menu(world)
             else:
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world,target)
@@ -152,7 +150,7 @@ def combat_menu(world,target):
 
 
 # UI for Outdoor Menu
-def run_menu(world,attacker,target):
+def run_menu(world):
     print("\nYou run and hide.")
     print("1) View Character")
     print("2) View Map")
@@ -164,29 +162,31 @@ def run_menu(world,attacker,target):
             rat = world.get(1)
             rat.hp = 10
             player_stats(world)
+            target = None
             return combat_menu(world,target)
         elif choice == 2:
             rat = world.get(1)
             rat.hp = 10
             world.print_map()
+            target = None
             return combat_menu(world,target)
         elif choice == 3:
             world.print_map()
             world.get_player().move()
             return outdoor_menu(world)
         elif choice == 4:
-            return quit()
+            return check_exit(world)
         else:
             print("Please enter an option from 1-4!\n")
-            return run_menu(world,attacker,target)
+            return run_menu(world)
     except ValueError:
         print("Please enter an option from 1-4!\n")
-        return run_menu(world,attacker,target)
+        return run_menu(world)
 
 
 # Function to save game data
 def saveGame(world):
-    player = world.get(0)
+    player = world.get_player()
     load_day = world.get_day()
     map = world.get_map()
     pickle_out = open("save.pickle", "wb")
@@ -199,7 +199,7 @@ def saveGame(world):
 def loadGame(world):
     pickle_in = open("save.pickle", "rb")
     player = pickle.load(pickle_in)
-    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.hp)
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp)
     load_day = pickle.load(pickle_in)
     load_day = world.update_day(load_day)
     map = pickle.load(pickle_in)

@@ -17,8 +17,8 @@ jobs:
       - name: Build & Deploy 🚀
         uses: JacksonMaxfield/github-pages-deploy-action-python@master
         env:
-              ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              BASE_BRANCH: master #The branch the action should deploy from.
-              DEPLOY_BRANCH: gh-pages # The branch where the action should deploy to.
-              BUILD_SCRIPT: pip install .[all] && make docs-build && touch docs/_build/html/.nojekyll # The build script the action should run prior to deploying.
-              FOLDER: docs/_build/html # The folder directory that contain the content that we want to deploy.
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_BRANCH: master #The branch the action should deploy from.
+          BRANCH: gh-pages # The branch where the action should deploy to.
+          FOLDER: docs/_build/html # The folder directory that contain the content that we want to deploy.
+          BUILD_SCRIPT: pip install .[all] && make docs-build && touch docs/_build/html/.nojekyll # The build script the action should run prior to deploying.
