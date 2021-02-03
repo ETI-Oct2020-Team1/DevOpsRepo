@@ -165,8 +165,7 @@ class Player(GameEntity):
                 elif key.char in ['d','D']:
                     self.move_up() 
                 else:
-                    print("Not a movement command")
-            
+                    print("Not a movement command")           
         # If something like key.esc or key.space it will just return and loop without throwing an error
         # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
         # This is a VERY BAD practice never do this.
@@ -216,7 +215,7 @@ class Player(GameEntity):
             self.world.map[self.map_location_id] -= 1
             self.map_location_id -= self.world.layout
 
-
+    #Called in check_key
     def checkTile(self):
             # If tile is an 'O/T' tile...
             if self.world.map[self.map_location_id] == 4:
