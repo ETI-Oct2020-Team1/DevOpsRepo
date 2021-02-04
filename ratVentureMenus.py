@@ -88,6 +88,7 @@ def player_stats(world):
     print("Defense:",player.defense)
     print("Current HP:",player.current_hp)
     print("Max HP:",player.max_hp,"\n")
+    print("Obtained orb:",player.orb)
 
 
 # UI for Outdoor Menu

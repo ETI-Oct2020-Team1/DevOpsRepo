@@ -226,7 +226,6 @@ class Player(GameEntity):
                 self.world.map[self.map_location_id] += 1
             self.world.print_map()
 
-    
 class powerOrb(GameEntity):
     def __init__(self,world):
         self.name = "Orb of Power"
@@ -241,5 +240,3 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
-
-        
