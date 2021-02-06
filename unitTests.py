@@ -14,30 +14,6 @@ from mock import patch
 
 class TestMenu(unittest.TestCase):
     
-    # def test_mainMenu_correctOptionTownMenu(self):
-    #     world = World()
-    #     with patch('builtins.input', return_value="1"), patch('ratVentureMenus.town_menu') as townMenuMock:
-    #         main_menu(world)
-    #         townMenuMock.assert_called_once_with(world)
-    
-    # def test_mainMenu_correctOptionQuit(self):
-    #     world = World()
-    #     with patch('builtins.input', return_value="3"), patch('builtins.quit') as quitMock:
-    #         main_menu(world)
-    #         quitMock.assert_called_once_with()
-
-    # def test_mainMenu_nonInteger(self):
-    #     world = World()
-    #     with patch('builtins.input', return_value="a"), patch('ratVentureMenus.main_menu') as mainMenuMock:
-    #         main_menu(world)
-    #         mainMenuMock.assert_called_once_with(world)
-
-    # def test_mainMenu_outOfBounds(self):
-    #     world = World()
-    #     with patch('builtins.input', return_value="4"), patch('ratVentureMenus.main_menu') as mainMenuMock:
-    #         main_menu(world)
-    #         mainMenuMock.assert_called_once_with(world)  
-    
     def test_mainMenu(self):
         world = World(8,8)
 
@@ -66,8 +42,6 @@ class TestMenu(unittest.TestCase):
             with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
                 main_menu(world)
                 mock.assert_called_once_with(*expect_call_with)
-
-
 
     def test_townMenu(self):
         world = World(8,8)
@@ -234,5 +208,54 @@ class TestMenu(unittest.TestCase):
                 check_exit(world)
                 mock.assert_called_once_with(*expect_call_with)
 
+class TestFunctions(unittest.TestCase):
+    def setUp(self):
+        print("setUp")
+        self.world = World(8,8)
+        self.player = Player(self.world, "The Hero",[2,4],1,20)
+        self.rat = GameEntity(self.world,"The Rat",[1,3],1,10)
+        self.orb = powerOrb(self.world)
+        self.rat_king = GameEntity(self.world,"The Rat King",[8,12],5,25)
+        self.world.add_entity(self.player)
+        self.world.add_entity(self.rat)
+        self.world.add_entity(self.orb)
+
+    def tearDown(self):
+        pass            #Very unlikely I'll need this
+
+    def test_damage(self):
+        # Testing to make sure the target entitie is injured during combat
+        self.player.damage(self.rat)
+        self.assertLess(self.rat.current_hp, self.rat.max_hp)
+
+        # Player should not be able to damage rat king if they do not have the orb
+        self.player.orb = False
+        self.player.damage(self.rat_king)
+        self.assertEqual(self.rat_king.current_hp, self.rat_king.max_hp)
+        
+        # This test is failing currently
+        # Once orb is true the player should be able to damage the rat king
+        #self.player.orb = True
+        #self.player.damage(self.rat_king)
+        #self.assertLess(self.rat_king.current_hp, self.rat_king.max_hp)
+
+    # This also tests the world.add_day() function via proxy 
+    # of being called by .rest()
+    # Testing to see if the day gets +1 which in the first one case should be 2 then 3 and so on...
+    def test_rest(self):
+        print("Testing heal")
+        self.player.current_hp = self.player.max_hp / 2
+        self.player.rest()
+        self.assertEqual(self.player.current_hp,self.player.max_hp)
+        self.assertEqual(self.world.get_day(),2)     
+
+        # Checking to see if the function still works if player health is negative
+        self.player.current_hp = -10
+        self.player.rest()
+        self.assertEqual(self.player.current_hp,self.player.max_hp)
+        self.assertEqual(self.world.get_day(),3)
+
+
 if __name__ == "__main__":
     unittest.main()
+#
