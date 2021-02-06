@@ -138,7 +138,7 @@ class Player(GameEntity):
         self.__check_key(key)
         self.world.add_day()
         #Comment out this line if you want to do consecutive movement testing
-        #return False
+        return False
     def __on_release(self,key):
         if key == Key.esc:
             # Stop listener

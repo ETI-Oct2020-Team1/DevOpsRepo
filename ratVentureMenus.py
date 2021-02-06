@@ -140,7 +140,7 @@ def combat_menu(world,target):
                 else:
                     return combat_menu(world,target)
             elif choice == 2:
-                return #run_menu(world)
+                return run_menu(world)
             else:
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world,target)
