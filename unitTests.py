@@ -248,7 +248,7 @@ class TestFunctions(unittest.TestCase):
     # of being called by .rest()
     # Testing to see if the day gets +1 which in the first one case should be 2 then 3 and so on...
     def test_rest(self):
-        print("Testing rest")
+        print("Testing rest\n==================")
         self.player.current_hp = self.player.max_hp / 2
         self.player.rest()
         self.assertEqual(self.player.current_hp,self.player.max_hp)
@@ -259,6 +259,13 @@ class TestFunctions(unittest.TestCase):
         self.player.rest()
         self.assertEqual(self.player.current_hp,self.player.max_hp)
         self.assertEqual(self.world.get_day(),3)
+    
+    def test_move(self):
+        print("Testing movement\n==================")
+        #Start at day 1 so after first move it should be day 2.
+        self.player.move_right()
+        print("Test move right day:",self.world.day)
+        self.assertEqual(self.world.day,2)
 
 
 if __name__ == "__main__":

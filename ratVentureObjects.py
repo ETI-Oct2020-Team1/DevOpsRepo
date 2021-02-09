@@ -135,10 +135,7 @@ class Player(GameEntity):
         self.world.add_day()
 
     def __on_press(self,key):
-        if(self.move_right()):
-            print("yay")
         self.__check_key(key)
-        
         #Comment out this line if you want to do consecutive movement testing
         #return False
     def __on_release(self,key):
@@ -173,7 +170,7 @@ class Player(GameEntity):
         # This is a VERY BAD practice never do this.
         except(AttributeError):
             return
-        self.checkTile()
+        #self.checkTile()
     #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
     #   the actual movement functions are called 
     def move(self):
@@ -191,15 +188,12 @@ class Player(GameEntity):
             print("Woah there pal you cant go that way!")
         else:
             # -1 from the item so when printMap() is called it is update to be (for example) 0 if the tile is empty
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id += 1 
-            return True
+            self.checkTile(1)
     def move_left(self):
         if (self.map_location_id - 1)  < 0 or  (self.map_location_id) % self.world.layout == 0:
             print("Woah there pal you cant go that way!")
         else:
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id -= 1 
+            self.checkTile(-1)
     
     # For moving up and down you will notice I used
     # self.map_location_id += self.world.layout
@@ -208,27 +202,31 @@ class Player(GameEntity):
     def move_down(self):
         if self.map_location_id + self.world.layout > self.world.tiles - 1:
             print("Woah pal you cant go that way")
-        else:     
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id += self.world.layout
-            
+        else:  
+            self.checkTile(self.world.layout)   
     def move_up(self):
         if self.map_location_id - self.world.layout < 0:
             print("Woah pal you cant go that way")
         else:
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id -= self.world.layout
-
+            self.checkTile(-self.world.layout)
     #Called in check_key
-    def checkTile(self):
+    def checkTile(self,mVal):
+            self.world.add_day()
+            self.world.map[self.map_location_id] -= 1
             # If tile is an 'O/T' tile...
-            if self.world.map[self.map_location_id] == 4:
+            ##self.world.map[self.map_location_id] - 1
+            if self.world.map[ self.map_location_id + mVal] == 4:
+                self.map_location_id += mVal
                 self.world.map[self.map_location_id] = 3
                 powerOrb.power(self,self)
-            #Else it just carries on as normal and adds one to the list item
+                self.world.print_map()
+                return True
             else:
+                self.map_location_id += mVal 
                 self.world.map[self.map_location_id] += 1
-            self.world.print_map()
+                self.world.print_map()
+                return True
+            
 
 class powerOrb(GameEntity):
     def __init__(self,world):
