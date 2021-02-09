@@ -135,8 +135,10 @@ class Player(GameEntity):
         self.world.add_day()
 
     def __on_press(self,key):
+        if(self.move_right()):
+            print("yay")
         self.__check_key(key)
-        self.world.add_day()
+        
         #Comment out this line if you want to do consecutive movement testing
         #return False
     def __on_release(self,key):
@@ -178,6 +180,7 @@ class Player(GameEntity):
         # Pynput: Collect events until released
         # Pynput: This is the listener that uses the other functions to check the keys being pressed 
         self.world.print_map()
+        self.world.add_day()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
             listener.join()
         return listener.stop()
@@ -190,6 +193,7 @@ class Player(GameEntity):
             # -1 from the item so when printMap() is called it is update to be (for example) 0 if the tile is empty
             self.world.map[self.map_location_id] -= 1
             self.map_location_id += 1 
+            return True
     def move_left(self):
         if (self.map_location_id - 1)  < 0 or  (self.map_location_id) % self.world.layout == 0:
             print("Woah there pal you cant go that way!")
