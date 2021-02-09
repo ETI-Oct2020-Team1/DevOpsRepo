@@ -1,0 +1,15 @@
+name: Telegram Notification
+on: [push, pull_request]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: send message with args
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.ETI_TELENOTI }}
+        token: ${{ secrets.W_TOKEN }}
+        args: ${{ github.actor }} made a ${{ github.event_name }} event.
