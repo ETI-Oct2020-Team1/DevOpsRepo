@@ -99,6 +99,7 @@ class GameEntity(object):
         self.defense = defense
         self.max_hp = hp
         self.current_hp = hp
+        self.target = None
 
     def get_id(self):
         return self.id
@@ -117,6 +118,7 @@ class GameEntity(object):
         if target.current_hp <= 0:
             if target.name != "The Hero":
                 print("The",target.name,"is dead! You are victorious!")
+                self.target = None
                 self.world.add_day()
                 return True
             else:
@@ -134,13 +136,13 @@ class Player(GameEntity):
         self.map_location_id = 0
         self.world.map[self.map_location_id] += 1
         self.orb = False
+    
+    def combat(self):
+        self.target = self.world.encounter()
 
     def rest(self):
         self.current_hp = self.max_hp
         self.world.add_day()
-
-    def combat(self):
-        return self, self.world.encounter()
 
     def __on_press(self,key):
         self.__check_key(key)

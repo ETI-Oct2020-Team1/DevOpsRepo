@@ -123,11 +123,11 @@ def outdoor_menu(world):
 
 # UI for Combat Menu
 def combat_menu(world):
-    target = world.encounter()
-    # if target is None: - Going to remove this cause this wont even work if theres no target
-    #     for i in world.entities:
-    #         if world.entities[i].name == "The Rat":
-    #             target = world.entities[i]
+    player = world.get_player() 
+    if player.target is None: 
+        player.combat()
+        target = player.target
+
     while True:
         print("\nDay ", world.get_day() ,": You are out in the open.")
         print("1) Attack")
@@ -142,6 +142,8 @@ def combat_menu(world):
                 else:
                     return combat_menu(world)
             elif choice == 2:
+                if player.target != None:
+                    player.target = None
                 return #run_menu(world)
             else:
                 print("Please enter an option from 1-2!\n")

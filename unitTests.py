@@ -210,10 +210,10 @@ from mock import patch
     #             mock.assert_called_once_with(*expect_call_with)
 
 def txt(TEXT):
-        print("=" * len(TEXT))
-        print(TEXT)
-        print("=" * len(TEXT))
-
+    print("\n"*3)
+    print("=" * len(TEXT))
+    print(TEXT)
+    print("=" * len(TEXT))
 class TestFunctions(unittest.TestCase):
     
     def setUp(self):
@@ -238,8 +238,9 @@ class TestFunctions(unittest.TestCase):
         print("Before addition:", org)
 
         combat_menu(self.world)
+        combat_menu(self.world)
         print("After addition:", len(self.world.entities))
-        self.assertEqual(len(self.world.entities),org+1)
+        self.assertEqual(len(self.world.entities),org+2)
 
     # Testing to make sure the target entitie is injured during combat
     def test_damage(self):
