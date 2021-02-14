@@ -82,6 +82,11 @@ class World(object):
             if self.entities[i].name == "The Hero":
                 return self.entities[i]
 
+    def encounter(self):
+        newRat = GameEntity(self,"The Rat",[1,3],1,10)
+        self.add_entity(newRat)
+        return newRat
+
 ## Entity objects with id, hp, attack, defense and name values
 class GameEntity(object):
 
@@ -134,10 +139,13 @@ class Player(GameEntity):
         self.current_hp = self.max_hp
         self.world.add_day()
 
+    def combat(self):
+        return self, self.world.encounter()
+
     def __on_press(self,key):
         self.__check_key(key)
-        #Comment out this line if you want to do consecutive movement testing
-        #return False
+        return False
+        #Comment out the above line if you want to do consecutive movement testing
     def __on_release(self,key):
         if key == Key.esc:
             # Stop listener
@@ -165,6 +173,7 @@ class Player(GameEntity):
                     self.move_up() 
                 else:
                     print("Not a movement command")           
+        
         # If something like key.esc or key.space it will just return and loop without throwing an error
         # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
         # This is a VERY BAD practice never do this.
@@ -174,8 +183,6 @@ class Player(GameEntity):
     #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
     #   the actual movement functions are called 
     def move(self):
-        # Pynput: Collect events until released
-        # Pynput: This is the listener that uses the other functions to check the keys being pressed 
         self.world.print_map()
         self.world.add_day()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
@@ -194,8 +201,6 @@ class Player(GameEntity):
             print("Woah there pal you cant go that way!")
         else:
             self.checkTile(-1)
-    
-    # For moving up and down you will notice I used
     # self.map_location_id += self.world.layout
     # This makes it so that it will just add the layout number to the 
     # position to make it move directly 'up' or 'down'
@@ -211,7 +216,6 @@ class Player(GameEntity):
             self.checkTile(-self.world.layout)
     #Called in check_key
     def checkTile(self,mVal):
-            self.world.add_day()
             self.world.map[self.map_location_id] -= 1
             # If tile is an 'O/T' tile...
             ##self.world.map[self.map_location_id] - 1
