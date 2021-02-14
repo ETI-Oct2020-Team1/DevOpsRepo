@@ -1,5 +1,5 @@
 import pygame
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import Key, Listener, Controller
 import random
 
 ### Classes
@@ -146,12 +146,13 @@ class Player(GameEntity):
 
     def __on_press(self,key):
         self.__check_key(key)
-        return False
-        #Comment out the above line if you want to do consecutive movement testing
     def __on_release(self,key):
+        # Stop listener
         if key == Key.esc:
-            # Stop listener
             return False
+    def __stop(self):
+        #Controller().press(Key.esc)
+        Controller().release(Key.esc)
     def __check_key(self,key):
         try:
             if key == Key.up:
@@ -189,6 +190,7 @@ class Player(GameEntity):
         self.world.add_day()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
             listener.join()
+        self.world.print_map()
         return listener.stop()
     
     def move_right(self):
@@ -218,20 +220,20 @@ class Player(GameEntity):
             self.checkTile(-self.world.layout)
     #Called in check_key
     def checkTile(self,mVal):
-            self.world.map[self.map_location_id] -= 1
-            # If tile is an 'O/T' tile...
-            ##self.world.map[self.map_location_id] - 1
-            if self.world.map[ self.map_location_id + mVal] == 4:
-                self.map_location_id += mVal
-                self.world.map[self.map_location_id] = 3
-                powerOrb.power(self,self)
-                self.world.print_map()
-                return True
-            else:
-                self.map_location_id += mVal 
-                self.world.map[self.map_location_id] += 1
-                self.world.print_map()
-                return True
+        self.world.map[self.map_location_id] -= 1
+        # If tile is an 'O/T' tile...
+        ##self.world.map[self.map_location_id] - 1
+        if self.world.map[ self.map_location_id + mVal] == 4:
+            self.map_location_id += mVal
+            self.world.map[self.map_location_id] = 3
+            powerOrb.power(self,self)
+        else:
+            self.map_location_id += mVal 
+            self.world.map[self.map_location_id] += 1
+        self.__stop()
+        
+        
+            
             
 
 class powerOrb(GameEntity):

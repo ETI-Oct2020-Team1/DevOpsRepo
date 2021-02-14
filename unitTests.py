@@ -232,15 +232,17 @@ class TestFunctions(unittest.TestCase):
         pass            #Very unlikely I'll need this
 
     def test_encounter(self):
-        TEXT = "Testing adding entities via combat_menu"
+        TEXT = "Testing adding entities via combat_menu (Input 2)"
         txt(TEXT)
         org = len(self.world.entities)
         print("Before addition:", org)
-
+        
+        
         combat_menu(self.world)
         combat_menu(self.world)
         print("After addition:", len(self.world.entities))
         self.assertEqual(len(self.world.entities),org+2)
+        self.assertNotEqual(len(self.world.entities),org)
 
     # Testing to make sure the target entitie is injured during combat
     def test_damage(self):

@@ -23,7 +23,7 @@ def town_menu(world):
             print("Use 'wasd' or arrow keys to choose a direction to move")
             world.get_player().move()
             target = None
-            return combat_menu(world, target)
+            return combat_menu(world)
         elif choice == 4:
             world.get_player().rest()
             return town_menu(world)
@@ -109,7 +109,6 @@ def outdoor_menu(world):
         elif choice == 3:
             world.print_map()
             world.get_player().move()
-            target = None
             return combat_menu(world)
         elif choice == 4:
             return check_exit(world)
@@ -124,6 +123,7 @@ def outdoor_menu(world):
 # UI for Combat Menu
 def combat_menu(world):
     player = world.get_player() 
+    target = player.target
     if player.target is None: 
         player.combat()
         target = player.target
