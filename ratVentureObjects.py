@@ -87,7 +87,7 @@ class World(object):
         self.add_entity(newRat)
         return newRat
 
-## Entity objects with id, hp, attack, defense and name values
+
 class GameEntity(object):
 
     def __init__(self,world,name,attack,defense,hp):
@@ -99,7 +99,7 @@ class GameEntity(object):
         self.defense = defense
         self.max_hp = hp
         self.current_hp = hp
-        self.target = None
+        self.target = None      # Target is used during combat
 
     def get_id(self):
         return self.id
@@ -126,7 +126,6 @@ class GameEntity(object):
                 return True
         else:
             print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
-    #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
 
 
 class Player(GameEntity):
@@ -227,6 +226,7 @@ class Player(GameEntity):
             self.map_location_id += mVal
             self.world.map[self.map_location_id] = 3
             powerOrb.power(self,self)
+
         else:
             self.map_location_id += mVal 
             self.world.map[self.map_location_id] += 1

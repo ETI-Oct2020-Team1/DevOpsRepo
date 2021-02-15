@@ -109,7 +109,7 @@ def outdoor_menu(world):
         elif choice == 3:
             world.print_map()
             world.get_player().move()
-            return combat_menu(world)
+            return outdoor_menu(world)
         elif choice == 4:
             return check_exit(world)
         else:
@@ -124,33 +124,35 @@ def outdoor_menu(world):
 def combat_menu(world):
     player = world.get_player() 
     target = player.target
-    if player.target is None: 
-        player.combat()
-        target = player.target
+    print(world.map[player.map_location_id])
+    if world.map[player.map_location_id] in [1,2,3,4]:
+        if player.target is None: 
+            player.combat()
+            target = player.target
 
-    while True:
-        print("\nDay ", world.get_day() ,": You are out in the open.")
-        print("1) Attack")
-        print("2) Run")
-        try:
-            choice = int(input("Enter an option: "))
-            if choice == 1:
-                if world.get_player().damage(target):
+        while True:
+            print("\nDay ", world.get_day() ,": You are out in the open.")
+            print("1) Attack")
+            print("2) Run")
+            try:
+                choice = int(input("Enter an option: "))
+                if choice == 1:
+                    if world.get_player().damage(target):
+                        return outdoor_menu(world)
+                    elif target.damage(world.get_player()):
+                        return False
+                    else:
+                        return combat_menu(world)
+                elif choice == 2:
+                    if player.target != None:
+                        player.target = None
                     return outdoor_menu(world)
-                elif target.damage(world.get_player()):
-                    return False
                 else:
+                    print("Please enter an option from 1-2!\n")
                     return combat_menu(world)
-            elif choice == 2:
-                if player.target != None:
-                    player.target = None
-                return #run_menu(world)
-            else:
+            except ValueError:
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world)
-        except ValueError:
-            print("Please enter an option from 1-2!\n")
-            return combat_menu(world)
 
 
 # UI for Outdoor Menu
