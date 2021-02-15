@@ -121,7 +121,6 @@ class GameEntity(object):
         else:
             print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
 
-
 class RatKing(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
         super().__init__(world,name,attack,defense,hp)
@@ -148,7 +147,6 @@ class Player(GameEntity):
                 print("The orb fils you with power!")
                 super().damage(target)
         else:
-            print("Not the king")
             super().damage(target)
 
     def rest(self):
@@ -243,6 +241,7 @@ class Player(GameEntity):
             self.map_location_id += mVal 
             self.world.map[self.map_location_id] += 1
         self.__stop()
+
 
 class powerOrb(GameEntity):
     def __init__(self,world):

@@ -144,7 +144,7 @@ def combat_menu(world):
                 elif choice == 2:
                     if player.target != None:
                         player.target = None
-                    return run_menu(world)
+                    return run_menu(world,target)
                 else:
                     print("Please enter an option from 1-2!\n")
                     return combat_menu(world)
@@ -155,7 +155,7 @@ def combat_menu(world):
         return outdoor_menu(world)
 
 # UI for Outdoor Menu
-def run_menu(world):
+def run_menu(world,target):
     print("\nYou run and hide.")
     print("1) View Character")
     print("2) View Map")
@@ -164,13 +164,17 @@ def run_menu(world):
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
+            target.current_hp = target.max_hp
             player_stats(world)
-            target = None
-            return outdoor_menu(world)
+            print("\n The enemy patched up their wounds!")
+            target.damage(world.get_player())
+            return combat_menu(world)
         elif choice == 2:
+            target.current_hp = target.max_hp
             world.print_map()
-            target = None
-            return outdoor_menu(world)
+            print("\n The enemy patched up their wounds!")
+            target.damage(world.get_player())
+            return combat_menu(world)
         elif choice == 3:
             world.print_map()
             world.get_player().move()
