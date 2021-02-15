@@ -4,6 +4,18 @@ from ratVentureMenus import *
 
 world = World()
 
+
+
+def test_yes ():
+    yes()
+    assert yes() == "Hello World"
+
+def yes():
+
+    return ("Hello World")
+
+
+
 def test_newgame ():
 
     # main_menu(world)
