@@ -19,10 +19,8 @@ def town_menu(world):
             world.print_map()
             return town_menu(world)
         elif choice == 3:
-            #world.get_map()
             print("Use 'wasd' or arrow keys to choose a direction to move")
             world.get_player().move()
-            target = None
             return combat_menu(world)
         elif choice == 4:
             world.get_player().rest()
@@ -37,7 +35,7 @@ def town_menu(world):
             print("Please enter an option from 1-6!\n")
             return town_menu(world)
     except ValueError:
-        print("Please enter an option from 1-6!\n")
+        print("Value error: Please enter an option from 1-6!\n")
         return town_menu(world)
 
 
@@ -129,10 +127,12 @@ def combat_menu(world):
             target = player.target
 
         while True:
-            if target == "Rat King":
+            #print("Damage: ",target.attack[0],target.attack[2])
+            if type(target) == RatKing:
                 print("\nDay ", world.get_day() ,": You see the Rat King!")
             else:
                 print("\nDay ", world.get_day() ,": You are out in the open.")
+            print("Encounter! - {0}\nDamage: {1}-{2}\nDefence: {3}\nHealth: {4}".format(target.name,target.attack[0],target.attack[1],target.defense,target.current_hp))
             print("1) Attack")
             print("2) Run")
             try:
