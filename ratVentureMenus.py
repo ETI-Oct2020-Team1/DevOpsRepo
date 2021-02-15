@@ -129,7 +129,10 @@ def combat_menu(world):
             target = player.target
 
         while True:
-            print("\nDay ", world.get_day() ,": You are out in the open.")
+            if target == "Rat King":
+                print("\nDay ", world.get_day() ,": You see the Rat King!")
+            else:
+                print("\nDay ", world.get_day() ,": You are out in the open.")
             print("1) Attack")
             print("2) Run")
             try:
