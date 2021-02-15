@@ -19,10 +19,8 @@ def town_menu(world):
             world.print_map()
             return town_menu(world)
         elif choice == 3:
-            #world.get_map()
             print("Use 'wasd' or arrow keys to choose a direction to move")
             world.get_player().move()
-            target = None
             return combat_menu(world)
         elif choice == 4:
             world.get_player().rest()
@@ -123,12 +121,14 @@ def outdoor_menu(world):
 def combat_menu(world):
     player = world.get_player() 
     target = player.target
+    print(world.map[player.map_location_id])
     if world.map[player.map_location_id] not in [2,3,4]:
         if player.target is None: 
             player.combat()
             target = player.target
 
         while True:
+            print(format("Encounter {0}", target.name))
             print("\nDay ", world.get_day() ,": You are out in the open.")
             print("1) Attack")
             print("2) Run")
@@ -183,10 +183,10 @@ def run_menu(world,target):
             return check_exit(world)
         else:
             print("Please enter an option from 1-4!\n")
-            return run_menu(world)
+            return run_menu(world,target)
     except ValueError:
         print("Please enter an option from 1-4!\n")
-        return run_menu(world)
+        return run_menu(world,target)
 
 
 # Function to save game data
