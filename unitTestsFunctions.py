@@ -69,15 +69,12 @@ class TestFunctions(unittest.TestCase):
     
     def test_encounter(self):
         TEXT = "Testing adding entities via combat_menu (Input 2)"
-        txt(TEXT)2
+        txt(TEXT)
         org = len(self.world.entities)
         print("Before addition:", org)
-        
-        self.world.map[self.player.map_location_id] = 0       # Setting that tile to 0 so that combat_menu works
-        combat_menu(self.world)
-        print("After addition:", len(self.world.entities))
-        self.assertEqual(len(self.world.entities),org+2)
-        #self.assertNotEqual(len(self.world.entities),org)
+
+        self.world.encounter()
+        self.assertEqual(len(self.world.entities),org+1)
 
     def test_move(self):
         TEXT = "Testing date after move"
@@ -85,8 +82,8 @@ class TestFunctions(unittest.TestCase):
 
 
         self.player.move()
-        #Start at day 1 so after first move it should be day 2.
         print("Test move, day:",self.world.day)
+        #Start at day 1 so after first move it should be day 2.
         self.assertEqual(self.world.day,2)
 
     def test_cancel_movement(self):
@@ -96,8 +93,8 @@ class TestFunctions(unittest.TestCase):
         print("Before cancelling movement:", org)
 
         self.player.move()
-        Controller().release(Key.esc)
         print("After cancelling movement:", len(self.world.entities))
+        
         self.assertEqual(len(self.world.entities),org)
 
     def test_location(self):

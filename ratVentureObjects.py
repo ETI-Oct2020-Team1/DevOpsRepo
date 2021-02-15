@@ -121,7 +121,6 @@ class GameEntity(object):
         else:
             print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
 
-
 class Player(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
         super().__init__(world,name,attack,defense,hp)
@@ -224,10 +223,12 @@ class Player(GameEntity):
             self.map_location_id += mVal 
             self.world.map[self.map_location_id] += 1
         self.__stop()
-        
-        
-            
-            
+
+class RatKing(GameEntity):
+    def __init__(self,world,name,attack,defense,hp):
+        super().__init__(world,name,attack,defense,hp)
+        self.map_location_id = world.tiles-1                    # Will always spawn in the last tile
+        self.world.map[self.map_location_id] = 5
 
 class powerOrb(GameEntity):
     def __init__(self,world):
