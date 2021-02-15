@@ -1,5 +1,5 @@
 import pygame
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import Key, Listener, Controller
 import random
 
 ### Classes
@@ -82,6 +82,11 @@ class World(object):
             if self.entities[i].name == "The Hero":
                 return self.entities[i]
 
+    def encounter(self):
+        newRat = GameEntity(self,"The Rat",[1,3],1,10)
+        self.add_entity(newRat)
+        return newRat
+
 ## Entity objects with id, hp, attack, defense and name values
 class GameEntity(object):
 
@@ -94,6 +99,7 @@ class GameEntity(object):
         self.defense = defense
         self.max_hp = hp
         self.current_hp = hp
+        self.target = None
 
     def get_id(self):
         return self.id
@@ -112,6 +118,7 @@ class GameEntity(object):
         if target.current_hp <= 0:
             if target.name != "The Hero":
                 print("The",target.name,"is dead! You are victorious!")
+                self.target = None
                 self.world.add_day()
                 return True
             else:
@@ -129,6 +136,9 @@ class Player(GameEntity):
         self.map_location_id = 0
         self.world.map[self.map_location_id] += 1
         self.orb = False
+    
+    def combat(self):
+        self.target = self.world.encounter()
 
     def rest(self):
         self.current_hp = self.max_hp
@@ -136,13 +146,13 @@ class Player(GameEntity):
 
     def __on_press(self,key):
         self.__check_key(key)
-        self.world.add_day()
-        #Comment out this line if you want to do consecutive movement testing
-        return False
     def __on_release(self,key):
+        # Stop listener
         if key == Key.esc:
-            # Stop listener
             return False
+    def __stop(self):
+        #Controller().press(Key.esc)
+        Controller().release(Key.esc)
     def __check_key(self,key):
         try:
             if key == Key.up:
@@ -166,20 +176,21 @@ class Player(GameEntity):
                     self.move_up() 
                 else:
                     print("Not a movement command")           
+        
         # If something like key.esc or key.space it will just return and loop without throwing an error
         # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
         # This is a VERY BAD practice never do this.
         except(AttributeError):
             return
-        self.checkTile()
+        #self.checkTile()
     #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
     #   the actual movement functions are called 
     def move(self):
-        # Pynput: Collect events until released
-        # Pynput: This is the listener that uses the other functions to check the keys being pressed 
         self.world.print_map()
+        self.world.add_day()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
             listener.join()
+        self.world.print_map()
         return listener.stop()
     
     def move_right(self):
@@ -188,45 +199,43 @@ class Player(GameEntity):
             print("Woah there pal you cant go that way!")
         else:
             # -1 from the item so when printMap() is called it is update to be (for example) 0 if the tile is empty
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id += 1 
+            self.checkTile(1)
     def move_left(self):
         if (self.map_location_id - 1)  < 0 or  (self.map_location_id) % self.world.layout == 0:
             print("Woah there pal you cant go that way!")
         else:
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id -= 1 
-    
-    # For moving up and down you will notice I used
+            self.checkTile(-1)
     # self.map_location_id += self.world.layout
     # This makes it so that it will just add the layout number to the 
     # position to make it move directly 'up' or 'down'
     def move_down(self):
         if self.map_location_id + self.world.layout > self.world.tiles - 1:
             print("Woah pal you cant go that way")
-        else:     
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id += self.world.layout
-            
+        else:  
+            self.checkTile(self.world.layout)   
     def move_up(self):
         if self.map_location_id - self.world.layout < 0:
             print("Woah pal you cant go that way")
         else:
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id -= self.world.layout
-
+            self.checkTile(-self.world.layout)
     #Called in check_key
-    def checkTile(self):
-            # If tile is an 'O/T' tile...
-            if self.world.map[self.map_location_id] == 4:
-                self.world.map[self.map_location_id] = 3
-                powerOrb.power(self,self)
-            #Else it just carries on as normal and adds one to the list item
-            else:
-                self.world.map[self.map_location_id] += 1
-            self.world.print_map()
+    def checkTile(self,mVal):
+        self.world.map[self.map_location_id] -= 1
+        # If tile is an 'O/T' tile...
+        ##self.world.map[self.map_location_id] - 1
+        if self.world.map[ self.map_location_id + mVal] == 4:
+            self.map_location_id += mVal
+            self.world.map[self.map_location_id] = 3
+            powerOrb.power(self,self)
+        else:
+            self.map_location_id += mVal 
+            self.world.map[self.map_location_id] += 1
+        self.__stop()
+        
+        
+            
+            
 
-    
 class powerOrb(GameEntity):
     def __init__(self,world):
         self.name = "Orb of Power"
@@ -241,5 +250,3 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
-
-        

@@ -23,7 +23,7 @@ def town_menu(world):
             print("Use 'wasd' or arrow keys to choose a direction to move")
             world.get_player().move()
             target = None
-            return combat_menu(world, target)
+            return combat_menu(world)
         elif choice == 4:
             world.get_player().rest()
             return town_menu(world)
@@ -88,6 +88,7 @@ def player_stats(world):
     print("Defense:",player.defense)
     print("Current HP:",player.current_hp)
     print("Max HP:",player.max_hp,"\n")
+    print("Obtained orb:",player.orb)
 
 
 # UI for Outdoor Menu
@@ -108,8 +109,7 @@ def outdoor_menu(world):
         elif choice == 3:
             world.print_map()
             world.get_player().move()
-            target = None
-            return combat_menu(world,target)
+            return combat_menu(world)
         elif choice == 4:
             return check_exit(world)
         else:
@@ -121,11 +121,13 @@ def outdoor_menu(world):
 
 
 # UI for Combat Menu
-def combat_menu(world,target):
-    if target is None:
-        for i in world.entities:
-            if world.entities[i].name == "The Rat":
-                target = world.entities[i]
+def combat_menu(world):
+    player = world.get_player() 
+    target = player.target
+    if player.target is None: 
+        player.combat()
+        target = player.target
+
     while True:
         print("\nDay ", world.get_day() ,": You are out in the open.")
         print("1) Attack")
@@ -138,15 +140,17 @@ def combat_menu(world,target):
                 elif target.damage(world.get_player()):
                     return False
                 else:
-                    return combat_menu(world,target)
+                    return combat_menu(world)
             elif choice == 2:
+                if player.target != None:
+                    player.target = None
                 return run_menu(world)
             else:
                 print("Please enter an option from 1-2!\n")
-                return combat_menu(world,target)
+                return combat_menu(world)
         except ValueError:
             print("Please enter an option from 1-2!\n")
-            return combat_menu(world,target)
+            return combat_menu(world)
 
 
 # UI for Outdoor Menu
@@ -163,13 +167,13 @@ def run_menu(world):
             rat.hp = 10
             player_stats(world)
             target = None
-            return combat_menu(world,target)
+            return combat_menu(world)
         elif choice == 2:
             rat = world.get(1)
             rat.hp = 10
             world.print_map()
             target = None
-            return combat_menu(world,target)
+            return combat_menu(world)
         elif choice == 3:
             world.print_map()
             world.get_player().move()

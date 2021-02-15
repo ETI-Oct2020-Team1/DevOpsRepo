@@ -1,5 +1,7 @@
 from ratVentureMenus import * 
 
+
+
 def run():
     ### Initialization
     world = World(8,8)
@@ -21,5 +23,3 @@ def run():
 
 while True:
     run()
-    
-
