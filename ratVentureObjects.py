@@ -86,7 +86,10 @@ class World(object):
         newRat = GameEntity(self,"The Rat",[1,3],1,10)
         self.add_entity(newRat)
         return newRat
-
+    def encounter_king(self):
+        for i in self.entities:
+            if type(self.entities[i]) == RatKing:
+                return self.entities[i]
 
 class GameEntity(object):
 
@@ -136,13 +139,15 @@ class Player(GameEntity):
         self.orb = False
     
     def combat(self):
-        self.target = self.world.encounter()
+        if self.world.map[self.map_location_id] == 6:
+            self.target = self.world.encounter_king()
+        else:
+            self.target = self.world.encounter()
 
     def damage(self,target):
         if type(target) == RatKing:
             if self.orb == False:
                 print("What?! The rat king took no damage!")
-                target.damage(self)
             else:
                 print("The orb fils you with power!")
                 super().damage(target)

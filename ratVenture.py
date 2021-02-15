@@ -17,7 +17,6 @@ def run():
     
     ### Game runTime
     while True:
-        #combat_menu(world,rat)
         main_menu(world)
     
 

@@ -35,7 +35,7 @@ def town_menu(world):
             print("Please enter an option from 1-6!\n")
             return town_menu(world)
     except ValueError:
-        print("Please enter an option from 1-6!\n")
+        print("Value error: Please enter an option from 1-6!\n")
         return town_menu(world)
 
 
@@ -121,15 +121,15 @@ def outdoor_menu(world):
 def combat_menu(world):
     player = world.get_player() 
     target = player.target
-    print(world.map[player.map_location_id])
     if world.map[player.map_location_id] not in [2,3,4]:
         if player.target is None: 
             player.combat()
             target = player.target
 
         while True:
-            print(format("Encounter {0}", target.name))
+            #print("Damage: ",target.attack[0],target.attack[2])
             print("\nDay ", world.get_day() ,": You are out in the open.")
+            print("Encounter! - {0}\nDamage: {1}-{2}\nDefence: {3}\nHealth: {4}".format(target.name,target.attack[0],target.attack[1],target.defense,target.current_hp))
             print("1) Attack")
             print("2) Run")
             try:

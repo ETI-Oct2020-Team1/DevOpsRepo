@@ -20,6 +20,7 @@ class TestFunctions(unittest.TestCase):
         self.world.add_entity(self.player)
         self.world.add_entity(self.rat)
         self.world.add_entity(self.orb)
+        self.world.add_entity(self.rat_king)
         
 
     def tearDown(self):
@@ -53,6 +54,12 @@ class TestFunctions(unittest.TestCase):
         self.player.damage(self.rat_king)
         self.assertLess(self.rat_king.current_hp, self.rat_king.max_hp)
         
+    def test_combat_menu_king(self):
+        TEXT = "Testing combat menu vs king"
+        txt(TEXT)
+        self.world.map[self.player.map_location_id] = 6
+        combat_menu(self.world)
+
     # This also tests the world.add_day() function via proxy 
     # of being called by .rest()
     def test_rest(self):
