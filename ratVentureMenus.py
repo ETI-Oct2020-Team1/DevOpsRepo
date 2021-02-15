@@ -87,8 +87,8 @@ def player_stats(world):
     print("Damage:", player.attack[0],"-",player.attack[1])
     print("Defense:",player.defense)
     print("Current HP:",player.current_hp)
-    print("Max HP:",player.max_hp,"\n")
-    print("Obtained orb:",player.orb)
+    print("Max HP:",player.max_hp)
+    print("Obtained orb:",player.orb,"\n")
 
 
 # UI for Outdoor Menu
@@ -107,9 +107,8 @@ def outdoor_menu(world):
             world.print_map()
             return outdoor_menu(world)
         elif choice == 3:
-            world.print_map()
             world.get_player().move()
-            return outdoor_menu(world)
+            combat_menu(world)
         elif choice == 4:
             return check_exit(world)
         else:
@@ -124,8 +123,7 @@ def outdoor_menu(world):
 def combat_menu(world):
     player = world.get_player() 
     target = player.target
-    print(world.map[player.map_location_id])
-    if world.map[player.map_location_id] in [1,2,3,4]:
+    if world.map[player.map_location_id] not in [2,3,4]:
         if player.target is None: 
             player.combat()
             target = player.target
@@ -146,14 +144,15 @@ def combat_menu(world):
                 elif choice == 2:
                     if player.target != None:
                         player.target = None
-                    return outdoor_menu(world)
+                    return run_menu(world)
                 else:
                     print("Please enter an option from 1-2!\n")
                     return combat_menu(world)
             except ValueError:
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world)
-
+    else:
+        return outdoor_menu(world)
 
 # UI for Outdoor Menu
 def run_menu(world):
@@ -165,17 +164,13 @@ def run_menu(world):
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
-            rat = world.get(1)
-            rat.hp = 10
             player_stats(world)
             target = None
-            return combat_menu(world)
+            return outdoor_menu(world)
         elif choice == 2:
-            rat = world.get(1)
-            rat.hp = 10
             world.print_map()
             target = None
-            return combat_menu(world)
+            return outdoor_menu(world)
         elif choice == 3:
             world.print_map()
             world.get_player().move()
