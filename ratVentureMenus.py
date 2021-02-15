@@ -87,8 +87,8 @@ def player_stats(world):
     print("Damage:", player.attack[0],"-",player.attack[1])
     print("Defense:",player.defense)
     print("Current HP:",player.current_hp)
-    print("Max HP:",player.max_hp,"\n")
-    print("Obtained orb:",player.orb)
+    print("Max HP:",player.max_hp)
+    print("Obtained orb:",player.orb,"\n")
 
 
 # UI for Outdoor Menu
@@ -107,9 +107,8 @@ def outdoor_menu(world):
             world.print_map()
             return outdoor_menu(world)
         elif choice == 3:
-            world.print_map()
             world.get_player().move()
-            return combat_menu(world)
+            combat_menu(world)
         elif choice == 4:
             return check_exit(world)
         else:
@@ -124,37 +123,47 @@ def outdoor_menu(world):
 def combat_menu(world):
     player = world.get_player() 
     target = player.target
-    if player.target is None: 
-        player.combat()
-        target = player.target
+    if world.map[player.map_location_id] not in [2,3,4]:
+        if player.target is None: 
+            player.combat()
+            target = player.target
 
-    while True:
-        print("\nDay ", world.get_day() ,": You are out in the open.")
-        print("1) Attack")
-        print("2) Run")
-        try:
-            choice = int(input("Enter an option: "))
-            if choice == 1:
-                if world.get_player().damage(target):
-                    return outdoor_menu(world)
-                elif target.damage(world.get_player()):
-                    return False
+        while True:
+            print("\nDay ", world.get_day() ,": You are out in the open.")
+            print("1) Attack")
+            print("2) Run")
+            try:
+                choice = int(input("Enter an option: "))
+                if choice == 1:
+                    if world.get_player().damage(target):
+                        return outdoor_menu(world)
+                    elif target.damage(world.get_player()):
+                        return False
+                    else:
+                        return combat_menu(world)
+                elif choice == 2:
+                    if player.target != None:
+                        player.target = None
+                    return run_menu(world,target)
                 else:
+                    print("Please enter an option from 1-2!\n")
                     return combat_menu(world)
+<<<<<<< HEAD
             elif choice == 2:
                 if player.target != None:
                     player.target = None
                 return run_menu(world)
             else:
+=======
+            except ValueError:
+>>>>>>> origin/zech
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world)
-        except ValueError:
-            print("Please enter an option from 1-2!\n")
-            return combat_menu(world)
-
+    else:
+        return outdoor_menu(world)
 
 # UI for Outdoor Menu
-def run_menu(world):
+def run_menu(world,target):
     print("\nYou run and hide.")
     print("1) View Character")
     print("2) View Map")
@@ -163,16 +172,16 @@ def run_menu(world):
     try:
         choice = int(input("Enter an option: "))
         if choice == 1:
-            rat = world.get(1)
-            rat.hp = 10
+            target.current_hp = target.max_hp
             player_stats(world)
-            target = None
+            print("\n The enemy patched up their wounds!")
+            target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 2:
-            rat = world.get(1)
-            rat.hp = 10
+            target.current_hp = target.max_hp
             world.print_map()
-            target = None
+            print("\n The enemy patched up their wounds!")
+            target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
             world.print_map()
