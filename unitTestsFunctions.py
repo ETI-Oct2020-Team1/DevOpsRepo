@@ -16,7 +16,7 @@ class TestFunctions(unittest.TestCase):
         self.player = Player(self.world, "The Hero",[2,4],1,20)
         self.rat = GameEntity(self.world,"The Rat",[1,3],1,10)
         self.orb = powerOrb(self.world)
-        self.rat_king = GameEntity(self.world,"The Rat King",[8,12],5,25)
+        self.rat_king = RatKing(self.world,"The Rat King",[8,12],5,25)
         self.world.add_entity(self.player)
         self.world.add_entity(self.rat)
         self.world.add_entity(self.orb)
@@ -35,19 +35,24 @@ class TestFunctions(unittest.TestCase):
         expected_hp = self.rat.max_hp - ( 5 - self.rat.defense)
         self.assertEqual(self.rat.current_hp, expected_hp)
 
-    def test_damage_king(self):
-        pass
+    def test_damage_king_orb_f(self):
+        TEXT = "Attacking the rat king WITHOUT the orb"
+        txt(TEXT)
         # Player should not be able to damage rat king if they do not have the orb
-        #self.player.orb = False
-        #self.player.damage(self.rat_king)
-        #self.assertEqual(self.rat_king.current_hp, self.rat_king.max_hp)
+        self.player.orb = False
+        self.player.attack = [50,50]
+        self.player.damage(self.rat_king)
+        self.assertEqual(self.rat_king.current_hp, self.rat_king.max_hp)
         
-        # This test is failing currently
+    def test_damge_king_orb_true(self):
+        TEXT = "Attacking the rat king WITH the orb"
+        txt(TEXT)
         # Once orb is true the player should be able to damage the rat king
-        #self.player.orb = True
-        #self.player.damage(self.rat_king)
-        #self.assertLess(self.rat_king.current_hp, self.rat_king.max_hp)
-
+        self.player.attack = [50,50]
+        self.player.orb = True
+        self.player.damage(self.rat_king)
+        self.assertLess(self.rat_king.current_hp, self.rat_king.max_hp)
+        
     # This also tests the world.add_day() function via proxy 
     # of being called by .rest()
     def test_rest(self):
@@ -90,14 +95,10 @@ class TestFunctions(unittest.TestCase):
         TEXT = "Testing entities after cancelling of movement"
         txt(TEXT)
         org = len(self.world.entities)
-        print("Before cancelling movement:", org)
-
         self.player.move()
-        print("After cancelling movement:", len(self.world.entities))
-        
         self.assertEqual(len(self.world.entities),org)
 
-    def test_location(self):
+    def test_player_location(self):
         TEXT = "Testing location after movement"
         txt(TEXT)
 
