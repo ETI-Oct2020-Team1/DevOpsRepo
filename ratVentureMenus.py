@@ -148,15 +148,7 @@ def combat_menu(world):
                 else:
                     print("Please enter an option from 1-2!\n")
                     return combat_menu(world)
-<<<<<<< HEAD
-            elif choice == 2:
-                if player.target != None:
-                    player.target = None
-                return run_menu(world)
-            else:
-=======
             except ValueError:
->>>>>>> origin/zech
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world)
     else:
@@ -191,10 +183,10 @@ def run_menu(world,target):
             return check_exit(world)
         else:
             print("Please enter an option from 1-4!\n")
-            return run_menu(world)
+            return run_menu(world,target)
     except ValueError:
         print("Please enter an option from 1-4!\n")
-        return run_menu(world)
+        return run_menu(world,target)
 
 
 # Function to save game data
