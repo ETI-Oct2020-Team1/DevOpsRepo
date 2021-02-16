@@ -4,7 +4,7 @@ status = True #changed variable was created to control the while loop inside rat
 pytest = False #changed variable was created to check if pytest was running. 
 
 ### Initialization
-world = World(8,8)
+world = World(3,3)
 ### Player must always be initialized first
 player = Player(world, "The Hero",[2,4],1,20)
 rat = GameEntity(world,"The Rat",[1,3],1,10)
@@ -18,7 +18,7 @@ world.add_entity(rat_king)
 vicText = "You have slain the rat king! The kingdom is saved!"
 defText = "  You died  "
 ### Game runTime
-while status:
+while True:
     main_menu(world)
     
     if world.gameWin():
@@ -31,13 +31,3 @@ while status:
         print(defText)
         print("=" * len(defText))
         break
-    ### Game runTime
-    # while status: #changed 
-    #     #combat_menu(world,rat)
-    #     main_menu(world)
-    
-
-# while True:   #commented out because the while loop was affecting pytest.
-#     run()
-    
-

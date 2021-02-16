@@ -1,5 +1,5 @@
 import pygame
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import Key, Listener, Controller
 import random
 
 ### Classes
@@ -15,17 +15,19 @@ class World(object):
         self.layout = layout
         self.tiles = rows * layout
         self.map = []
-        self.noTown = layout/2
+        self.noTown = layout//2
+        if self.noTown <= 1:
+            self.noTown = 2
         self.townLocations = [0]    #Starting town
         for town in range(int(self.noTown)-1): #-1 cause starting town is always 0
-            town = random.randint(1,self.tiles-1)
+            town = random.randint(1,self.tiles-2) #-2 as the last tile is reserved for the rat king
             if town in self.townLocations:
-                town = random.randint(1,self.tiles-1)   #If duplicate number
+                town = random.randint(1,self.tiles-2)   #If duplicate number
             self.townLocations.append(town)
         for i in range(self.tiles):
             self.map.append(0) 
             if i in self.townLocations:
-                self.map[i] = 2#Key2:' T '               
+                self.map[i] = 2#Key2:' T '                
 
     def add_entity(self,entity):
 
@@ -42,6 +44,11 @@ class World(object):
         else:
             return None
 
+    def get_player(self):
+        for i in self.entities:
+            if self.entities[i].name == "The Hero":
+                return self.entities[i]
+
     def add_day(self):
         self.day += 1
 
@@ -50,6 +57,18 @@ class World(object):
 
     def get_map(self):
         return self.map
+
+    def get_rows(self):
+        return self.rows
+
+    def get_layout(self):
+        return self.layout
+
+    def get_noTown(self):
+        return self.noTown
+        
+    def get_entities(self):
+        return self.entities
 
     def print_map(self):
         counter=0
@@ -64,12 +83,13 @@ class World(object):
             counter += 1
         print("|\n")
 
-    def update_entity(self,entity_id,name,attack,defense,hp):
+    def update_entity(self,entity_id,name,attack,defense,hp,orb):
        if self.get(entity_id):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].current_hp = hp
+           self.entities[entity_id].orb = orb
 
     def update_day(self,day):
         self.day = day
@@ -77,12 +97,34 @@ class World(object):
     def update_map(self,map):
         self.map = map
 
-    def get_player(self):
+    def update_rows(self,rows):
+        self.rows = rows
+
+    def update_layout(self,layout):
+        self.layout = layout
+
+    def update_noTown(self, noTown):
+        self.noTown = noTown
+        
+    def update_entities(self,entities):
+        self.entities = entities
+
+    def encounter(self):
+        newRat = GameEntity(self,"The Rat",[1,3],1,10)
+        self.add_entity(newRat)
+        return newRat
+
+    def encounter_king(self):
         for i in self.entities:
-            if self.entities[i].name == "The Hero":
+            if type(self.entities[i]) == RatKing:
                 return self.entities[i]
 
-## Entity objects with id, hp, attack, defense and name values
+    def gameWin(self):
+        if self.encounter_king().current_hp <= 0:
+            return True
+        else:
+            return False
+
 class GameEntity(object):
 
     def __init__(self,world,name,attack,defense,hp):
@@ -94,15 +136,10 @@ class GameEntity(object):
         self.defense = defense
         self.max_hp = hp
         self.current_hp = hp
+        self.target = None      # Target is used during combat
 
     def get_id(self):
         return self.id
-    #def update_entity(world,entity_id,name,attack,defense,hp):
-     #   if World.get(world,entity_id):
-      #      world.entities[entity_id].name = name
-       #     world.entities[entity_id].attack = attack
-        #    world.entities[entity_id].defense = defense
-         #   world.entities[entity_id].hp = hp
     def damage(self,target):
         rawDamage = random.randint(self.attack[0],self.attack[1])
         calcDamage = rawDamage - target.defense
@@ -112,23 +149,43 @@ class GameEntity(object):
         if target.current_hp <= 0:
             if target.name != "The Hero":
                 print("The",target.name,"is dead! You are victorious!")
-                self.world.add_day()
+
                 return True
             else:
                 print("Oh no!",target.name,"died! Game over :(\n")
                 return True
         else:
             print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
-    #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
+
+class RatKing(GameEntity):
+    def __init__(self,world,name,attack,defense,hp):
+        super().__init__(world,name,attack,defense,hp)
+        self.map_location_id = world.tiles-1                    # Will always spawn in the last tile
+        self.world.map[self.map_location_id] = 5
 
 
 class Player(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
         super().__init__(world,name,attack,defense,hp)
-        #setting it to spawn in tile 0, the top left of the map
-        self.map_location_id = 0
+        self.map_location_id = 0                        # Player will always spawn top left
         self.world.map[self.map_location_id] += 1
         self.orb = False
+    
+    def combat(self):
+        if self.world.map[self.map_location_id] == 6:
+            self.target = self.world.encounter_king()
+        else:
+            self.target = self.world.encounter()
+
+    def damage(self,target):
+        if type(target) == RatKing:
+            if self.orb == False:
+                print("\nWhat?! The rat king took no damage!")
+            else:
+                print("\nThe orb fils you with power!")
+                super().damage(target)
+        else:
+            super().damage(target)
 
     def rest(self):
         self.current_hp = self.max_hp
@@ -136,13 +193,13 @@ class Player(GameEntity):
 
     def __on_press(self,key):
         self.__check_key(key)
-        self.world.add_day()
-        #Comment out this line if you want to do consecutive movement testing
-        #return False
     def __on_release(self,key):
+        # Stop listener
         if key == Key.esc:
-            # Stop listener
             return False
+    def __stop(self):
+        #Controller().press(Key.esc)
+        Controller().release(Key.esc)
     def __check_key(self,key):
         try:
             if key == Key.up:
@@ -163,23 +220,23 @@ class Player(GameEntity):
                 elif key.char in ['s','S']:
                     self.move_down()
                 elif key.char in ['d','D']:
-                    self.move_up() 
+                    self.move_right() 
                 else:
                     print("Not a movement command")           
+        
         # If something like key.esc or key.space it will just return and loop without throwing an error
-        # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
         # This is a VERY BAD practice never do this.
         except(AttributeError):
             return
-        self.checkTile()
+
     #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
     #   the actual movement functions are called 
     def move(self):
-        # Pynput: Collect events until released
-        # Pynput: This is the listener that uses the other functions to check the keys being pressed 
         self.world.print_map()
+        self.world.add_day()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
             listener.join()
+        self.world.print_map()
         return listener.stop()
     
     def move_right(self):
@@ -188,45 +245,41 @@ class Player(GameEntity):
             print("Woah there pal you cant go that way!")
         else:
             # -1 from the item so when printMap() is called it is update to be (for example) 0 if the tile is empty
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id += 1 
+            self.checkTile(1)
     def move_left(self):
         if (self.map_location_id - 1)  < 0 or  (self.map_location_id) % self.world.layout == 0:
             print("Woah there pal you cant go that way!")
         else:
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id -= 1 
-    
-    # For moving up and down you will notice I used
+            self.checkTile(-1)
     # self.map_location_id += self.world.layout
     # This makes it so that it will just add the layout number to the 
     # position to make it move directly 'up' or 'down'
     def move_down(self):
         if self.map_location_id + self.world.layout > self.world.tiles - 1:
             print("Woah pal you cant go that way")
-        else:     
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id += self.world.layout
-            
+        else:  
+            self.checkTile(self.world.layout)   
     def move_up(self):
         if self.map_location_id - self.world.layout < 0:
             print("Woah pal you cant go that way")
         else:
-            self.world.map[self.map_location_id] -= 1
-            self.map_location_id -= self.world.layout
-
+            self.checkTile(-self.world.layout)
     #Called in check_key
-    def checkTile(self):
-            # If tile is an 'O/T' tile...
-            if self.world.map[self.map_location_id] == 4:
-                self.world.map[self.map_location_id] = 3
-                powerOrb.power(self,self)
-            #Else it just carries on as normal and adds one to the list item
-            else:
-                self.world.map[self.map_location_id] += 1
-            self.world.print_map()
+    def checkTile(self,mVal):
+        self.world.map[self.map_location_id] -= 1
+        # If tile is an 'O/T' tile...
+        ##self.world.map[self.map_location_id] - 1
+        if self.world.map[ self.map_location_id + mVal] == 4:
+            self.map_location_id += mVal
+            self.world.map[self.map_location_id] = 3
+            powerOrb.power(self,self)
 
-    
+        else:
+            self.map_location_id += mVal 
+            self.world.map[self.map_location_id] += 1
+        self.__stop()
+
+
 class powerOrb(GameEntity):
     def __init__(self,world):
         self.name = "Orb of Power"
@@ -241,5 +294,3 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
-
-        
