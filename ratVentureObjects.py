@@ -48,7 +48,9 @@ class World(object):
         for i in self.entities:
             if self.entities[i].name == "The Hero":
                 return self.entities[i]
-
+    def get_target(self):
+        target = self.get_player().target
+        return target
     def add_day(self):
         self.day += 1
 
@@ -138,9 +140,6 @@ class GameEntity(object):
         self.max_hp = hp
         self.current_hp = hp
         self.target = None      # Target is used during combat
-
-    def get_target(self):
-        return self.target
     def get_id(self):
         return self.id
     def damage(self,target):
