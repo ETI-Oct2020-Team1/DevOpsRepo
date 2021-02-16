@@ -140,6 +140,7 @@ def combat_menu(world):
                 if choice == 1:
                     world.get_player().damage(target)
                     if world.get_player().target.current_hp <= 0:
+                        world.get_player().target = None
                         return outdoor_menu(world) 
                     if target.damage(world.get_player()):
                         return False
