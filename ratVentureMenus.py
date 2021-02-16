@@ -70,7 +70,7 @@ def main_menu(world):
                 return town_menu(world)
             elif world.map[world.get_player().map_location_id] == 1 and world.get_player().target == None:
                 return outdoor_menu(world)
-            elif world.map[world.get_player().map_location_id] in [1,6]:
+            elif world.map[world.get_player().map_location_id] == 1 or 6 and world.get_player().target != None:
                 return combat_menu(world)
         elif choice == 3:
             return quit()
