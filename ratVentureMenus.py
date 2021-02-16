@@ -68,7 +68,7 @@ def main_menu(world):
             loadGame(world)
             if world.map[world.get_player().map_location_id] in [2,3,4]:
                 return town_menu(world)
-            elif world.map[world.get_player().map_location_id] == 1 and world.get_player().player.target != None:
+            elif world.map[world.get_player().map_location_id] == 1 and world.get_player().target == None:
                 return outdoor_menu(world)
             elif world.map[world.get_player().map_location_id] in [1,6]:
                 return combat_menu(world)
@@ -225,6 +225,7 @@ def saveGame(world):
     pickle.dump(map, pickle_out)
     pickle.dump(rows, pickle_out)
     pickle.dump(layout, pickle_out)
+    pickle.dump(noTown, pickle_out)
     pickle.dump(entities, pickle_out)
 
     pickle_out.close() # Close the pickle file
@@ -245,5 +246,7 @@ def loadGame(world):
     rows = world.update_rows(rows)
     layout = pickle.load(pickle_in) # layout information
     layout = world.update_layout(layout)
+    noTown = pickle.load(pickle_in) # noTown information
+    noTown = world.update_noTown(noTown)
     entities = pickle.load(pickle_in) # entities information
     entities = world.update_entities(entities)

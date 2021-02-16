@@ -27,7 +27,7 @@ class World(object):
         for i in range(self.tiles):
             self.map.append(0) 
             if i in self.townLocations:
-                self.map[i] = 2#Key2:' T '               
+                self.map[i] = 2#Key2:' T '                
 
     def add_entity(self,entity):
 
@@ -43,6 +43,11 @@ class World(object):
             return self.entities[entity_id]
         else:
             return None
+
+    def get_player(self):
+        for i in self.entities:
+            if self.entities[i].name == "The Hero":
+                return self.entities[i]
 
     def add_day(self):
         self.day += 1
@@ -104,19 +109,21 @@ class World(object):
     def update_entities(self,entities):
         self.entities = entities
 
-    def get_player(self):
-        for i in self.entities:
-            if self.entities[i].name == "The Hero":
-                return self.entities[i]
-
     def encounter(self):
         newRat = GameEntity(self,"The Rat",[1,3],1,10)
         self.add_entity(newRat)
         return newRat
+
     def encounter_king(self):
         for i in self.entities:
             if type(self.entities[i]) == RatKing:
                 return self.entities[i]
+
+    def gameWin(self):
+        if self.encounter_king().current_hp <= 0:
+            return True
+        else:
+            return False
 
 class GameEntity(object):
 
