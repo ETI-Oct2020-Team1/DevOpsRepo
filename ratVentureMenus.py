@@ -66,7 +66,15 @@ def main_menu(world):
             return town_menu(world)
         elif choice == 2:
             loadGame(world)
-            return town_menu(world)
+            if world.map[world.get_player().map_location_id] in [2,3,4]:
+                return town_menu(world)
+            elif world.map[world.get_player().map_location_id] == 1 or world.map[world.get_player().map_location_id] == 6:
+                if world.get_player().target == None:
+                    return outdoor_menu(world)
+                else:
+                    print(world.get_player().target.name)
+                    return combat_menu(world) 
+            
         elif choice == 3:
             return quit()
         else:
@@ -152,8 +160,6 @@ def combat_menu(world):
                     else:
                         return combat_menu(world)
                 elif choice == 2:
-                    if player.target != None:
-                        player.target = None
                     return run_menu(world,target)
                 else:
                     print("Please enter an option from 1-2!\n")
@@ -176,23 +182,32 @@ def run_menu(world,target):
         if choice == 1:
             target.current_hp = target.max_hp
             player_stats(world)
-            print("\n The enemy patched up their wounds!")
+            print("\nThe enemy patched up their wounds!")
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 2:
             target.current_hp = target.max_hp
             world.print_map()
-            print("\n The enemy patched up their wounds!")
+            print("\nThe enemy patched up their wounds!")
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
+            if world.get_player().target != None:
+                        world.get_player().target = None
             world.get_player().move()
             if world.map[world.get_player().map_location_id] == 6:
                 return combat_menu(world)
             else:
                 return outdoor_menu(world)
         elif choice == 4:
-            return check_exit(world)
+            clarify = input("\nExiting game now will not save combat progress. Proceed with exiting game? Y/N: ")
+            if clarify == "Y" or clarify == "y":
+                return check_exit(world)
+            elif clarify == "N" or clarify == "n":
+                return run_menu(world,target)
+            else:
+                print("\nInvalid option entered.")
+                return run_menu(world,target)
         else:
             print("Please enter an option from 1-4!\n")
             return run_menu(world,target)
@@ -203,21 +218,49 @@ def run_menu(world,target):
 
 # Function to save game data
 def saveGame(world):
+    # Retrieve current world information
     player = world.get_player()
+    target = world.get_target()
     load_day = world.get_day()
     map = world.get_map()
-    pickle_out = open("save.pickle", "wb")
+    rows = world.get_rows()
+    layout = world.get_layout()
+    noTown = world.get_noTown()
+    entities = world.get_entities()
+
+    pickle_out = open("save.pickle", "wb") # Open a pickle file to write
+
+    # Dump the information retrieved into the pickle file
     pickle.dump(player, pickle_out)
+    pickle.dump(target, pickle_out)
     pickle.dump(load_day, pickle_out)
     pickle.dump(map, pickle_out)
-    pickle_out.close()
+    pickle.dump(rows, pickle_out)
+    pickle.dump(layout, pickle_out)
+    pickle.dump(noTown, pickle_out)
+    pickle.dump(entities, pickle_out)
+
+    pickle_out.close() # Close the pickle file
+
 
 # Function to load game data
 def loadGame(world):
-    pickle_in = open("save.pickle", "rb")
-    player = pickle.load(pickle_in)
-    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp)
-    load_day = pickle.load(pickle_in)
+    pickle_in = open("save.pickle", "rb") # Open saved pickle file to read
+
+    # Load saved information and update into world
+    player = pickle.load(pickle_in) # player information
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb,player.target)
+    target = pickle.load(pickle_in) # target information
+    target = world.update_target(target)
+    load_day = pickle.load(pickle_in) # day information
     load_day = world.update_day(load_day)
-    map = pickle.load(pickle_in)
+    map = pickle.load(pickle_in) # map information
     map = world.update_map(map)
+    rows = pickle.load(pickle_in) # rows information
+    rows = world.update_rows(rows)
+    layout = pickle.load(pickle_in) # layout information
+    layout = world.update_layout(layout)
+    noTown = pickle.load(pickle_in) # noTown information
+    noTown = world.update_noTown(noTown)
+    entities = pickle.load(pickle_in) # entities information
+    entities = world.update_entities(entities)

@@ -27,7 +27,7 @@ class World(object):
         for i in range(self.tiles):
             self.map.append(0) 
             if i in self.townLocations:
-                self.map[i] = 2#Key2:' T '               
+                self.map[i] = 2#Key2:' T '                
 
     def add_entity(self,entity):
 
@@ -44,6 +44,15 @@ class World(object):
         else:
             return None
 
+    def get_player(self):
+        for i in self.entities:
+            if self.entities[i].name == "The Hero":
+                return self.entities[i]
+    
+    def get_target(self):
+        target = self.get_player().target
+        return target
+    
     def add_day(self):
         self.day += 1
 
@@ -52,6 +61,18 @@ class World(object):
 
     def get_map(self):
         return self.map
+
+    def get_rows(self):
+        return self.rows
+
+    def get_layout(self):
+        return self.layout
+
+    def get_noTown(self):
+        return self.noTown
+        
+    def get_entities(self):
+        return self.entities
 
     def print_map(self):
         counter=0
@@ -66,28 +87,41 @@ class World(object):
             counter += 1
         print("|\n")
 
-    def update_entity(self,entity_id,name,attack,defense,hp):
+    def update_entity(self,entity_id,name,attack,defense,hp,orb,target):
        if self.get(entity_id):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].current_hp = hp
+           self.entities[entity_id].orb = orb
+           self.entities[entity_id].target = target
 
+    def update_target(self,target):
+        self.get_player().target = target
+    
     def update_day(self,day):
         self.day = day
 
     def update_map(self,map):
         self.map = map
 
-    def get_player(self):
-        for i in self.entities:
-            if self.entities[i].name == "The Hero":
-                return self.entities[i]
+    def update_rows(self,rows):
+        self.rows = rows
+
+    def update_layout(self,layout):
+        self.layout = layout
+
+    def update_noTown(self, noTown):
+        self.noTown = noTown
+        
+    def update_entities(self,entities):
+        self.entities = entities
 
     def encounter(self):
         newRat = GameEntity(self,"The Rat",[1,3],1,10)
         self.add_entity(newRat)
         return newRat
+
     def encounter_king(self):
         for i in self.entities:
             if type(self.entities[i]) == RatKing:
@@ -111,7 +145,6 @@ class GameEntity(object):
         self.max_hp = hp
         self.current_hp = hp
         self.target = None      # Target is used during combat
-
     def get_id(self):
         return self.id
     def damage(self,target):
@@ -120,16 +153,16 @@ class GameEntity(object):
         if calcDamage < 0:
             calcDamage = 0
         target.current_hp -= calcDamage
+        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
         if target.current_hp <= 0:
             if target.name != "The Hero":
-                print("The",target.name,"is dead! You are victorious!")
+                print("\nThe",target.name,"is dead! You are victorious!")
 
                 return True
             else:
-                print("Oh no!",target.name,"died! Game over :(\n")
+                print("\nOh no!",target.name,"died! Game over :(\n")
                 return True
-        else:
-            print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
+            
 
 class RatKing(GameEntity):
     def __init__(self,world,name,attack,defense,hp):
@@ -158,7 +191,6 @@ class Player(GameEntity):
             else:
                 print("\nThe orb fils you with power!")
                 super().damage(target)
-
         else:
             super().damage(target)
 
@@ -269,4 +301,3 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
-            print("You found the orb of power!\nYour attack increases by 5!\nYour defence increases by 5!")

@@ -11,7 +11,6 @@ def txt(TEXT):
 class TestFunctions(unittest.TestCase):
     
     def setUp(self):
-        print("setUp")
         self.world = World(8,8)
         self.player = Player(self.world, "The Hero",[2,4],1,20)
         self.rat = GameEntity(self.world,"The Rat",[1,3],1,10)
@@ -21,9 +20,11 @@ class TestFunctions(unittest.TestCase):
         self.world.add_entity(self.rat)
         self.world.add_entity(self.orb)
         self.world.add_entity(self.rat_king)
+        print("setUp")
         
 
     def tearDown(self):
+        print("Tear down")
         pass            #Very unlikely I'll need this
 
     # Testing to make sure the target entitie is injured during combat
@@ -35,6 +36,19 @@ class TestFunctions(unittest.TestCase):
         self.player.damage(self.rat)
         expected_hp = self.rat.max_hp - ( 5 - self.rat.defense)
         self.assertEqual(self.rat.current_hp, expected_hp)
+
+    def test_orb_boost(self):
+        TEXT = "Checking player stats after being boosted by the orb of power"
+        txt(TEXT)
+
+        orig_Atk = self.player.attack 
+        orig_Def = self.player.defense
+        print("Original stats:\nAttack: {0}\nDefence: {1}".format(orig_Atk,orig_Def))
+
+        self.orb.power(self.player)
+        print("\nBoosted stats:\nAttack: {0}\nDefence: {1}".format(self.player.attack,self.player.defense))
+        self.assertEqual(self.player.attack,[x + 5 for x in orig_Atk])
+        self.assertEqual(self.player.defense,(orig_Def + 5))
 
     def test_damage_king_orb_f(self):
         TEXT = "Attacking the rat king WITHOUT the orb"
@@ -54,11 +68,9 @@ class TestFunctions(unittest.TestCase):
         self.player.damage(self.rat_king)
         self.assertLess(self.rat_king.current_hp, self.rat_king.max_hp)
         
-    def test_combat_menu_king(self):
-        TEXT = "Testing combat menu vs king"
-        txt(TEXT)
-        self.world.map[self.player.map_location_id] = 6
-        combat_menu(self.world)
+    def test_player_death(self):
+        self.rat.attack = [50,50]
+        self.assertTrue(self.rat.damage(self.player))
 
     # This also tests the world.add_day() function via proxy 
     # of being called by .rest()
@@ -88,13 +100,12 @@ class TestFunctions(unittest.TestCase):
         self.world.encounter()
         self.assertEqual(len(self.world.entities),org+1)
 
-    def test_move(self):
+    def test_move_date(self):
         TEXT = "Testing date after move"
         txt(TEXT)
 
 
         self.player.move()
-        print("Test move, day:",self.world.day)
         #Start at day 1 so after first move it should be day 2.
         self.assertEqual(self.world.day,2)
 
@@ -114,6 +125,18 @@ class TestFunctions(unittest.TestCase):
         print("Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,self.world.layout)
 
+    def test_win_game(self):
+        txt("Testing world.gameWin() when ratKing is dead (0hp)")
+        self.rat_king.current_hp = 0
+        self.assertTrue(self.world.gameWin())
+
+    def test_win_game_fail(self):
+        txt("Testing world.gameWin() when ratKing is not dead")
+        self.rat_king.current_hp = 5
+        self.assertFalse(self.world.gameWin())
+
+    def test_player_dies(self):
+        txt("Testing to make sure 2nd end game condition works")
 
 if __name__ == "__main__":
     unittest.main(exit=False)   
