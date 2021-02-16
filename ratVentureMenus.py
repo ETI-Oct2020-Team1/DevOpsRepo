@@ -96,9 +96,9 @@ def player_stats(world):
 
 # UI for Outdoor Menu
 def outdoor_menu(world):
-    player = world.get_player()
-    if world.map[player.map_location_id] == 3:
-        return town_menu(world)
+    # player = world.get_player()
+    # if world.map[player.map_location_id] == 3:
+    #     return town_menu(world)
   # print out either the attack or run message
     print("1) View Character")
     print("2) View Map")
