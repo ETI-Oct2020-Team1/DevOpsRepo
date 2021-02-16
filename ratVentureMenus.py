@@ -92,7 +92,7 @@ def player_stats(world):
 # UI for Outdoor Menu
 def outdoor_menu(world):
     player = world.get_player()
-    if world.map[player.map_location_id] ==3:
+    if world.map[player.map_location_id] == 3:
         return town_menu(world)
   # print out either the attack or run message
     print("1) View Character")
@@ -128,7 +128,6 @@ def combat_menu(world):
         if player.target is None: 
             player.combat()
             target = player.target
-
         while True:
             #print("Damage: ",target.attack[0],target.attack[2])
             if type(target) == RatKing:
@@ -144,7 +143,10 @@ def combat_menu(world):
                     world.get_player().damage(target)
                     if world.get_player().target.current_hp <= 0:
                         world.get_player().target = None
-                        return outdoor_menu(world) 
+                        if world.gameWin():
+                            return False
+                        else:
+                            return outdoor_menu(world) 
                     if target.damage(world.get_player()):
                         return False
                     else:
@@ -185,7 +187,10 @@ def run_menu(world,target):
             return combat_menu(world)
         elif choice == 3:
             world.get_player().move()
-            return outdoor_menu(world)
+            if world.map[world.get_player().map_location_id] == 6:
+                return combat_menu(world)
+            else:
+                return outdoor_menu(world)
         elif choice == 4:
             return check_exit(world)
         else:

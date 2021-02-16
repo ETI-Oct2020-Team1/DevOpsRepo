@@ -93,6 +93,12 @@ class World(object):
             if type(self.entities[i]) == RatKing:
                 return self.entities[i]
 
+    def gameWin(self):
+        if self.encounter_king().current_hp <= 0:
+            return True
+        else:
+            return False
+
 class GameEntity(object):
 
     def __init__(self,world,name,attack,defense,hp):
@@ -152,6 +158,7 @@ class Player(GameEntity):
             else:
                 print("\nThe orb fils you with power!")
                 super().damage(target)
+
         else:
             super().damage(target)
 
@@ -262,3 +269,4 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
+            print("You found the orb of power!\nYour attack increases by 5!\nYour defence increases by 5!")
