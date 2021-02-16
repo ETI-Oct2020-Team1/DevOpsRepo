@@ -48,9 +48,11 @@ class World(object):
         for i in self.entities:
             if self.entities[i].name == "The Hero":
                 return self.entities[i]
+    
     def get_target(self):
         target = self.get_player().target
         return target
+    
     def add_day(self):
         self.day += 1
 
@@ -94,6 +96,9 @@ class World(object):
            self.entities[entity_id].orb = orb
            self.entities[entity_id].target = target
 
+     def update_target(self,target):
+        self.target = target
+    
     def update_day(self,day):
         self.day = day
 
