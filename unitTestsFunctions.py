@@ -126,8 +126,17 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(self.player.map_location_id,self.world.layout)
 
     def test_win_game(self):
+        txt("Testing world.gameWin() when ratKing is dead (0hp)")
         self.rat_king.current_hp = 0
         self.assertTrue(self.world.gameWin())
+
+    def test_win_game_fail(self):
+        txt("Testing world.gameWin() when ratKing is not dead")
+        self.rat_king.current_hp = 5
+        self.assertFalse(self.world.gameWin())
+
+    def test_runAway(self):
+        txt("Testing to make sure player.target == None when they run away")
 
 if __name__ == "__main__":
     unittest.main(exit=False)   
