@@ -220,6 +220,7 @@ def run_menu(world,target):
 def saveGame(world):
     # Retrieve current world information
     player = world.get_player()
+    target = world.get_target()
     load_day = world.get_day()
     map = world.get_map()
     rows = world.get_rows()
@@ -231,6 +232,7 @@ def saveGame(world):
 
     # Dump the information retrieved into the pickle file
     pickle.dump(player, pickle_out)
+    pickle.dump(target, pickle_out)
     pickle.dump(load_day, pickle_out)
     pickle.dump(map, pickle_out)
     pickle.dump(rows, pickle_out)
@@ -240,6 +242,7 @@ def saveGame(world):
 
     pickle_out.close() # Close the pickle file
 
+
 # Function to load game data
 def loadGame(world):
     pickle_in = open("save.pickle", "rb") # Open saved pickle file to read
@@ -247,6 +250,8 @@ def loadGame(world):
     # Load saved information and update into world
     player = pickle.load(pickle_in) # player information
     player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb,player.target)
+    target = pickle.load(pickle_in) # target information
+    target = world.update_target(target)
     load_day = pickle.load(pickle_in) # day information
     load_day = world.update_day(load_day)
     map = pickle.load(pickle_in) # map information
