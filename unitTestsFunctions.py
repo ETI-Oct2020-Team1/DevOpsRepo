@@ -116,13 +116,15 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(self.world.day,2)
 
     def test_cancel_movement(self):
-        TEXT = "Make sure to pres 'ESC' Testing location and entities after cancelling of movement"
+        TEXT = "Make sure to pres 'ESC' Testing location, day and entities after cancelling of movement"
         txt(TEXT)
         org = len(self.world.entities)
         orgPos = self.player.map_location_id
+        orgDay = self.world.get_day()
         self.player.move()
         self.assertEqual(len(self.world.entities),org)
         self.assertEqual(self.player.map_location_id,orgPos)
+        self.assertEqual(self.world.get_day(),orgDay)
 
     def test_move_up_location(self):
         TEXT = "Testing location after moving 'up'"
@@ -130,30 +132,41 @@ class TestFunctions(unittest.TestCase):
         self.player.map_location_id = (self.world.layout * 2) - 2
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_up()
+        print("After date:", self.world.get_day())
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,org - self.world.layout)
+        self.assertEqual(self.world.day,2)
     
     def test_move_up_location_fail(self):
         TEXT = "Fail case: Testing location after moving 'up'"
         txt(TEXT)
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_up()
+        print("After date:", self.world.get_day())
+
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,org)
+        self.assertEqual(self.world.day,1)
 
     def test_move_down_location(self):
         TEXT = "Testing location after moving 'down'"
         txt(TEXT)
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_down()
+        print("After date:", self.world.get_day())
+
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,org + self.world.layout)
+        self.assertEqual(self.world.day,2)
     
     def test_move_down_location_fail(self):
         TEXT = "Fail case: Testing location after moving 'down'"
@@ -161,20 +174,28 @@ class TestFunctions(unittest.TestCase):
         self.player.map_location_id = self.world.tiles-2
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_down()
+        print("After date:", self.world.get_day())
+
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,org)
+        self.assertEqual(self.world.day,1)
 
     def test_move_right_location(self):
         TEXT = "Testing location after moving 'right'"
         txt(TEXT)
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_right()
+        print("After date:", self.world.get_day())
+
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id, org + 1) 
+        self.assertEqual(self.world.day,2)
 
     def test_move_right_location_fail(self):
         TEXT = "Fail case: Testing location after moving 'right'"
@@ -182,10 +203,14 @@ class TestFunctions(unittest.TestCase):
         self.player.map_location_id = (self.world.layout * 2) - 1
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_right()
+        print("After date:", self.world.get_day())
+
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,org)
+        self.assertEqual(self.world.day,1)
 
     def test_move_left_location(self):
         TEXT = "Testing location after moving 'left'"
@@ -193,10 +218,14 @@ class TestFunctions(unittest.TestCase):
         self.player.map_location_id = 2
         org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
         print("Before Location:",org)
         self.player.move_left()
+        print("After date:", self.world.get_day())
+
         print("After Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id, org - 1) 
+        self.assertEqual(self.world.day,2)
 
     def test_move_left_location_fail(self):
         TEXT = "Fail case: Testing location after moving 'left'"
