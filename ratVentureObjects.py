@@ -20,9 +20,9 @@ class World(object):
             self.noTown = 2
         self.townLocations = [0]    #Starting town
         for town in range(int(self.noTown)-1): #-1 cause starting town is always 0
-            town = random.randint(1,self.tiles-1)
+            town = random.randint(1,self.tiles-2) #-2 as the last tile is reserved for the rat king
             if town in self.townLocations:
-                town = random.randint(1,self.tiles-1)   #If duplicate number
+                town = random.randint(1,self.tiles-2)   #If duplicate number
             self.townLocations.append(town)
         for i in range(self.tiles):
             self.map.append(0) 
@@ -93,6 +93,12 @@ class World(object):
             if type(self.entities[i]) == RatKing:
                 return self.entities[i]
 
+    def gameWin(self):
+        if self.encounter_king().current_hp <= 0:
+            return True
+        else:
+            return False
+
 class GameEntity(object):
 
     def __init__(self,world,name,attack,defense,hp):
@@ -152,6 +158,7 @@ class Player(GameEntity):
             else:
                 print("\nThe orb fils you with power!")
                 super().damage(target)
+
         else:
             super().damage(target)
 
@@ -262,3 +269,4 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
+            print("You found the orb of power!\nYour attack increases by 5!\nYour defence increases by 5!")
