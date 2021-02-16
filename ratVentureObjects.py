@@ -148,9 +148,9 @@ class Player(GameEntity):
     def damage(self,target):
         if type(target) == RatKing:
             if self.orb == False:
-                print("What?! The rat king took no damage!")
+                print("\nWhat?! The rat king took no damage!")
             else:
-                print("The orb fils you with power!")
+                print("\nThe orb fils you with power!")
                 super().damage(target)
         else:
             super().damage(target)

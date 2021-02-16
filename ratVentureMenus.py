@@ -181,7 +181,6 @@ def run_menu(world,target):
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
-            world.print_map()
             world.get_player().move()
             return outdoor_menu(world)
         elif choice == 4:
