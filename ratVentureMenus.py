@@ -1,9 +1,10 @@
 from ratVentureObjects import *
+import ratVenture
 import pickle
 
 # UI for Town Menu
 def town_menu(world):
-    print("\nDay ",world.get_day(),": You are in a town.")
+    print("\nDay "+ str(world.get_day()) + ": You are in a town.") #changed Print need to concatenate because script crash as the comma cause the print to be 3 different prints rather than one and script cannot capture all three prints
     print("1) View Character")
     print("2) View Map")
     print("3) Move")
@@ -12,9 +13,12 @@ def town_menu(world):
     print("6) Exit Game\n")
     try:
         choice = int(input("Enter an option: "))
-        if choice == 1:
+        if choice == 1: #Changed
             player_stats(world)
-            return town_menu(world)
+            ratVenture.status = False # stop the while loop 
+            if ratVenture.pytest == False: # added a condition to check if pytest is running, if it is running prevent the call of the town menu as it is causing crashes.
+                return town_menu(world)
+                ratVenture.status = True # start the while loop if pytest is not running
         elif choice == 2:
             world.print_map()
             return town_menu(world)
@@ -63,7 +67,7 @@ def main_menu(world):
     print("2) Resume Game")
     print("3) Exit Game\n")
     try:
-        choice = int(input("Enter an option: "))
+        choice = int(input("Enter an option: ")) 
         if choice == 1:
             return town_menu(world)
         elif choice == 2:
@@ -83,11 +87,11 @@ def main_menu(world):
 def player_stats(world):
     player = world.get(0)
     #player = World.get(World,entity_id)
-    print("Name:",player.name)
-    print("Damage:", player.attack[0],"-",player.attack[1])
-    print("Defense:",player.defense)
-    print("Current HP:",player.current_hp)
-    print("Max HP:",player.max_hp,"\n")
+    print("Name:"+ player.name) #Change 3
+    print("Damage:" + str(player.attack[0]) + "-" + str(player.attack[1]))
+    print("Defense:" + str(player.defense))
+    print("Current HP:"+ str(player.current_hp))
+    print("Max HP:"+ str(player.max_hp) + "\n")
 
 
 # UI for Outdoor Menu

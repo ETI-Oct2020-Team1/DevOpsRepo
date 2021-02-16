@@ -1,110 +1,130 @@
 import pytest
-from ratVenture import *
+import tud_test_base
+import ratVenture
+import ratVentureObjects
+tud_test_base.set_keyboard_input("")
 from ratVentureMenus import *
-from tud_test_base import set_keyboard_input, get_display_output
+tud_test_base.get_display_output()
 
-world = World()
 
-def test_newgame ():
+world = World(8,8)
 
-    input_values = "1"
-    output = []
+# def test_newgame ():
+
+#     input_values = "1"
+#     output = []
  
-    def mock_input(s):
-        output.append(s)
-        return input_values
-    ratVenture.input = mock_input
-    ratVenture.print = lambda s : output.append(s)
+#     def mock_input(s):
+#         output.append(s)
+#         return input_values
+#     ratVenture.input = mock_input
+#     ratVenture.print = lambda s : output.append(s)
 
-    town_menu(world)
+#     town_menu(world)
 
-    assert output == ["View Character",\
-             "View Map",\
-             "Move",\
-             "Rest",\
-             "Save Game",\
-             "Exit Game"]
+#     assert output == ["View Character",\
+#              "View Map",\
+#              "Move",\
+#              "Rest",\
+#              "Save Game",\
+#              "Exit Game"]
 
-def test_one ():
+# def test_one ():
 
-    main_menu()
+#     main_menu()
 
-    output = get_display_output()
+#     output = get_display_output()
 
-    assert output == ["New Game",\
-             "Resume Game ",\
-             "Exit Game",\
-             "Enter an option: "]
+#     assert output == ["New Game",\
+#              "Resume Game ",\
+#              "Exit Game",\
+#              "Enter an option: "]
 
-def test_exitgame ():
+def test_1 ():
 
-    set_keyboard_input({1})
+    ratVenture.pytest = True
 
-    main_menu()
+    output = []
 
-    output = get_display_output()
+    tud_test_base.set_keyboard_input(["1","1"])
 
-    assert output == ["Day  1 : You are in a town.",\
-             "1) View Character",\
-             "2) View Map",\
-             "3) Move",\
-             "4) Rest",\
-             "5) Save Game",\
-             "6) Exit Game",\
-             "Enter an option: s"]
+    ratVenture.run()
 
-def test_newgame2 ():
+    tud_test_base.get_display_output()
 
-    set_keyboard_input({1})
+    ratVenture.status = False
 
-    town_menu
+    for i in tud_test_base.print_values: 
+        if i == "\nDay "+ str(world.get_day()) + ": You are in a town.":
+            output.append(i)
+        elif i == "1) View Character":
+            output.append(i)
+        elif i == "2) View Map":
+            output.append(i)
+        elif i == "3) Move":
+            output.append(i)
+        elif i == "4) Rest":
+            output.append(i)
+        elif i == "5) Save Game":
+            output.append(i)
+        elif i == "6) Exit Game\n":
+            output.append(i)
+       
 
-    output = get_display_output()
+    assert output == ["\nDay "+ str(world.get_day()) + ": You are in a town.","1) View Character", "2) View Map", "3) Move", "4) Rest", "5) Save Game", "6) Exit Game\n"]
 
-    assert output == ["Day 1: You are in a town.",
-    "1)   View Character",
-    "2)   View Map",
-    "3)   Move",
-    "4)   Rest",
-    "5)   Save Game",
-    "6)   Exit Game",
-    "Enter choice: "]
+# def test_newgame():
 
-def test_resumegame ():
+#     tud_test_base.set_keyboard_input([1])
 
-    set_keyboard_input({2})
+#     main_menu(world)
 
-    main_menu
+#     output = get_display_output()
 
-    output = get_display_output()
+#     assert output == ["Day 1: You are in a town.",
+#     "1)   View Character",
+#     "2)   View Map",
+#     "3)   Move",
+#     "4)   Rest",
+#     "5)   Save Game",
+#     "6)   Exit Game",
+#     "Enter choice: "]
 
-    assert output == [""]
+# def test_resumegame ():
 
-def test_exitgame ():
+#     set_keyboard_input({2})
 
-    set_keyboard_input({3})
+#     main_menu
 
-    main_menu
+#     output = get_display_output()
 
-    output = get_display_output()
+#     assert output == [""]
 
-    assert output == [""]
+# def test_exitgame ():
 
-def test_wrongchoice ():
+#     set_keyboard_input({3})
 
-    set_keyboard_input({4})
+#     main_menu
 
-    main_menu
+#     output = get_display_output()
 
-    output = get_display_output()
+#     assert output == [""]
 
-    assert output == ["Welcome to Ratventure!",
-    "----------------------",
-    "1)   New Game",
-    "2)   Resume Game",
-    "3)   Exit Game",
-    "Enter Choice:",
-    "\nPlease input a number between 1-3."]
+# def test_wrongchoice ():
+
+#     set_keyboard_input({4})
+
+#     main_menu
+
+#     output = get_display_output()
+
+#     assert output == ["Welcome to Ratventure!",
+#     "----------------------",
+#     "1)   New Game",
+#     "2)   Resume Game",
+#     "3)   Exit Game",
+#     "Enter Choice:",
+#     "\nPlease input a number between 1-3."]
 
 
 

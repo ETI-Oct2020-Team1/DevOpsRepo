@@ -6,7 +6,8 @@ print_values = []
 
 def mock_input(s):
     print_values.append(s)
-    return print_values
+    return input_values.pop(0)
+       
 
 
 def mock_input_output_start():
