@@ -125,6 +125,9 @@ class TestFunctions(unittest.TestCase):
         print("Location:",self.player.map_location_id)
         self.assertEqual(self.player.map_location_id,self.world.layout)
 
+    def test_win_game(self):
+        self.rat_king.current_hp = 0
+        self.assertTrue(self.world.gameWin())
 
 if __name__ == "__main__":
     unittest.main(exit=False)   
