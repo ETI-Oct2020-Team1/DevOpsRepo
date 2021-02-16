@@ -18,7 +18,7 @@ world.add_entity(rat_king)
 vicText = "You have slain the rat king! The kingdom is saved!"
 defText = "  You died  "
 ### Game runTime
-while True:
+while status:
     main_menu(world)
     
     if world.gameWin():

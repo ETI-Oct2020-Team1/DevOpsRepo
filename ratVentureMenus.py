@@ -1,5 +1,5 @@
 from ratVentureObjects import *
-import ratVenture
+from ratVenture import *
 import pickle
 
 # UI for Town Menu
