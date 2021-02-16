@@ -208,21 +208,45 @@ def run_menu(world,target):
 
 # Function to save game data
 def saveGame(world):
+    # Retrieve current world information
     player = world.get_player()
     load_day = world.get_day()
     map = world.get_map()
-    pickle_out = open("save.pickle", "wb")
+    rows = world.get_rows()
+    layout = world.get_layout()
+    noTown = world.get_noTown()
+    entities = world.get_entities()
+
+    pickle_out = open("save.pickle", "wb") # Open a pickle file to write
+
+    # Dump the information retrieved into the pickle file
     pickle.dump(player, pickle_out)
     pickle.dump(load_day, pickle_out)
     pickle.dump(map, pickle_out)
-    pickle_out.close()
+    pickle.dump(rows, pickle_out)
+    pickle.dump(layout, pickle_out)
+    pickle.dump(noTown, pickle_out)
+    pickle.dump(entities, pickle_out)
+
+    pickle_out.close() # Close the pickle file
+
 
 # Function to load game data
 def loadGame(world):
-    pickle_in = open("save.pickle", "rb")
-    player = pickle.load(pickle_in)
-    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp)
-    load_day = pickle.load(pickle_in)
+    pickle_in = open("save.pickle", "rb") # Open saved pickle file to read
+
+    # Load saved information and update into world
+    player = pickle.load(pickle_in) # player information
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb)
+    load_day = pickle.load(pickle_in) # day information
     load_day = world.update_day(load_day)
-    map = pickle.load(pickle_in)
+    map = pickle.load(pickle_in) # map information
     map = world.update_map(map)
+    rows = pickle.load(pickle_in) # rows information
+    rows = world.update_rows(rows)
+    layout = pickle.load(pickle_in) # layout information
+    layout = world.update_layout(layout)
+    noTown = pickle.load(pickle_in) # noTown information
+    noTown = world.update_noTown(noTown)
+    entities = pickle.load(pickle_in) # entities information
+    entities = world.update_entities(entities)
