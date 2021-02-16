@@ -118,7 +118,6 @@ class GameEntity(object):
             if target.name != "The Hero":
                 print("The",target.name,"is dead! You are victorious!")
                 self.target = None
-                self.world.add_day()
                 return True
             else:
                 print("Oh no!",target.name,"died! Game over :(\n")
