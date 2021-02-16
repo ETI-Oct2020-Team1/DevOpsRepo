@@ -96,7 +96,7 @@ class World(object):
            self.entities[entity_id].orb = orb
            self.entities[entity_id].target = target
 
-     def update_target(self,target):
+    def update_target(self,target):
         self.target = target
     
     def update_day(self,day):
