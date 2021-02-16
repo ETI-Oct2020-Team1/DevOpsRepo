@@ -20,9 +20,9 @@ class World(object):
             self.noTown = 2
         self.townLocations = [0]    #Starting town
         for town in range(int(self.noTown)-1): #-1 cause starting town is always 0
-            town = random.randint(1,self.tiles-1)
+            town = random.randint(1,self.tiles-2) #-2 as the last tile is reserved for the rat king
             if town in self.townLocations:
-                town = random.randint(1,self.tiles-1)   #If duplicate number
+                town = random.randint(1,self.tiles-2)   #If duplicate number
             self.townLocations.append(town)
         for i in range(self.tiles):
             self.map.append(0) 
