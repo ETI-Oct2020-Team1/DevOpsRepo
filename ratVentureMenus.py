@@ -128,7 +128,10 @@ def combat_menu(world):
 
         while True:
             #print("Damage: ",target.attack[0],target.attack[2])
-            print("\nDay ", world.get_day() ,": You are out in the open.")
+            if type(target) == RatKing:
+                print("\nDay ", world.get_day() ,": You see the Rat King!")
+            else:
+                print("\nDay ", world.get_day() ,": You are out in the open.")
             print("Encounter! - {0}\nDamage: {1}-{2}\nDefence: {3}\nHealth: {4}".format(target.name,target.attack[0],target.attack[1],target.defense,target.current_hp))
             print("1) Attack")
             print("2) Run")

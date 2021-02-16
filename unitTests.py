@@ -85,21 +85,21 @@ class TestMenu(unittest.TestCase):
 
         test_cases = [
             "1",
-            # "2",
+            "2",
             "c",
             "10"
         ]
 
         mock_funcs = [
             "ratVentureMenus.combat_menu",
-            # "ratVentureMenus.run_menu",
+            "ratVentureMenus.run_menu",
             "ratVentureMenus.combat_menu",
             "ratVentureMenus.combat_menu"
         ]
 
         expect_call_withs = [
             [world,target],
-            # [world],
+            [world],
             [world,target],
             [world,target]
         ]
