@@ -29,3 +29,6 @@ while True:
         print(defText)
         print("=" * len(defText))
         break
+
+
+# player.target() <- rat king or a rat

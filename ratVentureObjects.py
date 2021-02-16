@@ -139,6 +139,8 @@ class GameEntity(object):
         self.current_hp = hp
         self.target = None      # Target is used during combat
 
+    def get_target(self):
+        return self.target
     def get_id(self):
         return self.id
     def damage(self,target):
