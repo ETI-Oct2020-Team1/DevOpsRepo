@@ -146,6 +146,7 @@ class GameEntity(object):
         if calcDamage < 0:
             calcDamage = 0
         target.current_hp -= calcDamage
+        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
         if target.current_hp <= 0:
             if target.name != "The Hero":
                 print("The",target.name,"is dead! You are victorious!")
@@ -154,8 +155,7 @@ class GameEntity(object):
             else:
                 print("Oh no!",target.name,"died! Game over :(\n")
                 return True
-        else:
-            print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
+            
 
 class RatKing(GameEntity):
     def __init__(self,world,name,attack,defense,hp):

@@ -100,13 +100,12 @@ class TestFunctions(unittest.TestCase):
         self.world.encounter()
         self.assertEqual(len(self.world.entities),org+1)
 
-    def test_move(self):
+    def test_move_date(self):
         TEXT = "Testing date after move"
         txt(TEXT)
 
 
         self.player.move()
-        print("Test move, day:",self.world.day)
         #Start at day 1 so after first move it should be day 2.
         self.assertEqual(self.world.day,2)
 
