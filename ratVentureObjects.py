@@ -246,7 +246,6 @@ class Player(GameEntity):
     #   the actual movement functions are called 
     def move(self):
         self.world.print_map()
-        self.world.add_day()
         with Listener( on_press=self.__on_press, on_release=self.__on_release) as listener:
             listener.join()
         self.world.print_map()
@@ -290,6 +289,7 @@ class Player(GameEntity):
         else:
             self.map_location_id += mVal 
             self.world.map[self.map_location_id] += 1
+        self.world.add_day()
         self.__stop()
 
 

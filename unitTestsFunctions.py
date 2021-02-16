@@ -109,7 +109,7 @@ class TestFunctions(unittest.TestCase):
     def test_move_date(self):
         TEXT = "Testing date after move"
         txt(TEXT)
-        print("Does not matter what you input here as the day is added in the move() function")
+        print("Make sure to input a valid move as the date is only added in check_tile()")
 
         self.player.move()
         #Start at day 1 so after first move it should be day 2.
