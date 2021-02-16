@@ -136,7 +136,8 @@ def combat_menu(world):
                 choice = int(input("Enter an option: "))
                 if choice == 1:
                     if world.get_player().damage(target):
-                        return outdoor_menu(world)
+                        print("\n\ntargetdie\n")
+                        return True
                     elif target.damage(world.get_player()):
                         return False
                     else:

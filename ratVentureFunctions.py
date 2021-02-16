@@ -41,14 +41,6 @@ def check_key(key):
     # This is a VERY BAD practice never do this.
     except(AttributeError):
         return
-    
-def move(world):
-    # Collect events until released
-    # This is the listener that uses the other functions to check the keys being pressed
-    # move() is what calls the listener 
-    with Listener( on_press=on_press, on_release=on_release) as listener:
-        listener.join()
-    return listener.stop()
 
 def damage(attacker,target):
     rawDamage = random.randint(attacker.attack[0],attacker.attack[1])
@@ -60,13 +52,10 @@ def damage(attacker,target):
     if target.current_hp <= 0:
         if target.name != "The Hero":
             print("The",target.name,"is dead! You are victorious!")
-            attacker.world.add_day()
             return True
         else:
             print("Oh no!",target.name,"died! Game over :(\n")
             return True
     else:
         print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
-    #GameEntity.update_entity(world,target.id,target.name,target.attack,target.defense,target.hp)
-
     

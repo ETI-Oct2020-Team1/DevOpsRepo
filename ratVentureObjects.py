@@ -15,7 +15,9 @@ class World(object):
         self.layout = layout
         self.tiles = rows * layout
         self.map = []
-        self.noTown = layout/2
+        self.noTown = layout//2
+        if self.noTown <= 1:
+            self.noTown = 2
         self.townLocations = [0]    #Starting town
         for town in range(int(self.noTown)-1): #-1 cause starting town is always 0
             town = random.randint(1,self.tiles-1)
@@ -187,16 +189,15 @@ class Player(GameEntity):
                 elif key.char in ['s','S']:
                     self.move_down()
                 elif key.char in ['d','D']:
-                    self.move_up() 
+                    self.move_right() 
                 else:
                     print("Not a movement command")           
         
         # If something like key.esc or key.space it will just return and loop without throwing an error
-        # Attribute error is what occurs so I am only silencing this one as key.esc is the current stop command
         # This is a VERY BAD practice never do this.
         except(AttributeError):
             return
-        #self.checkTile()
+
     #   Maps and stuff will call this function which activates the listener, within the listeners check_keys
     #   the actual movement functions are called 
     def move(self):
