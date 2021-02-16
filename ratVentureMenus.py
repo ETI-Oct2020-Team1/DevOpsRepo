@@ -211,7 +211,7 @@ def saveGame(world):
 def loadGame(world):
     pickle_in = open("save.pickle", "rb")
     player = pickle.load(pickle_in)
-    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp)
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb)
     load_day = pickle.load(pickle_in)
     load_day = world.update_day(load_day)
     map = pickle.load(pickle_in)

@@ -66,12 +66,13 @@ class World(object):
             counter += 1
         print("|\n")
 
-    def update_entity(self,entity_id,name,attack,defense,hp):
+    def update_entity(self,entity_id,name,attack,defense,hp,orb):
        if self.get(entity_id):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].current_hp = hp
+           self.entities[entity_id].orb = orb
 
     def update_day(self,day):
         self.day = day
@@ -92,6 +93,16 @@ class World(object):
         for i in self.entities:
             if type(self.entities[i]) == RatKing:
                 return self.entities[i]
+
+    def update_world(self,entities,entity_id,day,map,rows,layout,noTown,townLocations):
+        self.entities = entities
+        self.entity_id = entity_id
+        self.day = day
+        self.map = map
+        self.rows = rows
+        self.layout = layout
+        self.noTown = noTown
+        self.townLocations = townLocations
 
 class GameEntity(object):
 
