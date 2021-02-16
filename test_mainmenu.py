@@ -1,5 +1,6 @@
 import pytest
 from ratVenture import *
+from ratVentureMenus import *
 from tud_test_base import set_keyboard_input, get_display_output
 
 world = World()
@@ -52,6 +53,43 @@ def test_exitgame ():
              "6) Exit Game",\
              "Enter an option: s"]
 
+def test_newgame2 ():
+
+    set_keyboard_input({1})
+
+    town_menu
+
+    output = get_display_output()
+
+    assert output == ["Day 1: You are in a town.",
+    "1)   View Character",
+    "2)   View Map",
+    "3)   Move",
+    "4)   Rest",
+    "5)   Save Game",
+    "6)   Exit Game",
+    "Enter choice: "]
+
+def test_resumegame ():
+
+    set_keyboard_input({2})
+
+    main_menu
+
+    output = get_display_output()
+
+    assert output == [""]
+
+def test_exitgame ():
+
+    set_keyboard_input({3})
+
+    main_menu
+
+    output = get_display_output()
+
+    assert output == [""]
+
 def test_wrongchoice ():
 
     set_keyboard_input({4})
@@ -80,4 +118,3 @@ def test_wrongchoice ():
 #    "3)   Exit Game",
 #    "Enter Choice:"
 
-#"1) View Character\n2) View Map\n3) Move\n4) Rest\n5) Save Game\n 6) Exit Game\nEnter an option: "
