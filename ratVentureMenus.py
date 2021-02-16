@@ -69,7 +69,7 @@ def main_menu(world):
             if world.map[world.get_player().map_location_id] in [2,3,4]:
                 return town_menu(world)
             elif world.map[world.get_player().map_location_id] == 1 or world.map[world.get_player().map_location_id] == 6:
-                #if world.get_player().target != None:
+                print(world.get_player().target.name)
                 return combat_menu(world)
             elif world.map[world.get_player().map_location_id] == 1 and world.get_player().target == None:
                 return outdoor_menu(world)
@@ -159,8 +159,6 @@ def combat_menu(world):
                     else:
                         return combat_menu(world)
                 elif choice == 2:
-                    if player.target != None:
-                        player.target = None
                     return run_menu(world,target)
                 else:
                     print("Please enter an option from 1-2!\n")
@@ -193,6 +191,8 @@ def run_menu(world,target):
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
+            if world.get_player().target != None:
+                        world.get_player().target = None
             world.get_player().move()
             if world.map[world.get_player().map_location_id] == 6:
                 return combat_menu(world)
