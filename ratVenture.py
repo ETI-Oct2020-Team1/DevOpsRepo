@@ -24,7 +24,7 @@ while True:
         print(vicText)
         print("=" * len(vicText))
         break
-    else:
+    elif world.get_player().current_hp<=0:
         print("=" * len(defText))
         print(defText)
         print("=" * len(defText))

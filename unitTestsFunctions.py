@@ -135,8 +135,8 @@ class TestFunctions(unittest.TestCase):
         self.rat_king.current_hp = 5
         self.assertFalse(self.world.gameWin())
 
-    def test_runAway(self):
-        txt("Testing to make sure player.target == None when they run away")
+    def test_player_dies(self):
+        txt("Testing to make sure 2nd end game condition works")
 
 if __name__ == "__main__":
     unittest.main(exit=False)   

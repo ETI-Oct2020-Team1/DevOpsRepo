@@ -69,10 +69,11 @@ def main_menu(world):
             if world.map[world.get_player().map_location_id] in [2,3,4]:
                 return town_menu(world)
             elif world.map[world.get_player().map_location_id] == 1 or world.map[world.get_player().map_location_id] == 6:
-                print(world.get_player().target.name)
-                return combat_menu(world)
-            elif world.map[world.get_player().map_location_id] == 1 and world.get_player().target == None:
-                return outdoor_menu(world)
+                if world.get_player().target == None:
+                    return outdoor_menu(world)
+                else:
+                    print(world.get_player().target.name)
+                    return combat_menu(world) 
             
         elif choice == 3:
             return quit()
