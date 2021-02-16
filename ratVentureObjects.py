@@ -97,7 +97,7 @@ class World(object):
            self.entities[entity_id].target = target
 
     def update_target(self,target):
-        self.target = target
+        self.get_player().target = target
     
     def update_day(self,day):
         self.day = day

@@ -110,39 +110,39 @@ class TestMenu(unittest.TestCase):
     #             mock.assert_called_once_with(*expect_call_with)
 
 
-    # To run test, comment out lines 99-101 in ratVentureMenu.py
-    def test_outdoorMenu(self):
-        world = World(8,8)
-        player = Player(world, "The Hero",[1,5],1,20)
-        rat = GameEntity(world,"The rat",[1,3],1,20)
-        world.add_entity(player)
-        world.add_entity(rat)
+    # ------ To run test, comment out lines 99-101 in ratVentureMenu.py------
+    # def test_outdoorMenu(self):
+    #     world = World(8,8)
+    #     player = Player(world, "The Hero",[1,5],1,20)
+    #     rat = GameEntity(world,"The rat",[1,3],1,20)
+    #     world.add_entity(player)
+    #     world.add_entity(rat)
 
-        test_cases = [
-            "1",
-            "4",
-            "f",
-            "9"
-        ]
+    #     test_cases = [
+    #         "1",
+    #         "4",
+    #         "f",
+    #         "9"
+    #     ]
 
-        mock_funcs = [
-            "ratVentureMenus.outdoor_menu",
-            "ratVentureMenus.check_exit",
-            "ratVentureMenus.outdoor_menu",
-            "ratVentureMenus.outdoor_menu"
-        ]
+    #     mock_funcs = [
+    #         "ratVentureMenus.outdoor_menu",
+    #         "ratVentureMenus.check_exit",
+    #         "ratVentureMenus.outdoor_menu",
+    #         "ratVentureMenus.outdoor_menu"
+    #     ]
 
-        expect_call_withs = [
-            [world],
-            [world],
-            [world],
-            [world]
-        ]
+    #     expect_call_withs = [
+    #         [world],
+    #         [world],
+    #         [world],
+    #         [world]
+    #     ]
 
-        for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
-            with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
-                outdoor_menu(world)
-                mock.assert_called_once_with(*expect_call_with)
+    #     for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
+    #         with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
+    #             outdoor_menu(world)
+    #             mock.assert_called_once_with(*expect_call_with)
 
     
     def test_runMenu(self):
