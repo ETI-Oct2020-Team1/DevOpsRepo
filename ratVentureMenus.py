@@ -181,13 +181,13 @@ def run_menu(world,target):
         if choice == 1:
             target.current_hp = target.max_hp
             player_stats(world)
-            print("\n The enemy patched up their wounds!")
+            print("\nThe enemy patched up their wounds!")
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 2:
             target.current_hp = target.max_hp
             world.print_map()
-            print("\n The enemy patched up their wounds!")
+            print("\nThe enemy patched up their wounds!")
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
@@ -197,7 +197,14 @@ def run_menu(world,target):
             else:
                 return outdoor_menu(world)
         elif choice == 4:
-            return check_exit(world)
+            clarify = input("\nExiting game now will not save combat progress. Proceed with exiting game? Y/N: ")
+            if clarify == "Y" or clarify == "y":
+                return check_exit(world)
+            elif clarify == "N" or clarify == "n":
+                return run_menu(world,target)
+            else:
+                print("\nInvalid option entered.")
+                return run_menu(world,target)
         else:
             print("Please enter an option from 1-4!\n")
             return run_menu(world,target)
@@ -237,7 +244,7 @@ def loadGame(world):
 
     # Load saved information and update into world
     player = pickle.load(pickle_in) # player information
-    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb)
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb,player.target)
     load_day = pickle.load(pickle_in) # day information
     load_day = world.update_day(load_day)
     map = pickle.load(pickle_in) # map information

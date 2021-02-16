@@ -83,13 +83,14 @@ class World(object):
             counter += 1
         print("|\n")
 
-    def update_entity(self,entity_id,name,attack,defense,hp,orb):
+    def update_entity(self,entity_id,name,attack,defense,hp,orb,target):
        if self.get(entity_id):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].current_hp = hp
            self.entities[entity_id].orb = orb
+           self.entities[entity_id].target = target
 
     def update_day(self,day):
         self.day = day
@@ -148,11 +149,11 @@ class GameEntity(object):
         target.current_hp -= calcDamage
         if target.current_hp <= 0:
             if target.name != "The Hero":
-                print("The",target.name,"is dead! You are victorious!")
+                print("\nThe",target.name,"is dead! You are victorious!")
 
                 return True
             else:
-                print("Oh no!",target.name,"died! Game over :(\n")
+                print("\nOh no!",target.name,"died! Game over :(\n")
                 return True
         else:
             print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
