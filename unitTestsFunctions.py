@@ -24,7 +24,7 @@ class TestFunctions(unittest.TestCase):
         
 
     def tearDown(self):
-        print("Tear down")
+        print("\nTear down")
         pass            #Very unlikely I'll need this
 
     # Testing to make sure the target entitie is injured during combat
