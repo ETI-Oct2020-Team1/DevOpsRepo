@@ -72,10 +72,13 @@ def main_menu(world):
             loadGame(world)
             if world.map[world.get_player().map_location_id] in [2,3,4]:
                 return town_menu(world)
-            elif world.map[world.get_player().map_location_id] == 1 and world.get_player().target == None:
-                return outdoor_menu(world)
-            elif world.map[world.get_player().map_location_id] == 1 or 6 and world.get_player().target != None:
-                return combat_menu(world)
+            elif world.map[world.get_player().map_location_id] == 1 or world.map[world.get_player().map_location_id] == 6:
+                if world.get_player().target == None:
+                    return outdoor_menu(world)
+                else:
+                    print(world.get_player().target.name)
+                    return combat_menu(world) 
+            
         elif choice == 3:
             return quit()
         else:
@@ -161,8 +164,6 @@ def combat_menu(world):
                     else:
                         return combat_menu(world)
                 elif choice == 2:
-                    if player.target != None:
-                        player.target = None
                     return run_menu(world,target)
                 else:
                     print("Please enter an option from 1-2!\n")
@@ -185,23 +186,32 @@ def run_menu(world,target):
         if choice == 1:
             target.current_hp = target.max_hp
             player_stats(world)
-            print("\n The enemy patched up their wounds!")
+            print("\nThe enemy patched up their wounds!")
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 2:
             target.current_hp = target.max_hp
             world.print_map()
-            print("\n The enemy patched up their wounds!")
+            print("\nThe enemy patched up their wounds!")
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
+            if world.get_player().target != None:
+                        world.get_player().target = None
             world.get_player().move()
             if world.map[world.get_player().map_location_id] == 6:
                 return combat_menu(world)
             else:
                 return outdoor_menu(world)
         elif choice == 4:
-            return check_exit(world)
+            clarify = input("\nExiting game now will not save combat progress. Proceed with exiting game? Y/N: ")
+            if clarify == "Y" or clarify == "y":
+                return check_exit(world)
+            elif clarify == "N" or clarify == "n":
+                return run_menu(world,target)
+            else:
+                print("\nInvalid option entered.")
+                return run_menu(world,target)
         else:
             print("Please enter an option from 1-4!\n")
             return run_menu(world,target)
@@ -214,6 +224,7 @@ def run_menu(world,target):
 def saveGame(world):
     # Retrieve current world information
     player = world.get_player()
+    target = world.get_target()
     load_day = world.get_day()
     map = world.get_map()
     rows = world.get_rows()
@@ -225,6 +236,7 @@ def saveGame(world):
 
     # Dump the information retrieved into the pickle file
     pickle.dump(player, pickle_out)
+    pickle.dump(target, pickle_out)
     pickle.dump(load_day, pickle_out)
     pickle.dump(map, pickle_out)
     pickle.dump(rows, pickle_out)
@@ -241,7 +253,9 @@ def loadGame(world):
 
     # Load saved information and update into world
     player = pickle.load(pickle_in) # player information
-    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb)
+    player = world.update_entity(player.id,player.name,player.attack,player.defense,player.current_hp,player.orb,player.target)
+    target = pickle.load(pickle_in) # target information
+    target = world.update_target(target)
     load_day = pickle.load(pickle_in) # day information
     load_day = world.update_day(load_day)
     map = pickle.load(pickle_in) # map information

@@ -48,7 +48,11 @@ class World(object):
         for i in self.entities:
             if self.entities[i].name == "The Hero":
                 return self.entities[i]
-
+    
+    def get_target(self):
+        target = self.get_player().target
+        return target
+    
     def add_day(self):
         self.day += 1
 
@@ -83,14 +87,18 @@ class World(object):
             counter += 1
         print("|\n")
 
-    def update_entity(self,entity_id,name,attack,defense,hp,orb):
+    def update_entity(self,entity_id,name,attack,defense,hp,orb,target):
        if self.get(entity_id):
            self.entities[entity_id].name = name
            self.entities[entity_id].attack = attack
            self.entities[entity_id].defense = defense
            self.entities[entity_id].current_hp = hp
            self.entities[entity_id].orb = orb
+           self.entities[entity_id].target = target
 
+    def update_target(self,target):
+        self.get_player().target = target
+    
     def update_day(self,day):
         self.day = day
 
@@ -137,7 +145,6 @@ class GameEntity(object):
         self.max_hp = hp
         self.current_hp = hp
         self.target = None      # Target is used during combat
-
     def get_id(self):
         return self.id
     def damage(self,target):
@@ -146,16 +153,16 @@ class GameEntity(object):
         if calcDamage < 0:
             calcDamage = 0
         target.current_hp -= calcDamage
+        print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
         if target.current_hp <= 0:
             if target.name != "The Hero":
-                print("The",target.name,"is dead! You are victorious!")
+                print("\nThe",target.name,"is dead! You are victorious!")
 
                 return True
             else:
-                print("Oh no!",target.name,"died! Game over :(\n")
+                print("\nOh no!",target.name,"died! Game over :(\n")
                 return True
-        else:
-            print(target.name, "took", calcDamage, "damage!", "\n" + target.name, "now has",target.current_hp, "hp left!\n")
+            
 
 class RatKing(GameEntity):
     def __init__(self,world,name,attack,defense,hp):

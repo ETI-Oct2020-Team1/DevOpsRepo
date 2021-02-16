@@ -110,7 +110,7 @@ class TestMenu(unittest.TestCase):
     #             mock.assert_called_once_with(*expect_call_with)
 
 
-
+    # ------ To run test, comment out lines 99-101 in ratVentureMenu.py------
     # def test_outdoorMenu(self):
     #     world = World(8,8)
     #     player = Player(world, "The Hero",[1,5],1,20)
@@ -155,14 +155,14 @@ class TestMenu(unittest.TestCase):
 
         test_cases = [
             "1",
-            "4",
+            "2",
             "h",
             "7"
         ]
 
         mock_funcs = [
             "ratVentureMenus.combat_menu",
-            "ratVentureMenus.check_exit",
+            "ratVentureMenus.combat_menu",
             "ratVentureMenus.run_menu",
             "ratVentureMenus.run_menu"
         ]
