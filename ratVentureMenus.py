@@ -68,8 +68,10 @@ def main_menu(world):
             loadGame(world)
             if world.map[world.get_player().map_location_id] in [2,3,4]:
                 return town_menu(world)
-            elif world.map[world.get_player().map_location_id] == 1:
-                return outdoor_menu
+            elif world.map[world.get_player().map_location_id] == 1 and world.get_player().player.target != None:
+                return outdoor_menu(world)
+            elif world.map[world.get_player().map_location_id] in [1,6]:
+                return combat_menu(world)
         elif choice == 3:
             return quit()
         else:

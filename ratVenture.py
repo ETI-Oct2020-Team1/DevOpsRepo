@@ -28,3 +28,4 @@ while True:
         print("=" * len(defText))
         print(defText)
         print("=" * len(defText))
+        break
