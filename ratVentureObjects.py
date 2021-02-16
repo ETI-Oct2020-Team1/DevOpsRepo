@@ -133,6 +133,12 @@ class World(object):
         else:
             return False
 
+    def gameOver(self):
+        if self.get_player().current_hp <= 0:
+            return True
+        else:
+            return False
+
 class GameEntity(object):
 
     def __init__(self,world,name,attack,defense,hp):
