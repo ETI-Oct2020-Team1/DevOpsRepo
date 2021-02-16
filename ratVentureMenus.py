@@ -91,6 +91,9 @@ def player_stats(world):
 
 # UI for Outdoor Menu
 def outdoor_menu(world):
+    player = world.get_player()
+    if world.map[player.map_location_id] ==3:
+        return town_menu(world)
   # print out either the attack or run message
     print("1) View Character")
     print("2) View Map")
@@ -138,9 +141,11 @@ def combat_menu(world):
             try:
                 choice = int(input("Enter an option: "))
                 if choice == 1:
-                    if world.get_player().damage(target):
-                        return outdoor_menu(world)
-                    elif target.damage(world.get_player()):
+                    world.get_player().damage(target)
+                    if world.get_player().target.current_hp <= 0:
+                        world.get_player().target = None
+                        return outdoor_menu(world) 
+                    if target.damage(world.get_player()):
                         return False
                     else:
                         return combat_menu(world)
@@ -179,7 +184,6 @@ def run_menu(world,target):
             target.damage(world.get_player())
             return combat_menu(world)
         elif choice == 3:
-            world.print_map()
             world.get_player().move()
             return outdoor_menu(world)
         elif choice == 4:
