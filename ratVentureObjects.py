@@ -117,7 +117,7 @@ class GameEntity(object):
         if target.current_hp <= 0:
             if target.name != "The Hero":
                 print("The",target.name,"is dead! You are victorious!")
-                self.target = None
+
                 return True
             else:
                 print("Oh no!",target.name,"died! Game over :(\n")

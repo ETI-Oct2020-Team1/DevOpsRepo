@@ -138,10 +138,10 @@ def combat_menu(world):
             try:
                 choice = int(input("Enter an option: "))
                 if choice == 1:
-                    if world.get_player().damage(target):
-                        print("\n\ntargetdie\n")
-                        return True
-                    elif target.damage(world.get_player()):
+                    world.get_player().damage(target)
+                    if world.get_player().target.current_hp <= 0:
+                        return outdoor_menu(world) 
+                    if target.damage(world.get_player()):
                         return False
                     else:
                         return combat_menu(world)
