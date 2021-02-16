@@ -53,6 +53,18 @@ class World(object):
     def get_map(self):
         return self.map
 
+    def get_rows(self):
+        return self.rows
+
+    def get_layout(self):
+        return self.layout
+
+    def get_noTown(self):
+        return self.noTown
+        
+    def get_entities(self):
+        return self.entities
+
     def print_map(self):
         counter=0
         for i in self.map:
@@ -80,6 +92,18 @@ class World(object):
     def update_map(self,map):
         self.map = map
 
+    def update_rows(self,rows):
+        self.rows = rows
+
+    def update_layout(self,layout):
+        self.layout = layout
+
+    def update_noTown(self, noTown):
+        self.noTown = noTown
+        
+    def update_entities(self,entities):
+        self.entities = entities
+
     def get_player(self):
         for i in self.entities:
             if self.entities[i].name == "The Hero":
@@ -93,24 +117,6 @@ class World(object):
         for i in self.entities:
             if type(self.entities[i]) == RatKing:
                 return self.entities[i]
-
-<<<<<<< HEAD
-    def update_world(self,entities,entity_id,day,map,rows,layout,noTown,townLocations):
-        self.entities = entities
-        self.entity_id = entity_id
-        self.day = day
-        self.map = map
-        self.rows = rows
-        self.layout = layout
-        self.noTown = noTown
-        self.townLocations = townLocations
-=======
-    def gameWin(self):
-        if self.encounter_king().current_hp <= 0:
-            return True
-        else:
-            return False
->>>>>>> origin/zech
 
 class GameEntity(object):
 
@@ -171,7 +177,6 @@ class Player(GameEntity):
             else:
                 print("\nThe orb fils you with power!")
                 super().damage(target)
-
         else:
             super().damage(target)
 
@@ -282,4 +287,3 @@ class powerOrb(GameEntity):
             player.attack = [x + 5 for x in player.attack]
             player.defense += 5
             player.orb = True
-            print("You found the orb of power!\nYour attack increases by 5!\nYour defence increases by 5!")
