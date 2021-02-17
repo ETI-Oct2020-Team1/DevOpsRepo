@@ -1,5 +1,11 @@
 from ratVentureMenus import * 
 
+'''
+    Contributors: Zechariah, Zi Hui
+    This file initializes the world of the program 
+    as well as the player, rat, rat king, and orb of power,
+    and the end game condition.
+'''
 
 ### Initialization
 world = World(8,8)

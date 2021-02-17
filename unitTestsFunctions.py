@@ -106,25 +106,27 @@ class TestFunctions(unittest.TestCase):
         print("After encounter:", len(self.world.entities))
         self.assertEqual(len(self.world.entities),org+1)
 
-    def test_move_date(self):
-        TEXT = "Testing date after move"
-        txt(TEXT)
-        print("Make sure to input a valid move as the date is only added in check_tile()")
+    # Moved to unitTestsManual
+    # def test_move_date(self):
+    #     TEXT = "Testing date after move"
+    #     txt(TEXT)
+    #     print("Make sure to input a valid move as the date is only added in check_tile()")
 
-        self.player.move()
-        #Start at day 1 so after first move it should be day 2.
-        self.assertEqual(self.world.day,2)
+    #     self.player.move()
+    #     #Start at day 1 so after first move it should be day 2.
+    #     self.assertEqual(self.world.day,2)
 
-    def test_cancel_movement(self):
-        TEXT = "Make sure to pres 'ESC' Testing location, day and entities after cancelling of movement"
-        txt(TEXT)
-        org = len(self.world.entities)
-        orgPos = self.player.map_location_id
-        orgDay = self.world.get_day()
-        self.player.move()
-        self.assertEqual(len(self.world.entities),org)
-        self.assertEqual(self.player.map_location_id,orgPos)
-        self.assertEqual(self.world.get_day(),orgDay)
+    # Moved to unitTestsManual
+    # def test_cancel_movement(self):
+    #     TEXT = "Make sure to pres 'ESC' Testing location, day and entities after cancelling of movement"
+    #     txt(TEXT)
+    #     org = len(self.world.entities)
+    #     orgPos = self.player.map_location_id
+    #     orgDay = self.world.get_day()
+    #     self.player.move()
+    #     self.assertEqual(len(self.world.entities),org)
+    #     self.assertEqual(self.player.map_location_id,orgPos)
+    #     self.assertEqual(self.world.get_day(),orgDay)
 
     def test_move_up_location(self):
         TEXT = "Testing location after moving 'up'"
