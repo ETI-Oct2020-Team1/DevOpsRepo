@@ -44,6 +44,7 @@ jobs:
           PYNPUT_BACKEND: "dummy"
         run: |
              python unitTests.py
+             python unitTestsFunctions.py
       - name: Run system test
         id: TestWithPytest
         env: 
