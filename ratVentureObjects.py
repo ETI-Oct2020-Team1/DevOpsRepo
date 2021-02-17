@@ -2,6 +2,12 @@ import pygame
 from pynput.keyboard import Key, Listener, Controller
 import random
 
+'''
+    Contributors: Zechariah, Zi Hui
+    This file defines the world of the program 
+    as well as the player, game entity, rat king, and orb of power.
+'''
+
 ### Classes
 ## Definiing the 'world'
 class World(object):

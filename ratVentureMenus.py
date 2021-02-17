@@ -1,6 +1,13 @@
 from ratVentureObjects import *
 import pickle
 
+'''
+    Contributors: Zi Hui, Zechariah
+    This file consists of menus for the ratVenture program
+    as well as the features for saving and loading the game progress,
+    and the feature to print the player's statistics.
+'''
+
 # UI for Town Menu
 def town_menu(world):
     print("\nDay ",world.get_day(),": You are in a town.")
@@ -136,37 +143,36 @@ def combat_menu(world):
         if player.target is None: 
             player.combat()
             target = player.target
-        while True:
-            #print("Damage: ",target.attack[0],target.attack[2])
-            if type(target) == RatKing:
-                print("\nDay ", world.get_day() ,": You see the Rat King!")
-            else:
-                print("\nDay ", world.get_day() ,": You are out in the open.")
-            print("Encounter! - {0}\nDamage: {1}-{2}\nDefence: {3}\nHealth: {4}".format(target.name,target.attack[0],target.attack[1],target.defense,target.current_hp))
-            print("1) Attack")
-            print("2) Run")
-            try:
-                choice = int(input("Enter an option: "))
-                if choice == 1:
-                    world.get_player().damage(target)
-                    if world.get_player().target.current_hp <= 0:
-                        world.get_player().target = None
-                        if world.gameWin():
-                            return False
-                        else:
-                            return outdoor_menu(world) 
-                    if target.damage(world.get_player()):
+        #print("Damage: ",target.attack[0],target.attack[2])
+        if type(target) == RatKing:
+            print("\nDay ", world.get_day() ,": You see the Rat King!")
+        else:
+            print("\nDay ", world.get_day() ,": You are out in the open.")
+        print("Encounter! - {0}\nDamage: {1}-{2}\nDefence: {3}\nHealth: {4}".format(target.name,target.attack[0],target.attack[1],target.defense,target.current_hp))
+        print("1) Attack")
+        print("2) Run")
+        try:
+            choice = int(input("Enter an option: "))
+            if choice == 1:
+                world.get_player().damage(target)
+                if world.get_player().target.current_hp <= 0:
+                    world.get_player().target = None
+                    if world.gameWin():
                         return False
                     else:
-                        return combat_menu(world)
-                elif choice == 2:
-                    return run_menu(world,target)
+                        return outdoor_menu(world) 
+                if target.damage(world.get_player()):
+                    return False
                 else:
-                    print("Please enter an option from 1-2!\n")
                     return combat_menu(world)
-            except ValueError:
+            elif choice == 2:
+                return run_menu(world,target)
+            else:
                 print("Please enter an option from 1-2!\n")
                 return combat_menu(world)
+        except ValueError:
+            print("Please enter an option from 1-2!\n")
+            return combat_menu(world)
     else:
         return outdoor_menu(world)
 

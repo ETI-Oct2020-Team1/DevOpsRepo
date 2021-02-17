@@ -15,9 +15,11 @@ from mock import patch
 
 class TestMenu(unittest.TestCase):
     
+    # To test the main menu
     def test_mainMenu(self):
-        world = World(8,8)
+        world = World(8,8) #Initialize world
 
+        #List of inputs for the test
         test_cases = [
             "1",
             "3",
@@ -25,6 +27,7 @@ class TestMenu(unittest.TestCase):
             "4"
         ]
 
+        #List of return functions for the inputs
         mock_funcs = [
             "ratVentureMenus.town_menu",
             "builtins.quit",
@@ -32,6 +35,7 @@ class TestMenu(unittest.TestCase):
             "ratVentureMenus.main_menu"
         ]
 
+        #List of parameters for the functions
         expect_call_withs = [
             [world],
             [],
@@ -39,15 +43,20 @@ class TestMenu(unittest.TestCase):
             [world]
         ]
 
+        #Zip the items in the three lists so that the first items in each list will be placed together
         for test_case, mock_func, expect_call_with in zip(test_cases, mock_funcs, expect_call_withs):
             print(f"Test input: {test_case}, Expected Return: {mock_func}{expect_call_with}")
+            #patch the builtins input with our inputs for mocking
             with patch("builtins.input", return_value=test_case), patch(mock_func) as mock:
                 main_menu(world)
                 mock.assert_called_once_with(*expect_call_with)
 
-    def test_townMenu(self):
-        world = World(8,8)
 
+    #To test town menu
+    def test_townMenu(self):
+        world = World(8,8) #initialize world
+
+        #List of inputs for the test
         test_cases = [
             "2",
             "6",
@@ -77,21 +86,24 @@ class TestMenu(unittest.TestCase):
 
 
     # ------ Test case not working after update of while true: ------
+    # To test combat menu
     # def test_combatMenu(self):
-    #     target = None
 
-    #     def worldSetup(map_id=None):
+    #     def worldSetup(map_id):
     #         world = World(8,8)
     #         player = Player(world, "The Hero",[1,5],1,20)
     #         rat = GameEntity(world,"The rat",[1,3],1,20)
     #         world.add_entity(player)
     #         world.add_entity(rat)
+    #         # target = world.get_player().target
     #         if map_id is not None:
     #             world.map[player.map_location_id] = map_id
     #         return world
+                
+    #     worlds = [worldSetup(i) for i in [1,5,6,0,2,None]]
+    #     target = None
 
-    #     worlds = [worldSetup(i) for i in [2,3,4,2,1,None]]
-
+    #     #List of inputs for the test
     #     test_cases = [
     #         "1",
     #         "2",
@@ -126,7 +138,8 @@ class TestMenu(unittest.TestCase):
     #             mock.assert_called_once_with(*expect_call_with)
 
 
-    # ------ To run test, comment out lines 99-101 in ratVentureMenu.py------
+    # ------ To run test, comment out lines 109-111 in ratVentureMenu.py------
+    # To test outdoor menu
     # def test_outdoorMenu(self):
     #     world = World(8,8)
     #     player = Player(world, "The Hero",[1,5],1,20)
@@ -134,6 +147,7 @@ class TestMenu(unittest.TestCase):
     #     world.add_entity(player)
     #     world.add_entity(rat)
 
+    #     List of inputs for the test
     #     test_cases = [
     #         "1",
     #         "4",
@@ -162,6 +176,7 @@ class TestMenu(unittest.TestCase):
     #             mock.assert_called_once_with(*expect_call_with)
 
     
+    # To test run menu
     def test_runMenu(self):
         world = World(8,8)
         player = Player(world, "The Hero",[1,5],1,20)
@@ -198,6 +213,7 @@ class TestMenu(unittest.TestCase):
                 mock.assert_called_once_with(*expect_call_with)
 
 
+    # To test checks before exiting menu
     def test_checkSavingBeforeExit(self):
         world = World(8,8)
         player = Player(world, "The Hero",[1,5],1,20)
@@ -232,6 +248,8 @@ class TestMenu(unittest.TestCase):
                 check_exit(world)
                 mock.assert_called_once_with(*expect_call_with)
 
+
+    # To test player stats menu
     def test_playerStats(self):
         world = World(8,8)
         player = Player(world, "The Hero",[1,5],1,20)
