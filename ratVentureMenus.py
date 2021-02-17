@@ -89,12 +89,12 @@ def main_menu(world):
 def player_stats(world):
     player = world.get(0)
     #player = World.get(World,entity_id)
-    print("Name:",player.name)
-    print("Damage:", player.attack[0],"-",player.attack[1])
-    print("Defense:",player.defense)
-    print("Current HP:",player.current_hp)
-    print("Max HP:",player.max_hp)
-    print("Obtained orb:",player.orb,"\n")
+    print(f"Name:{player.name}")
+    print(f"Damage:{player.attack[0]}-{player.attack[1]}")
+    print(f"Defense:{player.defense}")
+    print(f"Current HP:{player.current_hp}")
+    print(f"Max HP:{player.max_hp}")
+    print(f"Obtained orb:{player.orb}\n")
 
 
 # UI for Outdoor Menu
@@ -169,6 +169,7 @@ def combat_menu(world):
                 return combat_menu(world)
     else:
         return outdoor_menu(world)
+
 
 # UI for Outdoor Menu
 def run_menu(world,target):
