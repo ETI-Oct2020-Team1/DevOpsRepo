@@ -4,7 +4,7 @@ status = True #changed variable was created to control the while loop inside rat
 pytest = False #changed variable was created to check if pytest was running. 
 
 ### Initialization
-world = World(8,8)
+world = World(3,3)
 ### Player must always be initialized first
 player = Player(world, "The Hero",[2,4],1,20)
 rat = GameEntity(world,"The Rat",[1,3],1,10)
@@ -26,7 +26,7 @@ while status:
         print(vicText)
         print("=" * len(vicText))
         break
-    elif world.get_player().current_hp<=0:
+    elif world.gameOver():
         print("=" * len(defText))
         print(defText)
         print("=" * len(defText))

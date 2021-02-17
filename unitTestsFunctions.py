@@ -24,7 +24,7 @@ class TestFunctions(unittest.TestCase):
         
 
     def tearDown(self):
-        print("Tear down")
+        print("\nTear down")
         pass            #Very unlikely I'll need this
 
     # Testing to make sure the target entitie is injured during combat
@@ -68,7 +68,8 @@ class TestFunctions(unittest.TestCase):
         self.player.damage(self.rat_king)
         self.assertLess(self.rat_king.current_hp, self.rat_king.max_hp)
         
-    def test_player_death(self):
+    def test_player_death_combat(self):
+        txt("Testing return statement if player is killed in combat")
         self.rat.attack = [50,50]
         self.assertTrue(self.rat.damage(self.player))
 
@@ -78,7 +79,9 @@ class TestFunctions(unittest.TestCase):
         TEXT = "Testing health after rest()"
         txt(TEXT)
         self.player.current_hp = self.player.max_hp / 2
+        print("Before rest:",self.player.current_hp)
         self.player.rest()
+        print("After rest:",self.player.current_hp)
         self.assertEqual(self.player.current_hp,self.player.max_hp)
         self.assertEqual(self.world.get_day(),2)     
 
@@ -87,43 +90,153 @@ class TestFunctions(unittest.TestCase):
         txt(TEXT) 
 
         self.player.current_hp = -10
+        print("Before rest:",self.player.current_hp)
         self.player.rest()
+        print("After rest:",self.player.current_hp)
         self.assertEqual(self.player.current_hp,self.player.max_hp)
         self.assertEqual(self.world.get_day(),2)
     
     def test_encounter(self):
-        TEXT = "Testing adding entities via combat_menu (Input 2)"
+        TEXT = "Testing adding entities via combat_menu"
         txt(TEXT)
         org = len(self.world.entities)
-        print("Before addition:", org)
+        print("Before encounter:", org)
 
         self.world.encounter()
+        print("After encounter:", len(self.world.entities))
         self.assertEqual(len(self.world.entities),org+1)
 
     def test_move_date(self):
         TEXT = "Testing date after move"
         txt(TEXT)
-
+        print("Make sure to input a valid move as the date is only added in check_tile()")
 
         self.player.move()
         #Start at day 1 so after first move it should be day 2.
         self.assertEqual(self.world.day,2)
 
     def test_cancel_movement(self):
-        TEXT = "Testing entities after cancelling of movement"
+        TEXT = "Make sure to pres 'ESC' Testing location, day and entities after cancelling of movement"
         txt(TEXT)
         org = len(self.world.entities)
+        orgPos = self.player.map_location_id
+        orgDay = self.world.get_day()
         self.player.move()
         self.assertEqual(len(self.world.entities),org)
+        self.assertEqual(self.player.map_location_id,orgPos)
+        self.assertEqual(self.world.get_day(),orgDay)
 
-    def test_player_location(self):
-        TEXT = "Testing location after movement"
+    def test_move_up_location(self):
+        TEXT = "Testing location after moving 'up'"
         txt(TEXT)
-
+        self.player.map_location_id = (self.world.layout * 2) - 2
+        org = self.player.map_location_id
         #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
+        self.player.move_up()
+        print("After date:", self.world.get_day())
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id,org - self.world.layout)
+        self.assertEqual(self.world.day,2)
+    
+    def test_move_up_location_fail(self):
+        TEXT = "Fail case: Testing location after moving 'up'"
+        txt(TEXT)
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
+        self.player.move_up()
+        print("After date:", self.world.get_day())
+
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id,org)
+        self.assertEqual(self.world.day,1)
+
+    def test_move_down_location(self):
+        TEXT = "Testing location after moving 'down'"
+        txt(TEXT)
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
         self.player.move_down()
-        print("Location:",self.player.map_location_id)
-        self.assertEqual(self.player.map_location_id,self.world.layout)
+        print("After date:", self.world.get_day())
+
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id,org + self.world.layout)
+        self.assertEqual(self.world.day,2)
+    
+    def test_move_down_location_fail(self):
+        TEXT = "Fail case: Testing location after moving 'down'"
+        txt(TEXT)
+        self.player.map_location_id = self.world.tiles-2
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
+        self.player.move_down()
+        print("After date:", self.world.get_day())
+
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id,org)
+        self.assertEqual(self.world.day,1)
+
+    def test_move_right_location(self):
+        TEXT = "Testing location after moving 'right'"
+        txt(TEXT)
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
+        self.player.move_right()
+        print("After date:", self.world.get_day())
+
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id, org + 1) 
+        self.assertEqual(self.world.day,2)
+
+    def test_move_right_location_fail(self):
+        TEXT = "Fail case: Testing location after moving 'right'"
+        txt(TEXT)
+        self.player.map_location_id = (self.world.layout * 2) - 1
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
+        self.player.move_right()
+        print("After date:", self.world.get_day())
+
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id,org)
+        self.assertEqual(self.world.day,1)
+
+    def test_move_left_location(self):
+        TEXT = "Testing location after moving 'left'"
+        txt(TEXT)
+        self.player.map_location_id = 2
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before date:", self.world.get_day())
+        print("Before Location:",org)
+        self.player.move_left()
+        print("After date:", self.world.get_day())
+
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id, org - 1) 
+        self.assertEqual(self.world.day,2)
+
+    def test_move_left_location_fail(self):
+        TEXT = "Fail case: Testing location after moving 'left'"
+        txt(TEXT)
+        self.player.map_location_id = self.world.layout
+        org = self.player.map_location_id
+        #Start at loc 0 so after moving down it should be world.layout's value
+        print("Before Location:",org)
+        self.player.move_left()
+        print("After Location:",self.player.map_location_id)
+        self.assertEqual(self.player.map_location_id, org) 
 
     def test_win_game(self):
         txt("Testing world.gameWin() when ratKing is dead (0hp)")
@@ -136,7 +249,13 @@ class TestFunctions(unittest.TestCase):
         self.assertFalse(self.world.gameWin())
 
     def test_player_dies(self):
-        txt("Testing to make sure 2nd end game condition works")
+        txt("Testing to make sure 2nd end game condition works (player 0hp)")
+        self.player.current_hp = 0
+        self.assertTrue(self.world.gameOver())
+    
+    def test_player_dies_fail(self):
+        txt("Testing to make sure 2nd end game condition works (player hp > 0)")
+        self.assertFalse(self.world.gameOver())
 
 if __name__ == "__main__":
     unittest.main(exit=False)   
